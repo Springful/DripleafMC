@@ -56,9 +56,16 @@ public final class RebirthPlugin extends JavaPlugin {
     private MenuUI menuUI;
     private DialogUI dialogUI;
 
+    /**
+     * Every yml shipped in the jar besides config.yml, which
+     * {@link #saveDefaultConfig()} handles.
+     */
+    private static final java.util.List<String> BUNDLED_YMLS = java.util.List.of(
+            "lang.yml", "tiers.yml", "rewards.yml", "menus.yml", "dialogs.yml");
+
     @Override
     public void onEnable() {
-        saveDefaultConfig();
+        saveBundledDefaults();
 
         if (!setupEconomy()) {
             getLogger().severe("No Vault economy provider found. Disabling DripleafRebirth.");
@@ -109,6 +116,23 @@ public final class RebirthPlugin extends JavaPlugin {
         }
         if (dialogUI != null) {
             dialogUI.invalidate();
+        }
+    }
+
+    /**
+     * Writes every bundled yml to the data folder on first run.
+     *
+     * <p>This runs before anything that can abort startup. The per-file loaders
+     * extract lazily too, but they only run once the plugin is fully enabled -
+     * so an admin whose server trips the economy check below would otherwise be
+     * left with a folder holding config.yml and nothing to edit.
+     */
+    private void saveBundledDefaults() {
+        saveDefaultConfig();
+        for (String name : BUNDLED_YMLS) {
+            if (!new java.io.File(getDataFolder(), name).exists()) {
+                saveResource(name, false);
+            }
         }
     }
 
