@@ -1,0 +1,68 @@
+# Everything here is bought with SHARDS. Shards are earned only -- never sold.
+title: "<dark_gray>Shard Shop"
+
+items:
+  booster:
+    display: "<#B98BF5>Shard Booster"
+    icon: AMETHYST_CLUSTER
+    lore:
+      - "<gray>4x shard gain for 24 hours"
+    price: 1200
+    type: BOOSTER
+    duration-hours: 24
+  netherite_helmet:
+    display: "<white>Netherite Helmet"
+    icon: NETHERITE_HELMET
+    lore: ["<gray>Protection IV, Unbreaking III"]
+    price: 750
+    type: ITEM
+    enchantments: ["PROTECTION:4", "UNBREAKING:3", "MENDING:1"]
+  netherite_chestplate:
+    display: "<white>Netherite Chestplate"
+    icon: NETHERITE_CHESTPLATE
+    lore: ["<gray>Protection IV, Unbreaking III"]
+    price: 750
+    type: ITEM
+    enchantments: ["PROTECTION:4", "UNBREAKING:3", "MENDING:1"]
+  netherite_leggings:
+    display: "<white>Netherite Leggings"
+    icon: NETHERITE_LEGGINGS
+    lore: ["<gray>Protection IV, Unbreaking III"]
+    price: 750
+    type: ITEM
+    enchantments: ["PROTECTION:4", "UNBREAKING:3", "MENDING:1"]
+  netherite_boots:
+    display: "<white>Netherite Boots"
+    icon: NETHERITE_BOOTS
+    lore: ["<gray>Protection IV, Feather Falling IV"]
+    price: 750
+    type: ITEM
+    enchantments: ["PROTECTION:4", "FEATHER_FALLING:4", "UNBREAKING:3", "MENDING:1"]
+  netherite_sword:
+    display: "<white>Netherite Sword"
+    icon: NETHERITE_SWORD
+    lore: ["<gray>Sharpness V, Unbreaking III"]
+    price: 500
+    type: ITEM
+    enchantments: ["SHARPNESS:5", "UNBREAKING:3", "MENDING:1"]
+  netherite_pickaxe_fortune:
+    display: "<white>Netherite Pickaxe <gray>(Fortune)"
+    icon: NETHERITE_PICKAXE
+    lore: ["<gray>Efficiency V, Fortune III"]
+    price: 500
+    type: ITEM
+    enchantments: ["EFFICIENCY:5", "FORTUNE:3", "UNBREAKING:3", "MENDING:1"]
+  netherite_pickaxe_silk:
+    display: "<white>Netherite Pickaxe <gray>(Silk Touch)"
+    icon: NETHERITE_PICKAXE
+    lore: ["<gray>Efficiency V, Silk Touch"]
+    price: 500
+    type: ITEM
+    enchantments: ["EFFICIENCY:5", "SILK_TOUCH:1", "UNBREAKING:3", "MENDING:1"]
+  elytra:
+    display: "<light_purple>Elytra"
+    icon: ELYTRA
+    lore: ["<gray>Unbreaking III, Mending"]
+    price: 5000
+    type: ITEM
+    enchantments: ["UNBREAKING:3", "MENDING:1"]

@@ -1,0 +1,21 @@
+# Turn individual commands off if another plugin already owns them.
+# Changing this needs a full server restart (commands register at startup).
+COMMANDS:
+  SHOP: true
+  QUICKBUY: true
+  SELL: true
+  WORTH: true
+  SELLHISTORY: true
+  SELLMULTI: true
+  SHARDS: true
+  SHARDSHOP: true
+  HOME: true          # /home /homes /sethome /delhome  -- disable Essentials' first
+  RTP: true
+  TPA: true
+  SPAWN: false        # EssentialsSpawn owns this by default
+  SETTINGS: true
+  STATS: true
+  BOUNTY: true
+  LEADERBOARD: true
+  RULES: true
+  DLHELP: true

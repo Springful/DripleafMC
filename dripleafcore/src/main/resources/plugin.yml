@@ -1,0 +1,10 @@
+name: DripleafCore
+version: '${version}'
+main: net.dripleafmc.core.DripleafCore
+api-version: '1.21'
+authors: [DripleafMC]
+description: Economy, shop, shards, homes and dialog UI core for DripleafMC.
+softdepend: [Vault, PlaceholderAPI, floodgate, GriefPrevention, Essentials]
+libraries:
+  - org.xerial:sqlite-jdbc:3.46.1.3
+  - com.mysql:mysql-connector-j:9.0.0

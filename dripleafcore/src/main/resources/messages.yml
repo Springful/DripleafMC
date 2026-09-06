@@ -1,0 +1,76 @@
+# MiniMessage format. https://docs.advntr.dev/minimessage/format.html
+prefix: "<gradient:#3B7638:#86C56E><bold>Dripleaf</bold></gradient> <dark_gray>|</dark_gray> "
+
+no-permission: "<red>You don't have permission for that."
+players-only: "<red>That command is for players."
+unknown-player: "<red>Player <white><name></white> was never seen here."
+number-invalid: "<red><input></white> isn't a number."
+
+economy:
+  balance: "<green>$<amount>"
+  insufficient: "<red>You need <white>$<amount></white> more."
+  bought: "<green>+<amount>x <item></green> <gray>for</gray> <white>$<price></white>"
+  sold: "<green>+$<price></green> <gray>for</gray> <white><amount>x items</white>"
+  sold-nothing: "<gray>Nothing in there was worth anything."
+  actionbar-sell: "<#00D45A>+$<price>"
+  actionbar-buy: "<#FF6B6B>-$<price>"
+
+shards:
+  balance: "<#B98BF5><amount> shards"
+  received: "<#B98BF5>+<amount> shard<plural>"
+  insufficient: "<red>You need <white><amount></white> more shards."
+  booster-active: "<#B98BF5>Shard booster active <gray>(<time> left)"
+
+quickbuy:
+  saved: "<green>Saved <white><amount>x <item></white> to slot <white><slot></white>."
+  cleared: "<gray>Slot <white><slot></white> cleared."
+  cleared-all: "<gray>Quick Buy cleared."
+  full: "<red>Every Quick Buy slot is full."
+  not-sold: "<red>The server shop doesn't sell that."
+  empty-hint: "<gray>Click to choose an item to buy"
+
+shop:
+  locked: "<red>The server shop unlocks at <white>Rebirth 2</white>. Try <white>/sell</white> for now."
+  full-inventory: "<yellow>Your inventory was full — the rest was dropped at your feet."
+
+sell:
+  chest-title: "<dark_gray>Drag items in to sell"
+  multiplier: "<gray>Sell multiplier: <white><value>x"
+
+home:
+  set: "<green>Home <white><name></white> set."
+  deleted: "<gray>Home <white><name></white> deleted."
+  unknown: "<red>You have no home called <white><name></white>."
+  limit: "<red>You've used all <white><count></white> home slots."
+  exists: "<red>You already have a home called <white><name></white>."
+  name-invalid: "<red>Home names must be 1-16 letters, digits or underscores."
+
+teleport:
+  warmup: "<gray>Teleporting in <white><seconds></white>s — don't move."
+  cancelled: "<red>Teleport cancelled."
+  done: "<green>Teleported."
+  combat: "<red>You can't do that while in combat."
+
+tpa:
+  sent: "<green>Request sent to <white><name></white>."
+  received: "<white><name></white> <gray>wants to teleport to you."
+  accepted: "<green>Request accepted."
+  denied: "<red>Request denied."
+  expired: "<gray>That request expired."
+  none: "<gray>No pending requests."
+  self: "<red>You can't teleport to yourself."
+
+combat:
+  tagged: "<red>In combat <gray>(<time>s)"
+  ended: "<green>You're out of combat."
+  logout: "<red><name> logged out in combat."
+
+bounty:
+  set: "<gold>Bounty of <white>$<amount></white> placed on <white><name></white>."
+  claimed: "<gold><killer></white> <gray>claimed the</gray> <white>$<amount></white> <gray>bounty on</gray> <white><victim></white>"
+  none: "<gray>No active bounties."
+  self: "<red>You can't put a bounty on yourself."
+  too-small: "<red>Minimum bounty is <white>$<amount></white>."
+  too-large: "<red>Maximum bounty is <white>$<amount></white>."
+
+cooldown: "<red>Wait <white><seconds></white>s."

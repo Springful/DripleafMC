@@ -1,0 +1,130 @@
+config-version: 1
+
+storage:
+  # sqlite | mysql
+  type: sqlite
+  file: data.db
+  mysql:
+    host: 127.0.0.1
+    port: 3306
+    database: dripleaf
+    username: root
+    password: ""
+    pool-size: 6
+  # Seconds between async flushes of dirty player profiles.
+  flush-interval: 60
+
+ui:
+  # Paper Dialogs need a 1.21.6+ client. Bedrock players are routed to chest
+  # menus automatically when floodgate is present.
+  dialogs: true
+  force-chest-menus-for-bedrock: true
+  # How long a dialog button stays clickable before its callback is released.
+  callback-lifetime-minutes: 10
+  buttons-per-page: 20
+  columns: 2
+
+economy:
+  # Fraction of buy price returned when selling. Applied on top of worth.yml.
+  sell-message-actionbar: true
+  buy-message-actionbar: true
+
+shards:
+  enabled: true
+  # Shards per earn tick for an active (non-AFK) player.
+  per-tick: 1
+  tick-seconds: 120
+  # Shards per player kill, and the per-victim cooldown that stops kill farming.
+  per-kill: 10
+  kill-cooldown-seconds: 300
+  # Movement in the last N seconds counts as active.
+  active-window-seconds: 180
+  booster-multiplier: 4
+  worlds-blacklist: []
+
+sell:
+  # Multiplier granted per rebirth level, added to 1.0 (0.05 = +5% each).
+  rebirth-multiplier-step: 0.05
+  max-multiplier: 3.0
+  history-size: 50
+  # Show "Worth: $x" on item lore in menus.
+  worth-lore: true
+
+shop:
+  # Permission gate for /shop. Grant this at Rebirth 2.
+  permission: dripleaf.shop.use
+  # /sell and /worth stay open to everyone; only buying is gated.
+
+quick-buy:
+  # Saved one-click purchase presets. Only items listed in shop.yml can be saved.
+  enabled: true
+  # Panel size; 45 fills five rows and leaves the bottom row for controls.
+  slots: 45
+  # Cap on a single preset's amount. Affordability is still checked at click time.
+  max-per-purchase: 64
+
+homes:
+  default-slots: 2
+  # dripleaf.home.slot.<n> grants n slots; highest wins.
+  max-slots: 10
+  teleport-warmup-seconds: 3
+  cancel-warmup-on-move: true
+
+rtp:
+  warmup-seconds: 3
+  cooldown-seconds: 60
+  max-attempts: 24
+  regions:
+    overworld:
+      display: "Overworld"
+      world: world
+      min-radius: 500
+      max-radius: 8000
+      icon: GRASS_BLOCK
+    nether:
+      display: "Nether"
+      world: world_nether
+      min-radius: 200
+      max-radius: 3000
+      icon: NETHERRACK
+    end:
+      display: "The End"
+      world: world_the_end
+      min-radius: 500
+      max-radius: 4000
+      icon: END_STONE
+
+tpa:
+  request-expiry-seconds: 90
+  warmup-seconds: 3
+
+combat:
+  enabled: true
+  tag-seconds: 16
+  kill-on-logout: true
+  blocked-commands:
+    - home
+    - homes
+    - rtp
+    - tpa
+    - tpaccept
+    - spawn
+    - shop
+
+bounty:
+  enabled: true
+  minimum: 1000
+  maximum: 10000000
+  # Fraction of the bounty burned on payout. A money sink.
+  tax: 0.05
+
+leaderboard:
+  refresh-seconds: 120
+  size: 10
+
+rules:
+  - "<gray>1.</gray> <white>No cheating, no unfair client mods.</white>"
+  - "<gray>2.</gray> <white>No griefing outside claims. Claim your build.</white>"
+  - "<gray>3.</gray> <white>No scamming in trades or chest shops.</white>"
+  - "<gray>4.</gray> <white>Keep chat civil. English in public channels.</white>"
+  - "<gray>5.</gray> <white>No advertising other servers.</white>"

@@ -1,0 +1,65 @@
+# Server shop. Prices here override worth.yml for BUYING only.
+# Omit "price" to fall back to the worth.yml value.
+title: "<dark_gray>Server Shop"
+
+categories:
+  blocks:
+    display: "<white>Blocks"
+    icon: DEEPSLATE
+    lore: "<gray>Bulk building stock"
+    items:
+      - { material: OBSIDIAN, price: 90 }
+      - { material: GLASS, price: 5 }
+      - { material: SAND, price: 3 }
+      - { material: GRAVEL, price: 3 }
+      - { material: TERRACOTTA, price: 8 }
+      - { material: WHITE_CONCRETE, price: 10 }
+  nether:
+    display: "<red>Nether"
+    icon: NETHERRACK
+    lore: "<gray>Wart, blaze rods, quartz"
+    items:
+      - { material: NETHER_WART, price: 14 }
+      - { material: BLAZE_ROD, price: 190 }
+      - { material: QUARTZ, price: 30 }
+      - { material: MAGMA_CREAM, price: 45 }
+      - { material: CRYING_OBSIDIAN, price: 340 }
+  end:
+    display: "<light_purple>End"
+    icon: END_STONE
+    lore: "<gray>Pearls, shells, chorus"
+    items:
+      - { material: ENDER_PEARL, price: 220 }
+      - { material: SHULKER_SHELL, price: 2400 }
+      - { material: CHORUS_FRUIT, price: 40 }
+      - { material: END_STONE, price: 6 }
+  farming:
+    display: "<green>Farming"
+    icon: WHEAT
+    lore: "<gray>Seeds and starters"
+    items:
+      - { material: WHEAT_SEEDS, price: 6 }
+      - { material: CARROT, price: 6 }
+      - { material: POTATO, price: 6 }
+      - { material: SUGAR_CANE, price: 8 }
+      - { material: BONE_MEAL, price: 10 }
+      - { material: BAMBOO, price: 4 }
+  gear:
+    display: "<aqua>Gear"
+    icon: IRON_CHESTPLATE
+    lore: "<gray>Tools and combat kit"
+    items:
+      - { material: IRON_INGOT, price: 40 }
+      - { material: DIAMOND, price: 600 }
+      - { material: ARROW, price: 8 }
+      - { material: SHIELD, price: 400 }
+      - { material: TOTEM_OF_UNDYING, price: 9000 }
+  food:
+    display: "<gold>Food"
+    icon: COOKED_BEEF
+    lore: "<gray>Stay fed"
+    items:
+      - { material: COOKED_BEEF, price: 20 }
+      - { material: BREAD, price: 12 }
+      - { material: GOLDEN_CARROT, price: 90 }
+      - { material: GOLDEN_APPLE, price: 2400 }
