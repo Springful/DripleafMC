@@ -1,0 +1,33 @@
+name: DripleafRebirth
+version: 1.0.0
+main: net.dripleafmc.rebirth.RebirthPlugin
+api-version: '26.2'
+description: Tiered rebirth/prestige engine with Standard and Soul Ascension paths.
+authors: [ DripleafMC ]
+website: https://dripleafmc.net
+
+dependencies:
+  server:
+    Vault:
+      load: BEFORE
+      required: true
+      join-classpath: true
+    PlaceholderAPI:
+      load: BEFORE
+      required: false
+      join-classpath: true
+    mcMMO:
+      load: BEFORE
+      required: false
+      join-classpath: true
+
+permissions:
+  dripleafrebirth.use:
+    description: Open the rebirth menu / dialog.
+    default: true
+  dripleafrebirth.admin:
+    description: Reload, inspect and edit player tiers.
+    default: op
+  dripleafrebirth.bypass.cooldown:
+    description: Skip the rebirth cooldown.
+    default: op

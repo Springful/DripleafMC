@@ -1,0 +1,48 @@
+# =====================================================================
+#  DripleafRebirth  -  lang.yml
+# ---------------------------------------------------------------------
+#  Every player-facing string. MiniMessage format.
+#  Set prefix to "" to drop the prefix from all chat messages.
+# =====================================================================
+
+prefix: "<gradient:#dce35b:#45b649><b>Dripleaf</b></gradient> <#555555>» <reset>"
+
+general:
+  players-only: "<#FF5555>That command can only be run by a player."
+  no-permission: "<#FF5555>You don't have permission to do that."
+  reloaded: "<#55FF55>Reloaded <white><files></white> files in <white><ms>ms</white>."
+  reload-failed: "<#FF5555>Reload failed: <white><error></white>"
+  unknown-player: "<#FF5555>No player found matching <white><input></white>."
+  invalid-tier: "<#FF5555>Tier <white><tier></white> is not defined."
+
+rebirth:
+  maxed: "<#AAFFAA>You have completed every rebirth tier."
+  cooldown: "<#FF5555>You must wait <white><time></white> before ascending again."
+  locked: "<#FF5555>You do not meet the requirements for <white><path></white>."
+  insufficient-funds: "<#FF5555>Transaction failed - you no longer have <white><cost></white>."
+  changed-since-open: "<#FF5555>Your progress changed. Re-open <white>/rebirth</white> and try again."
+  success: "<#55FF55>You ascended to <white>Rebirth <tier_roman></white>."
+  cancelled: "<#AAAAAA>Ascension cancelled."
+
+admin:
+  tier-set: "<#55FF55>Set <white><target></white> to Rebirth <white><tier></white>."
+  tier-info: "<#DDDDDD><target> is Rebirth <white><tier></white> (<white><tier_roman></white>), multiplier <white><multiplier>%</white>."
+  force-run: "<#55FF55>Forced <white><path></white> rebirth for <white><target></white>."
+
+# --- Shared fragments used by BOTH front ends -------------------------
+# <name> <progress> <target> <percent> are filled per requirement.
+components:
+  requirement-met: "<#555555>➥ <#55FF55>✓ <#DDDDDD><name>: <#55FF55><progress> <#555555>/ <#55FF55><target>"
+  requirement-unmet: "<#555555>➥ <#FF3333>✗ <#DDDDDD><name>: <#FF5555><progress> <#555555>/ <#FF5555><target>"
+  cost-met: "<#555555>➥ <#55FF55>✓ <#DDDDDD>ᴍᴏɴᴇʏ: <#55FF55><cost>"
+  cost-unmet: "<#555555>➥ <#FF3333>✗ <#DDDDDD>ᴍᴏɴᴇʏ: <#FF5555><balance> <#555555>/ <#FF5555><cost>"
+  path-name-standard: "sᴛᴀɴᴅᴀʀᴅ ʀᴇʙɪʀᴛʜ"
+  path-name-soul: "sᴏᴜʟ ᴀsᴄᴇɴsɪᴏɴ"
+  locked-suffix: " <#333333>(ʟᴏᴄᴋᴇᴅ)"
+
+# --- Time formatting for cooldowns ------------------------------------
+time:
+  days: "<value>d"
+  hours: "<value>h"
+  minutes: "<value>m"
+  seconds: "<value>s"

@@ -1,0 +1,70 @@
+# =====================================================================
+#  DripleafRebirth  -  config.yml
+# ---------------------------------------------------------------------
+#  Behaviour only. No costs, no rewards, no text.
+#     tiers.yml    -> costs + requirements + reward values
+#     rewards.yml  -> the commands that actually run
+#     lang.yml     -> every player-facing string
+#     menus.yml    -> the chest-GUI front end
+#     dialogs.yml  -> the Paper Dialog front end
+# =====================================================================
+
+ui:
+  # MENU   = chest GUI  (menus.yml)
+  # DIALOG = native Paper dialogs, 26.2 (dialogs.yml)
+  # Both front ends drive the exact same engine. Switch freely.
+  mode: DIALOG
+
+  # If a Bedrock/Geyser or otherwise dialog-incapable client opens the
+  # command while mode is DIALOG, silently fall back to the chest GUI.
+  fallback-to-menu-for-unsupported: true
+
+storage:
+  # players.yml lives in the plugin folder. Writes are batched + async.
+  auto-save-minutes: 5
+
+economy:
+  # Vault is the source of truth for the money cost.
+  # Soul tokens / keys / cash payouts are all just commands in rewards.yml.
+  # Formats the <cost>, <balance> placeholders.
+  format: "#,##0"
+  # Compact display (1.2M, 48.7M) for menu titles and short lines.
+  compact-format: true
+
+rebirth:
+  # Highest tier a player can reach. Must be <= number of tiers defined.
+  max-tier: 25
+
+  # Seconds a player must wait between rebirths. 0 = off.
+  cooldown-seconds: 0
+
+  # Re-validate every requirement and the balance at the moment of
+  # confirmation, not just when the menu opened. Leave this on.
+  revalidate-on-confirm: true
+
+  # Fire the sacrifice block (see rewards.yml) before the reward block.
+  sacrifice-first: true
+
+  # Announce successful ascensions to the whole server.
+  broadcast: true
+
+requirements:
+  # PLACEHOLDER-type requirements need a PAPI parse; everything else is
+  # read straight off the Bukkit/mcMMO API. This caches PAPI results per
+  # player for a short window so opening a menu doesn't parse the same
+  # placeholder once per lore line.
+  placeholder-cache-millis: 250
+
+sounds:
+  open: "ui.button.click"
+  denied: "block.note_block.bass"
+  standard-success: "entity.player.levelup"
+  soul-success: "ui.toast.challenge_complete"
+
+placeholders:
+  # Text shown by %rebirth_tier_roman% etc. when a player has 0 rebirths.
+  none-roman: "-"
+  # Shown by %rebirth_next_*% when a player is maxed.
+  maxed: "MAX"
+
+debug: false

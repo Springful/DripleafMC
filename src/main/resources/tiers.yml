@@ -1,0 +1,578 @@
+# =====================================================================
+#  DripleafRebirth  -  tiers.yml
+# ---------------------------------------------------------------------
+#  ONE FILE, ONE JOB: this file defines WHAT EACH TIER COSTS and WHAT
+#  IT PAYS OUT. Nothing else. The three blocks per tier are always:
+#
+#     cost:          <- money burned to ascend (per path)
+#     requirements:  <- gates that must be satisfied to ascend
+#     rewards:       <- values + reward-sets fired on success
+#
+#  The actual COMMANDS are never written here. They live in
+#  rewards.yml as named reward-sets, and tiers just reference them.
+#  That keeps "how much" separate from "what runs".
+#
+#  Placeholders usable in reward-sets, resolved per-tier:
+#     <tier> <tier_roman> <path> <player> <uuid>
+#     <cash> <keys> <multiplier> <souls>   (from rewards.values below)
+#     ...plus any custom key you add under values:
+#
+#  Requirement types:
+#     STATISTIC        statistic: MINE_BLOCK   material: STONE
+#                      statistic: KILL_ENTITY  entity: ZOMBIE
+#                      statistic: FISH_CAUGHT  (no qualifier)
+#     MCMMO_POWER      power level (native mcMMO API, no PAPI parse)
+#     PLAYTIME         amount is in HOURS
+#     PLACEHOLDER      placeholder: "%some_papi_placeholder%"
+#     PERMISSION       permission: "some.node"   (pass/fail gate)
+#     LEVEL            vanilla XP levels
+# =====================================================================
+
+# Applied to every tier unless the tier overrides it.
+defaults:
+  cost-multipliers:
+    standard: 1.0
+    soul: 2.0
+  reward-sets:
+    standard: [ core, standard ]
+    soul: [ core, standard, soul ]
+
+tiers:
+  1:
+    roman: "ɪ"
+    cost: 90000
+    requirements:
+      mcmmo:
+        type: MCMMO_POWER
+        display: "ʟᴇᴠᴇʟs"
+        amount: 150
+      stone:
+        type: STATISTIC
+        display: "sᴛᴏɴᴇ ᴍɪɴᴇᴅ"
+        statistic: MINE_BLOCK
+        material: STONE
+        amount: 2500
+    rewards:
+      values:
+        cash: 10000
+        keys: 1
+        multiplier: 4
+        souls: 1
+
+  2:
+    roman: "ɪɪ"
+    cost: 225000
+    requirements:
+      mcmmo:
+        type: MCMMO_POWER
+        display: "ʟᴇᴠᴇʟs"
+        amount: 300
+      zombies:
+        type: STATISTIC
+        display: "ᴢᴏᴍʙɪᴇs"
+        statistic: KILL_ENTITY
+        entity: ZOMBIE
+        amount: 625
+    rewards:
+      values:
+        cash: 15000
+        keys: 1
+        multiplier: 8
+        souls: 1
+
+  3:
+    roman: "ɪɪɪ"
+    cost: 450000
+    requirements:
+      mcmmo:
+        type: MCMMO_POWER
+        display: "ʟᴇᴠᴇʟs"
+        amount: 450
+      oak_logs:
+        type: STATISTIC
+        display: "ᴏᴀᴋ ʟᴏɢs"
+        statistic: MINE_BLOCK
+        material: OAK_LOG
+        amount: 1250
+    rewards:
+      values:
+        cash: 20000
+        keys: 1
+        multiplier: 12
+        souls: 1
+
+  4:
+    roman: "ɪᴠ"
+    cost: 675000
+    requirements:
+      mcmmo:
+        type: MCMMO_POWER
+        display: "ʟᴇᴠᴇʟs"
+        amount: 600
+      fish:
+        type: STATISTIC
+        display: "ғɪsʜ ᴄᴀᴜɢʜᴛ"
+        statistic: FISH_CAUGHT
+        amount: 125
+    rewards:
+      values:
+        cash: 25000
+        keys: 1
+        multiplier: 16
+        souls: 1
+
+  5:
+    roman: "ᴠ"
+    cost: 1125000
+    requirements:
+      mcmmo:
+        type: MCMMO_POWER
+        display: "ʟᴇᴠᴇʟs"
+        amount: 750
+      deepslate:
+        type: STATISTIC
+        display: "ᴅᴇᴇᴘsʟᴀᴛᴇ"
+        statistic: MINE_BLOCK
+        material: DEEPSLATE
+        amount: 2500
+    rewards:
+      values:
+        cash: 50000
+        keys: 2
+        multiplier: 20
+        souls: 1
+      unlocks:
+        - "<#AA00FF>+ᴜɴʟᴏᴄᴋ: sɪʟᴠᴇʀ ᴄʜᴀᴛ ᴛᴀɢ"
+        - "<#AA00FF>+ᴜɴʟᴏᴄᴋ: ᴀᴜʀᴀ ᴘᴀʀᴛɪᴄʟᴇs"
+
+  6:
+    roman: "ᴠɪ"
+    cost: 1750000
+    requirements:
+      mcmmo:
+        type: MCMMO_POWER
+        display: "ʟᴇᴠᴇʟs"
+        amount: 900
+      skeletons:
+        type: STATISTIC
+        display: "sᴋᴇʟᴇᴛᴏɴs"
+        statistic: KILL_ENTITY
+        entity: SKELETON
+        amount: 625
+    rewards:
+      values:
+        cash: 60000
+        keys: 1
+        multiplier: 26
+        souls: 2
+
+  7:
+    roman: "ᴠɪɪ"
+    cost: 2500000
+    requirements:
+      mcmmo:
+        type: MCMMO_POWER
+        display: "ʟᴇᴠᴇʟs"
+        amount: 1050
+      netherrack:
+        type: STATISTIC
+        display: "ɴᴇᴛʜᴇʀʀᴀᴄᴋ"
+        statistic: MINE_BLOCK
+        material: NETHERRACK
+        amount: 6250
+    rewards:
+      values:
+        cash: 70000
+        keys: 1
+        multiplier: 32
+        souls: 2
+
+  8:
+    roman: "ᴠɪɪɪ"
+    cost: 3250000
+    requirements:
+      mcmmo:
+        type: MCMMO_POWER
+        display: "ʟᴇᴠᴇʟs"
+        amount: 1200
+      creepers:
+        type: STATISTIC
+        display: "ᴄʀᴇᴇᴘᴇʀs"
+        statistic: KILL_ENTITY
+        entity: CREEPER
+        amount: 375
+    rewards:
+      values:
+        cash: 80000
+        keys: 1
+        multiplier: 38
+        souls: 2
+
+  9:
+    roman: "ɪx"
+    cost: 4000000
+    requirements:
+      mcmmo:
+        type: MCMMO_POWER
+        display: "ʟᴇᴠᴇʟs"
+        amount: 1350
+      obsidian:
+        type: STATISTIC
+        display: "ᴏʙsɪᴅɪᴀɴ"
+        statistic: MINE_BLOCK
+        material: OBSIDIAN
+        amount: 250
+    rewards:
+      values:
+        cash: 90000
+        keys: 1
+        multiplier: 44
+        souls: 2
+
+  10:
+    roman: "x"
+    cost: 5000000
+    requirements:
+      mcmmo:
+        type: MCMMO_POWER
+        display: "ʟᴇᴠᴇʟs"
+        amount: 1500
+      quartz_ore:
+        type: STATISTIC
+        display: "ǫᴜᴀʀᴛᴢ ᴏʀᴇ"
+        statistic: MINE_BLOCK
+        material: NETHER_QUARTZ_ORE
+        amount: 6250
+    rewards:
+      values:
+        cash: 150000
+        keys: 3
+        multiplier: 50
+        souls: 2
+      unlocks:
+        - "<#AA00FF>+ᴜɴʟᴏᴄᴋ: /disposal"
+        - "<#AA00FF>+ᴜɴʟᴏᴄᴋ: ɢʟᴏʙᴀʟ ʟᴏɢɪɴ ʙʀᴏᴀᴅᴄᴀsᴛ"
+
+  11:
+    roman: "xɪ"
+    cost: 7500000
+    requirements:
+      mcmmo:
+        type: MCMMO_POWER
+        display: "ʟᴇᴠᴇʟs"
+        amount: 1650
+      blazes:
+        type: STATISTIC
+        display: "ʙʟᴀᴢᴇs"
+        statistic: KILL_ENTITY
+        entity: BLAZE
+        amount: 625
+    rewards:
+      values:
+        cash: 160000
+        keys: 2
+        multiplier: 58
+        souls: 3
+
+  12:
+    roman: "xɪɪ"
+    cost: 10000000
+    requirements:
+      mcmmo:
+        type: MCMMO_POWER
+        display: "ʟᴇᴠᴇʟs"
+        amount: 1800
+      end_stone:
+        type: STATISTIC
+        display: "ᴇɴᴅ sᴛᴏɴᴇ"
+        statistic: MINE_BLOCK
+        material: END_STONE
+        amount: 6250
+    rewards:
+      values:
+        cash: 170000
+        keys: 2
+        multiplier: 66
+        souls: 3
+
+  13:
+    roman: "xɪɪɪ"
+    cost: 12500000
+    requirements:
+      mcmmo:
+        type: MCMMO_POWER
+        display: "ʟᴇᴠᴇʟs"
+        amount: 1950
+      nether_gold:
+        type: STATISTIC
+        display: "ɴᴇᴛʜᴇʀ ɢᴏʟᴅ"
+        statistic: MINE_BLOCK
+        material: NETHER_GOLD_ORE
+        amount: 3750
+    rewards:
+      values:
+        cash: 180000
+        keys: 2
+        multiplier: 74
+        souls: 3
+
+  14:
+    roman: "xɪᴠ"
+    cost: 15000000
+    requirements:
+      mcmmo:
+        type: MCMMO_POWER
+        display: "ʟᴇᴠᴇʟs"
+        amount: 2100
+      endermen:
+        type: STATISTIC
+        display: "ᴇɴᴅᴇʀᴍᴇɴ"
+        statistic: KILL_ENTITY
+        entity: ENDERMAN
+        amount: 1250
+    rewards:
+      values:
+        cash: 190000
+        keys: 2
+        multiplier: 82
+        souls: 3
+
+  15:
+    roman: "xᴠ"
+    cost: 16000000
+    requirements:
+      mcmmo:
+        type: MCMMO_POWER
+        display: "ʟᴇᴠᴇʟs"
+        amount: 2250
+      ancient_debris:
+        type: STATISTIC
+        display: "ᴀɴᴄɪᴇɴᴛ ᴅᴇʙʀɪs"
+        statistic: MINE_BLOCK
+        material: ANCIENT_DEBRIS
+        amount: 125
+    rewards:
+      values:
+        cash: 300000
+        keys: 3
+        multiplier: 90
+        souls: 3
+      unlocks:
+        - "<#AA00FF>+ᴜɴʟᴏᴄᴋ: /hat"
+        - "<#AA00FF>+ᴜɴʟᴏᴄᴋ: 1x ɪʀᴏɴ ɢᴏʟᴇᴍ sᴘᴀᴡɴᴇʀ"
+
+  16:
+    roman: "xᴠɪ"
+    cost: 20000000
+    requirements:
+      mcmmo:
+        type: MCMMO_POWER
+        display: "ʟᴇᴠᴇʟs"
+        amount: 2400
+      wither_skeletons:
+        type: STATISTIC
+        display: "ᴡɪᴛʜᴇʀ sᴋᴇʟᴇᴛᴏɴs"
+        statistic: KILL_ENTITY
+        entity: WITHER_SKELETON
+        amount: 375
+    rewards:
+      values:
+        cash: 320000
+        keys: 2
+        multiplier: 100
+        souls: 4
+
+  17:
+    roman: "xᴠɪɪ"
+    cost: 26000000
+    requirements:
+      mcmmo:
+        type: MCMMO_POWER
+        display: "ʟᴇᴠᴇʟs"
+        amount: 2550
+      fish:
+        type: STATISTIC
+        display: "ғɪsʜ ᴄᴀᴜɢʜᴛ"
+        statistic: FISH_CAUGHT
+        amount: 625
+    rewards:
+      values:
+        cash: 340000
+        keys: 2
+        multiplier: 110
+        souls: 4
+
+  18:
+    roman: "xᴠɪɪɪ"
+    cost: 32000000
+    requirements:
+      mcmmo:
+        type: MCMMO_POWER
+        display: "ʟᴇᴠᴇʟs"
+        amount: 2700
+      obsidian:
+        type: STATISTIC
+        display: "ᴏʙsɪᴅɪᴀɴ"
+        statistic: MINE_BLOCK
+        material: OBSIDIAN
+        amount: 1250
+    rewards:
+      values:
+        cash: 360000
+        keys: 2
+        multiplier: 120
+        souls: 4
+
+  19:
+    roman: "xɪx"
+    cost: 40000000
+    requirements:
+      mcmmo:
+        type: MCMMO_POWER
+        display: "ʟᴇᴠᴇʟs"
+        amount: 2850
+      ancient_debris:
+        type: STATISTIC
+        display: "ᴀɴᴄɪᴇɴᴛ ᴅᴇʙʀɪs"
+        statistic: MINE_BLOCK
+        material: ANCIENT_DEBRIS
+        amount: 375
+    rewards:
+      values:
+        cash: 380000
+        keys: 2
+        multiplier: 130
+        souls: 4
+
+  20:
+    roman: "xx"
+    cost: 48750000
+    requirements:
+      mcmmo:
+        type: MCMMO_POWER
+        display: "ʟᴇᴠᴇʟs"
+        amount: 3000
+      deepslate:
+        type: STATISTIC
+        display: "ᴅᴇᴇᴘsʟᴀᴛᴇ"
+        statistic: MINE_BLOCK
+        material: DEEPSLATE
+        amount: 25000
+    rewards:
+      values:
+        cash: 500000
+        keys: 4
+        multiplier: 140
+        souls: 4
+      unlocks:
+        - "<#AA00FF>+ᴜɴʟᴏᴄᴋ: [ᴏᴠᴇʀᴋɪʟʟ] ᴄᴜsᴛᴏᴍ ᴘʀᴇғɪx"
+        - "<#AA00FF>+ᴜɴʟᴏᴄᴋ: ᴄᴜsᴛᴏᴍ ɴᴀᴍᴇ ᴄᴏʟᴏʀs"
+        - "<#AA00FF>+ᴜɴʟᴏᴄᴋ: ɪɴғɪɴɪᴛᴇ ғʟʏ ɪɴ ᴄʟᴀɪᴍs"
+
+  21:
+    roman: "xxɪ"
+    cost: 60000000
+    requirements:
+      mcmmo:
+        type: MCMMO_POWER
+        display: "ʟᴇᴠᴇʟs"
+        amount: 3150
+      stone:
+        type: STATISTIC
+        display: "sᴛᴏɴᴇ ᴍɪɴᴇᴅ"
+        statistic: MINE_BLOCK
+        material: STONE
+        amount: 62500
+    rewards:
+      values:
+        cash: 550000
+        keys: 3
+        multiplier: 152
+        souls: 5
+
+  22:
+    roman: "xxɪɪ"
+    cost: 75000000
+    requirements:
+      mcmmo:
+        type: MCMMO_POWER
+        display: "ʟᴇᴠᴇʟs"
+        amount: 3300
+      zombies:
+        type: STATISTIC
+        display: "ᴢᴏᴍʙɪᴇs"
+        statistic: KILL_ENTITY
+        entity: ZOMBIE
+        amount: 6250
+    rewards:
+      values:
+        cash: 600000
+        keys: 3
+        multiplier: 164
+        souls: 5
+
+  23:
+    roman: "xxɪɪɪ"
+    cost: 93750000
+    requirements:
+      mcmmo:
+        type: MCMMO_POWER
+        display: "ʟᴇᴠᴇʟs"
+        amount: 3450
+      oak_logs:
+        type: STATISTIC
+        display: "ᴏᴀᴋ ʟᴏɢs"
+        statistic: MINE_BLOCK
+        material: OAK_LOG
+        amount: 12500
+    rewards:
+      values:
+        cash: 650000
+        keys: 3
+        multiplier: 176
+        souls: 5
+
+  24:
+    roman: "xxɪᴠ"
+    cost: 112500000
+    requirements:
+      mcmmo:
+        type: MCMMO_POWER
+        display: "ʟᴇᴠᴇʟs"
+        amount: 3600
+      creepers:
+        type: STATISTIC
+        display: "ᴄʀᴇᴇᴘᴇʀs"
+        statistic: KILL_ENTITY
+        entity: CREEPER
+        amount: 2500
+    rewards:
+      values:
+        cash: 700000
+        keys: 3
+        multiplier: 188
+        souls: 5
+
+  25:
+    roman: "xxᴠ"
+    cost: 150000000
+    requirements:
+      mcmmo:
+        type: MCMMO_POWER
+        display: "ʟᴇᴠᴇʟs"
+        amount: 3750
+      wither_skeletons:
+        type: STATISTIC
+        display: "ᴡɪᴛʜᴇʀ sᴋᴇʟᴇᴛᴏɴs"
+        statistic: KILL_ENTITY
+        entity: WITHER_SKELETON
+        amount: 1250
+    rewards:
+      values:
+        cash: 1000000
+        keys: 5
+        multiplier: 200
+        souls: 5
+      unlocks:
+        - "<#AA00FF>+ᴜɴʟᴏᴄᴋ: 'ᴛʜᴇ ᴏᴠᴇʀʟᴏʀᴅ' ᴛɪᴛʟᴇ"
+

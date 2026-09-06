@@ -1,0 +1,85 @@
+# =====================================================================
+#  DripleafRebirth  -  dialogs.yml   (ui.mode: DIALOG)
+# ---------------------------------------------------------------------
+#  The native Paper Dialog front end (Minecraft 26.x). Same engine as
+#  the chest GUI - only the presentation differs.
+#
+#  BODY TOKENS:
+#     {requirements}  cost line + every requirement, ticked or crossed
+#     {rewards}       the reward block below
+#     {unlocks}       the tier's unlocks: list from tiers.yml
+#
+#  INLINE PLACEHOLDERS:
+#     <tier> <tier_roman> <cost> <soul_cost> <balance>
+#     <cash> <keys> <multiplier> <souls> <player>
+# =====================================================================
+
+main:
+  title: "<gradient:#AA00FF:#FF55FF>✦ ᴛʜᴇ ᴀsᴄᴇɴsɪᴏɴ ᴘᴀᴛʜs ✦"
+  # Buttons per row. 1 reads best for two long path buttons.
+  columns: 1
+  button-width: 220
+  can-close-with-escape: true
+
+  body:
+    - "<#DDDDDD>Next tier: <white>Rebirth <tier_roman></white>"
+    - ""
+    - "<#555555>■ <#55FF55>ʀᴇǫᴜɪʀᴇᴍᴇɴᴛs"
+    - "{requirements}"
+    - ""
+    - "<#555555>■ <#FF5555>ᴛʜᴇ sᴀᴄʀɪғɪᴄᴇ"
+    - "<#555555>➥ <#FF5555>ᴀʟʟ ᴍᴏɴᴇʏ ᴀɴᴅ ᴍᴄᴍᴍᴏ sᴋɪʟʟs"
+    - ""
+    - "<#555555>■ <#55FF55>ᴛʜᴇ ʀᴇᴡᴀʀᴅs"
+    - "{rewards}"
+    - "{unlocks}"
+
+  rewards:
+    - "<#555555>➥ <#55FF55>+<multiplier>% sᴇʟʟ ᴀɴᴅ ᴊᴏʙs ᴍᴏɴᴇʏ"
+    - "<#555555>➥ <#55FF55>+<keys>x ʀᴇʙɪʀᴛʜ ᴋᴇʏs"
+    - "<#555555>➥ <#55FF55>$<cash> sᴛᴀʀᴛɪɴɢ ᴄᴀsʜ"
+    - "<#555555>➥ <#FF55FF>+<souls>x sᴏᴜʟ ᴛᴏᴋᴇɴs <#555555>(sᴏᴜʟ ᴘᴀᴛʜ ᴏɴʟʏ)"
+
+  buttons:
+    standard:
+      label: "<#55FF55>sᴛᴀɴᴅᴀʀᴅ ʀᴇʙɪʀᴛʜ <tier_roman>  <#555555>· <white><cost>"
+      locked-label: "<#555555>sᴛᴀɴᴅᴀʀᴅ ʀᴇʙɪʀᴛʜ <tier_roman> <#333333>(ʟᴏᴄᴋᴇᴅ)"
+      tooltip: "<#AAAAAA>Reset for cash, keys and a permanent multiplier."
+      locked-tooltip: "<#FF5555>You do not meet the requirements yet."
+    soul:
+      label: "<#AA00FF>sᴏᴜʟ ᴀsᴄᴇɴsɪᴏɴ <tier_roman>  <#555555>· <white><soul_cost>"
+      locked-label: "<#555555>sᴏᴜʟ ᴀsᴄᴇɴsɪᴏɴ <tier_roman> <#333333>(ʟᴏᴄᴋᴇᴅ)"
+      tooltip: "<#AAAAAA>Double the money cost, plus <#FF55FF><souls>x soul tokens<#AAAAAA>."
+      locked-tooltip: "<#FF5555>You do not meet the requirements yet."
+    soulshop:
+      label: "<#FF55FF>ᴏᴘᴇɴ ᴛʜᴇ sᴏᴜʟ sʜᴏᴘ"
+      tooltip: "<#AAAAAA>Spend the soul tokens you have already earned."
+      command: "soulshop"
+    exit:
+      label: "<#AAAAAA>ᴄʟᴏsᴇ"
+
+confirm:
+  title: "<#FFD700>⚠ ᴘᴏɪɴᴛ ᴏғ ɴᴏ ʀᴇᴛᴜʀɴ ⚠"
+  can-close-with-escape: true
+  body:
+    - "<#DDDDDD>You are about to ascend to <white>Rebirth <tier_roman></white> via <white><path_name></white>."
+    - ""
+    - "<#555555>■ <#DDDDDD>ʏᴏᴜ ᴀʀᴇ sᴀᴄʀɪғɪᴄɪɴɢ:"
+    - "<#555555>➥ <#FF5555>ᴀʟʟ ᴍᴏɴᴇʏ <#555555>(ᴄᴏsᴛ: <white><path_cost><#555555>)"
+    - "<#555555>➥ <#FF5555>ᴀʟʟ ᴍᴄᴍᴍᴏ sᴋɪʟʟs"
+    - ""
+    - "<#FF5555>ᴛʜɪs ᴄᴀɴɴᴏᴛ ʙᴇ ᴜɴᴅᴏɴᴇ."
+  yes-button:
+    label: "<#55FF55>✓ ᴄᴏɴғɪʀᴍ"
+    tooltip: "<#AAAAAA>Ascend now."
+  no-button:
+    label: "<#FF5555>✗ ᴄᴀɴᴄᴇʟ"
+    tooltip: "<#AAAAAA>Go back."
+
+maxed:
+  title: "<#55FF55>ʀᴇʙɪʀᴛʜ ᴍᴀxᴇᴅ"
+  body:
+    - "<#AAAAAA>You have completed all <white><max_tier></white> rebirth tiers."
+    - "<#AAAAAA>Nothing left to ascend to - for now."
+  ok-button:
+    label: "<#AAAAAA>ᴄʟᴏsᴇ"

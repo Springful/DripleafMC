@@ -1,0 +1,143 @@
+# =====================================================================
+#  DripleafRebirth  -  menus.yml   (ui.mode: MENU)
+# ---------------------------------------------------------------------
+#  The chest-GUI front end. Purely presentational - it cannot change
+#  costs, requirements or rewards, it only renders them.
+#
+#  EXPANSION TOKENS (each expands into MANY lore lines):
+#     {requirements}  cost line + every requirement, ticked or crossed
+#     {rewards}       the reward-preview block below
+#     {unlocks}       the tier's unlocks: list from tiers.yml
+#     {click}         click-to-ascend line, only when unlocked
+#
+#  INLINE PLACEHOLDERS (single value):
+#     <tier> <tier_roman> <cost> <balance> <cash> <keys>
+#     <multiplier> <souls> <player>
+#
+#  ACTIONS: PATH_STANDARD  PATH_SOUL  CONFIRM  CANCEL  BACK
+#           COMMAND  CLOSE  NONE
+# =====================================================================
+
+main:
+  title: "<dark_gray>      Rebirth Paths"
+  type: HOPPER          # HOPPER, or CHEST with rows: 1-6
+
+  # Rendered into {rewards} on both path buttons.
+  reward-preview:
+    - ""
+    - "<#555555>■ <#FF5555>ᴛʜᴇ sᴀᴄʀɪғɪᴄᴇ"
+    - "<#555555>➥ <#FF5555>ᴀʟʟ ᴍᴏɴᴇʏ ᴀɴᴅ ᴍᴄᴍᴍᴏ sᴋɪʟʟs"
+    - ""
+    - "<#555555>■ <#55FF55>ᴛʜᴇ ʀᴇᴡᴀʀᴅs"
+    - "<#555555>➥ <#55FF55>+<multiplier>% sᴇʟʟ ᴀɴᴅ ᴊᴏʙs ᴍᴏɴᴇʏ"
+    - "<#555555>➥ <#55FF55>+<keys>x ʀᴇʙɪʀᴛʜ ᴋᴇʏs"
+    - "<#555555>➥ <#55FF55>$<cash> sᴛᴀʀᴛɪɴɢ ᴄᴀsʜ"
+
+  # Extra lines injected into {rewards} on the Soul path only.
+  soul-reward-preview:
+    - "<#555555>➥ <#FF55FF>+<souls>x sᴏᴜʟ ᴛᴏᴋᴇɴs"
+
+  items:
+
+    filler:
+      slots: [ 1, 3 ]
+      material: GRAY_STAINED_GLASS_PANE
+      name: "<white>"
+      action: NONE
+
+    standard:
+      slot: 0
+      action: PATH_STANDARD
+      material: LIME_DYE
+      locked-material: GRAY_DYE
+      name: "<#00AA00>sᴛᴀɴᴅᴀʀᴅ ʀᴇʙɪʀᴛʜ <tier_roman>"
+      locked-name: "<#555555>sᴛᴀɴᴅᴀʀᴅ ʀᴇʙɪʀᴛʜ <tier_roman><#333333> (ʟᴏᴄᴋᴇᴅ)"
+      lore:
+        - "<#555555>■ <#55FF55>sᴛᴀɴᴅᴀʀᴅ ʀᴇǫᴜɪʀᴇᴍᴇɴᴛs"
+        - "{requirements}"
+        - "{rewards}"
+        - "{unlocks}"
+        - "{click}"
+      click-line: "<#FF0000>↪ <#FF4444>ᴄ<#FF8888>ʟ<#FFAAAA>ɪ<#FFCCCC>ᴄ<#FFEEEE>ᴋ <#FFFFFF>ᴛᴏ ᴀsᴄᴇɴᴅ"
+
+    info:
+      slot: 2
+      action: COMMAND
+      command: "soulshop"
+      material: ENCHANTED_BOOK
+      name: "<#AA00FF>✦ ᴛʜᴇ ᴀsᴄᴇɴsɪᴏɴ ᴘᴀᴛʜs ✦"
+      lore:
+        - "<#555555>■ <#DDDDDD>ᴄʜᴏᴏsᴇ ʏᴏᴜʀ ᴅᴇsᴛɪɴʏ:"
+        - "<#555555>➥ <#55FF55>sᴛᴀɴᴅᴀʀᴅ: <#AAAAAA>ʀᴇsᴇᴛs ʏᴏᴜʀ ᴘʀᴏɢʀᴇss ғᴏʀ"
+        - "   <#AAAAAA>ᴘᴇʀᴍᴀɴᴇɴᴛ ᴄᴀsʜ, ᴋᴇʏs, ᴀɴᴅ ʀᴀɴᴋs."
+        - "<#555555>➥ <#AA00FF>sᴏᴜʟ: <#AAAAAA>ᴘᴀʏ ᴅᴏᴜʙʟᴇ ᴛᴏ ᴀʟsᴏ ᴇᴀʀɴ"
+        - "   <#FF55FF>sᴏᴜʟ ᴛᴏᴋᴇɴs <#AAAAAA>ғᴏʀ ᴛʜᴇ sᴏᴜʟ sʜᴏᴘ."
+        - ""
+        - "<#FF55FF>↪ <#FFAAFF>ᴄʟɪᴄᴋ ᴛᴏ ᴏᴘᴇɴ /sᴏᴜʟsʜᴏᴘ"
+
+    soul:
+      slot: 4
+      action: PATH_SOUL
+      material: PURPLE_DYE
+      locked-material: GRAY_DYE
+      name: "<#AA00FF>sᴏᴜʟ ᴀsᴄᴇɴsɪᴏɴ <tier_roman>"
+      locked-name: "<#555555>sᴏᴜʟ ᴀsᴄᴇɴsɪᴏɴ <tier_roman><#333333> (ʟᴏᴄᴋᴇᴅ)"
+      lore:
+        - "<#555555>■ <#AA00FF>sᴏᴜʟ ʀᴇǫᴜɪʀᴇᴍᴇɴᴛs <#555555>(2x ᴍᴏɴᴇʏ)"
+        - "{requirements}"
+        - "{rewards}"
+        - "{unlocks}"
+        - "{click}"
+      click-line: "<#AA00FF>↪ <#CC55FF>ᴄ<#DD77FF>ʟ<#EE99FF>ɪ<#FFBBFF>ᴄ<#FFDDFF>ᴋ <#FFFFFF>ᴛᴏ ᴀsᴄᴇɴᴅ"
+
+  # Shown in every slot when the player has finished the final tier.
+  maxed:
+    slot: 2
+    material: LIME_DYE
+    name: "<#55FF55>ʀᴇʙɪʀᴛʜ <#555555>(<#AAFFAA>ᴍᴀxᴇᴅ ᴏᴜᴛ!<#555555>)"
+    lore:
+      - "<#555555>■ <#AAAAAA>ʏᴏᴜ ʜᴀᴠᴇ ᴄᴏᴍᴘʟᴇᴛᴇᴅ ᴀʟʟ"
+      - "<#555555>■ <#AAAAAA>ᴀᴠᴀɪʟᴀʙʟᴇ ʀᴇʙɪʀᴛʜ ᴛɪᴇʀs."
+
+confirm:
+  title: "<dark_gray>   Confirm: <path_name>"
+  type: HOPPER
+  items:
+
+    filler:
+      slots: [ 0, 4 ]
+      material: GRAY_STAINED_GLASS_PANE
+      name: "<white>"
+      action: NONE
+
+    accept:
+      slot: 1
+      action: CONFIRM
+      material: LIME_STAINED_GLASS_PANE
+      soul-material: PURPLE_STAINED_GLASS_PANE
+      name: "<#55FF55>✓ ᴄᴏɴғɪʀᴍ <path_name>"
+      soul-name: "<#AA00FF>✓ ᴄᴏɴғɪʀᴍ <path_name>"
+      lore:
+        - "<#555555>■ <#AAAAAA>ᴀsᴄᴇɴᴅ ᴛᴏ <#FFFFFF>ʀᴇʙɪʀᴛʜ <tier_roman>"
+        - "<#555555>■ <#AAAAAA>ᴄᴏsᴛ: <#FFFFFF><cost>"
+        - "<#555555>■ <#AAAAAA>+<multiplier>% sᴇʟʟ ᴀɴᴅ ᴊᴏʙs ᴍᴏɴᴇʏ"
+
+    warning:
+      slot: 2
+      action: NONE
+      material: PAPER
+      name: "<#FFD700>⚠ <#FF8800>ᴘᴏɪɴᴛ ᴏғ ɴᴏ ʀᴇᴛᴜʀɴ <#FFD700>⚠"
+      lore:
+        - "<#555555>■ <#FF5555>ᴀʟʟ ᴘʀᴏɢʀᴇssɪᴏɴ ᴡɪʟʟ ʙᴇ ʟᴏsᴛ"
+        - ""
+        - "<#555555>■ <#DDDDDD>ʏᴏᴜ ᴀʀᴇ sᴀᴄʀɪғɪᴄɪɴɢ:"
+        - "<#555555>➥ <#FF5555>ᴀʟʟ ᴍᴏɴᴇʏ"
+        - "<#555555>➥ <#FF5555>ᴀʟʟ ᴍᴄᴍᴍᴏ sᴋɪʟʟs"
+
+    cancel:
+      slot: 3
+      action: BACK
+      material: RED_STAINED_GLASS_PANE
+      name: "<#FF5555>✗ ᴄᴀɴᴄᴇʟ"
+      lore:
+        - "<#555555>■ <#AAAAAA>ᴀʙᴏʀᴛ ᴀsᴄᴇɴsɪᴏɴ"

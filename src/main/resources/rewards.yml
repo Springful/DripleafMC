@@ -1,0 +1,86 @@
+# =====================================================================
+#  DripleafRebirth  -  rewards.yml
+# ---------------------------------------------------------------------
+#  EVERY COMMAND THE PLUGIN RUNS LIVES HERE. Nothing else does.
+#  tiers.yml decides HOW MUCH; this file decides WHAT RUNS.
+#
+#  Line syntax:   "<executor>: <command>"
+#     console:    run as CONSOLE                (default if omitted)
+#     player:     run as the player
+#     op:         run as the player, temporarily op'd
+#     message:    send the raw MiniMessage line to the player
+#     broadcast:  send the raw MiniMessage line to the whole server
+#     delay:<t>:  wait <t> ticks before continuing this set
+#
+#  Placeholders:
+#     <player> <uuid> <tier> <tier_roman> <prev_tier> <path>
+#     <cost>   <cash> <keys> <multiplier> <souls>
+#     ...plus every key under the tier's rewards.values block, and any
+#     %papi_placeholder% if PlaceholderAPI is installed.
+# =====================================================================
+
+# ---------------------------------------------------------------------
+# THE SACRIFICE - runs BEFORE rewards, on both paths.
+# The money cost itself is withdrawn by the plugin via Vault; this block
+# is for everything else that gets wiped.
+# ---------------------------------------------------------------------
+sacrifice:
+  wipe-balance: true          # set balance to 0 after the cost is taken
+  commands:
+    - "console: mmoedit <player> all 0"
+
+# ---------------------------------------------------------------------
+# REWARD SETS - referenced by name from tiers.yml (defaults.reward-sets
+# or a per-tier override). Order is preserved; sets run in listed order.
+# ---------------------------------------------------------------------
+reward-sets:
+
+  # Runs on BOTH paths. Rank, multiplier, seed money.
+  core:
+    - "console: lp user <player> parent add rebirth-<tier>"
+    - "console: eco give <player> <cash>"
+
+  # Standard-path payout.
+  standard:
+    - "console: excellentcrates key give <player> rebirth <keys>"
+
+  # Soul Ascension only - stacked on top of the standard payout.
+  soul:
+    - "console: souls give <player> <souls>"
+
+  # --- Milestone sets: attach these from tiers.yml when you want them.
+  milestone-5:
+    - "console: lp user <player> permission set dripleaf.tag.silver true"
+    - "console: lp user <player> permission set dripleaf.particles.aura true"
+  milestone-10:
+    - "console: lp user <player> permission set essentials.disposal true"
+    - "console: lp user <player> permission set dripleaf.broadcast.login true"
+  milestone-15:
+    - "console: lp user <player> permission set essentials.hat true"
+    - "console: give <player> iron_golem_spawner 1"
+  milestone-20:
+    - "console: lp user <player> permission set dripleaf.prefix.overkill true"
+    - "console: lp user <player> permission set dripleaf.namecolor true"
+    - "console: lp user <player> permission set dripleaf.fly.claims true"
+  milestone-25:
+    - "console: lp user <player> permission set dripleaf.title.overlord true"
+
+# ---------------------------------------------------------------------
+# BROADCASTS - one per path. Set rebirth.broadcast: false in config.yml
+# to mute them entirely.
+# ---------------------------------------------------------------------
+broadcasts:
+  standard:
+    - " "
+    - "  <gradient:#dce35b:#45b649><st>                                                  </st></gradient>"
+    - "    <gradient:#dce35b:#45b649><shadow:black:1><b>DripleafMC</b></shadow></gradient> <#555555>┃ <#DDDDDD><player> has transcended to <gradient:#800000:#FF3333><b>ʀᴇʙɪʀᴛʜ <tier_roman></b></gradient>!"
+    - "    <gradient:#55FF55:#00AA00><b>✨ sᴛᴀɴᴅᴀʀᴅ ᴀsᴄᴇɴsɪᴏɴ ✨</b></gradient>"
+    - "  <gradient:#dce35b:#45b649><st>                                                  </st></gradient>"
+    - " "
+  soul:
+    - " "
+    - "  <gradient:#AA00FF:#FF55FF><st>                                                  </st></gradient>"
+    - "    <gradient:#AA00FF:#FF55FF><shadow:black:1><b>DripleafMC</b></shadow></gradient> <#555555>┃ <#DDDDDD><player> has transcended to <gradient:#800000:#FF3333><b>ʀᴇʙɪʀᴛʜ <tier_roman></b></gradient>!"
+    - "    <gradient:#AA00FF:#FF55FF><b>✨ sᴏᴜʟ ᴀsᴄᴇɴsɪᴏɴ ᴀᴄʜɪᴇᴠᴇᴅ ✨</b></gradient>"
+    - "  <gradient:#AA00FF:#FF55FF><st>                                                  </st></gradient>"
+    - " "
