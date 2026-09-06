@@ -63,7 +63,8 @@ public final class Screens {
                 .body(Component.text("Balance: ", NamedTextColor.GRAY).append(money(core.money().balance(player))));
 
         for (Shop.Category category : core.shop().categories()) {
-            menu.add(MenuButton.of(category.display(), category.lore(), category.icon(),
+            menu.add(MenuButton.of(core.icons().label(category.icon(), category.display()),
+                    category.lore(), category.icon(),
                     p -> shopCategory(p, category)));
         }
         if (core.cfg().quickBuyEnabled) {
@@ -84,7 +85,7 @@ public final class Screens {
         for (Shop.Entry entry : category.items()) {
             Component price = Component.text("$" + Num.money(entry.price()) + " each", NamedTextColor.GRAY);
             menu.add(MenuButton.of(
-                    entry.display().color(NamedTextColor.WHITE),
+                    core.icons().label(entry.material(), entry.display().color(NamedTextColor.WHITE)),
                     List.of(price),
                     entry.material(), 1,
                     p -> shopQuantity(p, category, entry)));
@@ -246,7 +247,7 @@ public final class Screens {
             if (filtering && !name.toLowerCase(java.util.Locale.ROOT).contains(needle)) continue;
             shown++;
             menu.add(MenuButton.of(
-                    Component.text(name, NamedTextColor.WHITE),
+                    core.icons().label(entry.material(), name, NamedTextColor.WHITE),
                     List.of(Component.text("$" + Num.money(entry.price()) + " each", NamedTextColor.GRAY)),
                     entry.material(), 1,
                     p -> quickBuyAmount(p, index, entry)));
@@ -318,7 +319,8 @@ public final class Screens {
         for (ShardShop.Entry entry : core.shardShop().entries()) {
             List<Component> lore = new ArrayList<>(entry.lore());
             lore.add(Component.text(Num.compact(entry.price()) + " shards", NamedTextColor.LIGHT_PURPLE));
-            menu.add(MenuButton.of(entry.display(), lore, entry.icon(), 1, p -> shardConfirm(p, entry)));
+            menu.add(MenuButton.of(core.icons().label(entry.icon(), entry.display()), lore,
+                    entry.icon(), 1, p -> shardConfirm(p, entry)));
         }
         core.ui().open(player, menu);
     }
@@ -366,7 +368,7 @@ public final class Screens {
         for (Map.Entry<Material, Double> e : sorted) {
             double sell = core.worth().sellPrice(e.getKey());
             menu.add(MenuButton.of(
-                    Component.text(Text.pretty(e.getKey()), NamedTextColor.WHITE),
+                    core.icons().label(e.getKey(), Text.pretty(e.getKey()), NamedTextColor.WHITE),
                     List.of(Component.text("Buy $" + Num.money(e.getValue()), NamedTextColor.GRAY),
                             Component.text("Sell $" + Num.money(sell), NamedTextColor.GREEN)),
                     e.getKey(), 1,

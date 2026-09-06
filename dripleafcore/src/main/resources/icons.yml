@@ -1,0 +1,32 @@
+# Inline item icons on dialog buttons.
+#
+#   auto   - use vanilla sprite components when the server supports them (1.21.9+),
+#            otherwise fall back to the resource pack glyphs below, otherwise no icons
+#   sprite - force sprite components; logs a warning and disables icons below 1.21.9
+#   font   - always use the resource pack glyphs below
+#   none   - no icons anywhere
+mode: auto
+
+# Texture atlas the sprites come from. Leave this alone unless you know why.
+atlas: "minecraft:blocks"
+
+# Sprite paths are guessed as block/<name> for blocks and item/<name> for everything
+# else. That is right for most things; list the exceptions here.
+sprites:
+  OAK_DOOR: "item/oak_door"
+  IRON_DOOR: "item/iron_door"
+  WHITE_BED: "item/white_bed"
+  CAKE: "item/cake"
+  CAULDRON: "item/cauldron"
+  BREWING_STAND: "item/brewing_stand"
+  FLOWER_POT: "item/flower_pot"
+  HOPPER: "item/hopper"
+  COMPARATOR: "item/comparator"
+  REPEATER: "item/repeater"
+
+# Pre-1.21.9 fallback: private-use characters from your own resource pack font.
+font:
+  key: "minecraft:default"
+  glyphs: {}
+    # DIAMOND: ""
+    # NETHERITE_INGOT: ""

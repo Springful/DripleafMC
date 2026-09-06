@@ -20,7 +20,7 @@ and Bedrock players never hit a dead end.
 
 ```bash
 gradle build
-# -> build/libs/DripleafCore-1.1.0.jar
+# -> build/libs/DripleafCore-1.2.0.jar
 ```
 
 There is no Gradle wrapper checked in; use your own Gradle 8.x, or open the folder in
@@ -74,6 +74,7 @@ Essentials' home commands first — two plugins registering `/home` is a coin fl
 | `shop.yml` | Shop categories and buy prices (falls back to `worth.yml`) — **also the entire Quick Buy catalogue** |
 | `shard-shop.yml` | What shards buy |
 | `messages.yml` | Every message, MiniMessage format |
+| `icons.yml` | Inline item icons on dialog buttons |
 | `commands.yml` | Per-command on/off |
 
 Sell price = `worth.yml` buy price × `settings.sell-ratio` (0.65) × player multiplier.
@@ -156,6 +157,33 @@ than silently buying nothing.
 
 Presets load with the player's profile at pre-login and are written through on change,
 so clicking one never waits on the database.
+
+## Item icons
+
+The little sprites next to item names in the dialogs are the vanilla **object text
+component** (`{"object":"atlas","sprite":"block/andesite"}`), added in **Minecraft
+1.21.9**. No resource pack needed — but nothing below 1.21.9 can draw them.
+
+`icons.yml` picks how that is handled:
+
+- `auto` (default) — use sprites when the server supports them, fall back to resource
+  pack glyphs if you've defined any, otherwise no icons. Safe on any version.
+- `sprite` — force sprites; warns and disables icons below 1.21.9.
+- `font` — always use your own resource pack glyphs, which is the route if you're
+  staying on 1.21.7/1.21.8.
+- `none` — off.
+
+Sprite paths are guessed as `block/<name>` for blocks and `item/<name>` for everything
+else. That's right for the large majority; the exceptions (doors, beds, hoppers,
+cauldrons and friends) are listed in `icons.yml` and you can add more.
+
+The component is built by handing raw JSON to the Gson serializer rather than through
+Adventure's typed `ObjectContents` API, so this still compiles and runs on older Paper —
+the parse fails once at startup, gets caught, and icons switch off instead of breaking
+every menu. Resolved icons are cached per material, so the JSON is parsed once, not per
+menu open.
+
+Icons appear on dialog buttons only. Chest menus already show the real item in the slot.
 
 ## Known gaps
 

@@ -21,6 +21,7 @@ import net.dripleafmc.core.storage.Db;
 import net.dripleafmc.core.tp.Rtp;
 import net.dripleafmc.core.tp.Teleports;
 import net.dripleafmc.core.tp.Tpa;
+import net.dripleafmc.core.ui.Icons;
 import net.dripleafmc.core.ui.MenuListener;
 import net.dripleafmc.core.ui.Prompt;
 import net.dripleafmc.core.ui.Ui;
@@ -64,6 +65,7 @@ public final class DripleafCore extends JavaPlugin {
     private Tpa tpa;
     private Bounties bounties;
     private Ui ui;
+    private Icons icons;
     private Prompt prompt;
     private Screens screens;
     private CoreCommands commands;
@@ -116,6 +118,9 @@ public final class DripleafCore extends JavaPlugin {
         bounties = new Bounties(db, io, cfg, getLogger());
         bounties.loadAll();
 
+        icons = new Icons(getLogger());
+        icons.load(new File(getDataFolder(), "icons.yml"));
+
         prompt = new Prompt(this);
         ui = new Ui(this, cfg, profiles, prompt);
         screens = new Screens(this);
@@ -161,7 +166,8 @@ public final class DripleafCore extends JavaPlugin {
 
     private void saveDefaultResources() {
         saveDefaultConfig();
-        for (String name : new String[]{"messages.yml", "worth.yml", "shop.yml", "shard-shop.yml", "commands.yml"}) {
+        for (String name : new String[]{"messages.yml", "worth.yml", "shop.yml", "shard-shop.yml",
+                "commands.yml", "icons.yml"}) {
             if (!new File(getDataFolder(), name).exists()) saveResource(name, false);
         }
     }
@@ -180,6 +186,7 @@ public final class DripleafCore extends JavaPlugin {
         shop.load(new File(getDataFolder(), "shop.yml"), worth::buyPrice);
         shardShop.load(new File(getDataFolder(), "shard-shop.yml"));
         rtp.load(getConfig());
+        icons.load(new File(getDataFolder(), "icons.yml"));
     }
 
     // ------------------------------------------------------------ accessors
@@ -201,6 +208,7 @@ public final class DripleafCore extends JavaPlugin {
     public Tpa tpa() { return tpa; }
     public Bounties bounties() { return bounties; }
     public Ui ui() { return ui; }
+    public Icons icons() { return icons; }
     public Screens screens() { return screens; }
     public CoreCommands commands() { return commands; }
 }
