@@ -20,7 +20,7 @@ and Bedrock players never hit a dead end.
 
 ```bash
 gradle build
-# -> build/libs/DripleafCore-1.0.0.jar
+# -> build/libs/DripleafCore-1.1.0.jar
 ```
 
 There is no Gradle wrapper checked in; use your own Gradle 8.x, or open the folder in
@@ -132,11 +132,22 @@ These are deliberate choices, not accidents — worth knowing before you change 
 
 ## Quick Buy
 
-A per-player panel of saved purchases. An empty slot reads "Click to choose an item to
-buy"; picking one opens **Choose Item**, then **How many to buy?**, then the slot holds
-that preset with its running total. Left-click buys instantly, right-click clears it
-(dialog viewers get a small Buy / Change amount / Remove menu instead, since dialogs
-have no right-click).
+Three surfaces, each pinned to a specific renderer rather than following the usual
+dialog/chest routing:
+
+1. **The panel** is always a **chest menu**, on every client. Five rows of preset slots;
+   empty ones read "Click to choose an item to buy". Left-click buys instantly,
+   right-click clears the slot.
+2. **Choose Item** is always a **dialog** — a search box above a grid of item buttons,
+   four columns, with Cancel at the bottom. The first button applies whatever is typed
+   in the search field.
+3. **How many to buy?** is always a **dialog** with a **typed amount box** (not a
+   slider), the item shown above it, "Max per purchase: N", and Cancel /
+   Add to Quick Buy.
+
+Bedrock is the one exception: dialogs fall back to chest menus there, because a dialog a
+Geyser client can't render is a dead end rather than a design choice. The search button
+then prompts in chat instead.
 
 The picker is built from `shop.yml` and nothing else — not the material registry — so a
 preset can never point at something the server doesn't sell. If you later remove an item

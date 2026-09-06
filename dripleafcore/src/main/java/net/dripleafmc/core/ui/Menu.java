@@ -14,6 +14,12 @@ public final class Menu {
     public final Component title;
     public final List<Component> body = new ArrayList<>(4);
     public final List<MenuButton> buttons = new ArrayList<>(16);
+    /** Optional text field rendered above the buttons. Dialog path only. */
+    public @Nullable String inputKey;
+    public Component inputLabel = Component.empty();
+    public String inputInitial = "";
+    public int inputMaxLength = 32;
+
     public @Nullable Consumer<Player> onBack;
     public @Nullable Component backLabel;
     public int columns = 2;
@@ -29,6 +35,14 @@ public final class Menu {
 
     public Menu add(MenuButton button) {
         buttons.add(button);
+        return this;
+    }
+
+    public Menu textInput(String key, Component label, String initial, int maxLength) {
+        this.inputKey = key;
+        this.inputLabel = label;
+        this.inputInitial = initial == null ? "" : initial;
+        this.inputMaxLength = maxLength;
         return this;
     }
 

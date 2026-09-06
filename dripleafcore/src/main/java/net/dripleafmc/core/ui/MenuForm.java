@@ -33,6 +33,9 @@ public final class MenuForm {
 
     public final List<Bool> bools = new ArrayList<>(4);
 
+    /** Rendered as an item body at the top of the dialog. */
+    public @Nullable org.bukkit.inventory.ItemStack icon;
+
     public Component confirmLabel = Component.text("Confirm");
     public Component cancelLabel = Component.text("Cancel");
     public BiConsumer<Player, MenuValues> onConfirm = (p, v) -> {};
@@ -40,6 +43,11 @@ public final class MenuForm {
 
     public MenuForm(Component title) {
         this.title = title;
+    }
+
+    public MenuForm icon(org.bukkit.inventory.ItemStack stack) {
+        this.icon = stack;
+        return this;
     }
 
     public MenuForm body(Component line) {

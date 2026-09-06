@@ -40,6 +40,26 @@ public final class Ui {
         return p == null || p.flag(Profile.FLAG_DIALOGS);
     }
 
+    /**
+     * Screens that are specified as dialogs (the Quick Buy picker and amount prompt)
+     * call these. Bedrock still falls back, because a dialog a Geyser client can't
+     * render is a dead end, not a design choice.
+     */
+    public void openDialog(Player player, Menu menu) {
+        if (dialogs(player)) dialogs.open(player, menu);
+        else ChestRenderer.open(player, menu);
+    }
+
+    public void openDialog(Player player, MenuForm form) {
+        if (dialogs(player)) dialogs.open(player, form);
+        else ChestRenderer.open(player, form, prompt);
+    }
+
+    /** Screens that are specified as chest menus call this regardless of client. */
+    public void openChest(Player player, Menu menu) {
+        ChestRenderer.open(player, menu);
+    }
+
     public void open(Player player, Menu menu) {
         if (dialogs(player)) {
             dialogs.open(player, menu);

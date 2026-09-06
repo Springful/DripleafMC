@@ -157,9 +157,8 @@ public final class Screens {
     // ------------------------------------------------------------ quick buy
 
     /**
-     * The saved-preset panel. Chest viewers get the full grid with empty placeholders;
-     * dialog viewers get only their filled presets plus an add button, because a
-     * 45-button dialog would be unreadable.
+     * The Quick Buy panel: always a chest menu, on every client. Five rows of preset
+     * slots, empty ones showing the "click to choose" placeholder.
      */
     public void quickBuy(Player player) {
         if (!core.cfg().quickBuyEnabled) return;
@@ -169,10 +168,8 @@ public final class Screens {
         }
         QuickBuy store = core.quickBuy();
         QuickBuy.Slot[] slots = store.slots(player.getUniqueId());
-        boolean dialogs = core.ui().dialogs(player);
 
         Menu menu = new Menu(Component.text("Quick Buy", NamedTextColor.DARK_GRAY))
-                .columns(core.cfg().menuColumns)
                 .body(Component.text("Balance: ", NamedTextColor.GRAY).append(money(core.money().balance(player))))
                 .back(BACK, this::shop);
 
@@ -181,9 +178,8 @@ public final class Screens {
             QuickBuy.Slot slot = slots[i];
 
             if (slot == null) {
-                if (dialogs) continue;   // dialogs list presets, not empty grid cells
                 menu.add(MenuButton.of(
-                        Component.text("Empty", NamedTextColor.GRAY),
+                        Component.text("Empty", NamedTextColor.WHITE),
                         List.of(core.lang().get("quickbuy.empty-hint")),
                         Material.LIGHT_GRAY_STAINED_GLASS_PANE, 1,
                         p -> quickBuyPicker(p, index, null)));
@@ -192,7 +188,7 @@ public final class Screens {
 
             Shop.Entry entry = core.shop().find(slot.item());
             if (entry == null) {
-                // The shop stopped selling this — show it as stale rather than silently buying nothing.
+                // The shop stopped selling this — show it as stale rather than buying nothing.
                 menu.add(MenuButton.of(
                         Component.text(Text.pretty(slot.item()), NamedTextColor.RED),
                         List.of(core.lang().get("quickbuy.not-sold")),
@@ -205,96 +201,49 @@ public final class Screens {
             }
 
             double total = entry.price() * slot.amount();
-            List<Component> lore = List.of(
-                    Component.text("~$ " + Num.compact(total), NamedTextColor.GREEN),
-                    Component.text(dialogs ? "Click to buy or edit" : "Left-click to buy",
-                            NamedTextColor.DARK_GRAY),
-                    Component.text(dialogs ? "" : "Right-click to clear", NamedTextColor.DARK_GRAY));
-
             menu.add(MenuButton.of(
-                    Component.text(slot.amount() + "x " + Text.pretty(slot.item()), NamedTextColor.WHITE),
-                    lore, slot.item(), Math.min(64, slot.amount()),
-                    dialogs
-                            ? p -> quickBuySlotMenu(p, index, entry, slot.amount())
-                            : p -> buy(p, entry, slot.amount()),
+                    Component.text(Text.pretty(slot.item()), NamedTextColor.WHITE),
+                    List.of(Component.text("~$ " + Num.compact(total), NamedTextColor.GREEN),
+                            Component.text("Left-click to buy", NamedTextColor.DARK_GRAY),
+                            Component.text("Right-click to clear", NamedTextColor.DARK_GRAY)),
+                    slot.item(), Math.min(64, slot.amount()),
+                    p -> buy(p, entry, slot.amount()),
                     p -> {
                         store.clear(p.getUniqueId(), index);
                         core.lang().send(p, "quickbuy.cleared", Text.p("slot", String.valueOf(index + 1)));
                         quickBuy(p);
                     }));
         }
-
-        if (dialogs) {
-            menu.add(MenuButton.of(
-                    Component.text("Add an item", NamedTextColor.GREEN),
-                    Component.text("Pick from the server shop"),
-                    Material.LIME_DYE,
-                    p -> {
-                        int free = store.firstEmpty(p.getUniqueId());
-                        if (free < 0) {
-                            core.lang().send(p, "quickbuy.full");
-                            return;
-                        }
-                        quickBuyPicker(p, free, null);
-                    }));
-        }
-        core.ui().open(player, menu);
-    }
-
-    /** Dialog-only: what a filled preset opens, since dialogs have no right-click. */
-    private void quickBuySlotMenu(Player player, int index, Shop.Entry entry, int amount) {
-        double total = entry.price() * amount;
-        Menu menu = new Menu(Component.text(amount + "x " + Text.pretty(entry.material()), NamedTextColor.WHITE))
-                .columns(1)
-                .body(Component.text("Total: ", NamedTextColor.GRAY).append(money(total)))
-                .back(BACK, this::quickBuy);
-
-        menu.add(MenuButton.of(Component.text("Buy now", NamedTextColor.GREEN), entry.material(),
-                p -> buy(p, entry, amount)));
-        menu.add(MenuButton.of(Component.text("Change amount", NamedTextColor.YELLOW), Material.PAPER,
-                p -> quickBuyAmount(p, index, entry)));
-        menu.add(MenuButton.of(Component.text("Remove", NamedTextColor.RED), Material.BARRIER,
-                p -> {
-                    core.quickBuy().clear(p.getUniqueId(), index);
-                    core.lang().send(p, "quickbuy.cleared", Text.p("slot", String.valueOf(index + 1)));
-                    quickBuy(p);
-                }));
-        core.ui().open(player, menu);
+        core.ui().openChest(player, menu);
     }
 
     /**
-     * The item picker. Built from shop.yml only — the server shop is the whole
-     * catalogue, so a preset can never name something that isn't for sale.
+     * Choose Item: a dialog with a search box above a grid of buttons. Built from
+     * shop.yml and nothing else, so a preset can never name something the server
+     * doesn't sell.
      */
     public void quickBuyPicker(Player player, int index, String filter) {
         List<Shop.Entry> items = core.shop().allItems();
-        String needle = filter == null ? null : filter.toLowerCase(java.util.Locale.ROOT);
+        String needle = filter == null ? null : filter.trim().toLowerCase(java.util.Locale.ROOT);
+        boolean filtering = needle != null && !needle.isEmpty();
 
-        Menu menu = new Menu(Component.text("Choose Item", NamedTextColor.DARK_GRAY))
-                .columns(core.cfg().menuColumns)
-                .back(BACK, this::quickBuy);
-        menu.body(needle == null
-                ? Component.text(items.size() + " items in the server shop", NamedTextColor.GRAY)
-                : Component.text("Filter: " + filter, NamedTextColor.GRAY));
+        Menu menu = new Menu(Component.text("Choose Item", NamedTextColor.WHITE))
+                .columns(4)
+                .textInput("query", Component.text("Search"), filter == null ? "" : filter, 32)
+                .back(Component.text("Cancel", NamedTextColor.RED), p -> quickBuy(p));
 
-        menu.add(MenuButton.of(
-                Component.text("Search", NamedTextColor.YELLOW),
-                Component.text("Filter by name"),
+        // First button, matching the vanilla picker layout: applies whatever is typed above.
+        menu.add(MenuButton.submitting(
+                Component.text("Search", NamedTextColor.WHITE),
+                Component.text("Filter the list by name"),
                 Material.COMPASS,
-                p -> {
-                    MenuForm search = new MenuForm(Component.text("Search", NamedTextColor.DARK_GRAY))
-                            .text("query", Component.text("Item name"), "", 32)
-                            .confirm(Component.text("Search", NamedTextColor.GREEN),
-                                    (sp, values) -> quickBuyPicker(sp, index, values.text("query", "")))
-                            .cancel(BACK, sp -> quickBuyPicker(sp, index, null));
-                    core.ui().open(p, search);
-                }));
+                p -> askSearch(p, index),
+                (p, values) -> quickBuyPicker(p, index, values.text("query", ""))));
 
         int shown = 0;
         for (Shop.Entry entry : items) {
             String name = Text.pretty(entry.material());
-            if (needle != null && !needle.isBlank()
-                    && !name.toLowerCase(java.util.Locale.ROOT).contains(needle)) continue;
+            if (filtering && !name.toLowerCase(java.util.Locale.ROOT).contains(needle)) continue;
             shown++;
             menu.add(MenuButton.of(
                     Component.text(name, NamedTextColor.WHITE),
@@ -302,21 +251,44 @@ public final class Screens {
                     entry.material(), 1,
                     p -> quickBuyAmount(p, index, entry)));
         }
+
+        menu.body(filtering
+                ? Component.text(shown + " of " + items.size() + " items match \"" + filter + "\"",
+                        NamedTextColor.GRAY)
+                : Component.text(items.size() + " items in the server shop", NamedTextColor.GRAY));
         if (shown == 0) menu.body(Component.text("Nothing matched.", NamedTextColor.RED));
-        core.ui().open(player, menu);
+
+        core.ui().openDialog(player, menu);
     }
 
-    /** "How many to buy?" — saves the preset, it does not purchase. */
+    /** Chest fallback for the picker's search button: ask in chat instead. */
+    private void askSearch(Player player, int index) {
+        player.closeInventory();
+        core.ui().prompt().ask(player, input -> quickBuyPicker(player, index, input));
+    }
+
+    /**
+     * "How many to buy?" — a dialog with a typed amount box, not a slider. Saves the
+     * preset; it does not purchase.
+     */
     public void quickBuyAmount(Player player, int index, Shop.Entry entry) {
         int max = core.cfg().quickBuyMaxPerPurchase;
-        MenuForm form = new MenuForm(Component.text("How many to buy?", NamedTextColor.DARK_GRAY))
-                .body(Component.text(Text.pretty(entry.material()), NamedTextColor.WHITE))
-                .body(Component.text("Max per purchase: " + max, NamedTextColor.GRAY))
+
+        MenuForm form = new MenuForm(Component.text("How many to buy?", NamedTextColor.WHITE))
+                .icon(new ItemStack(entry.material()))
+                .body(Component.text("Max per purchase: ", NamedTextColor.GRAY)
+                        .append(Component.text(max, NamedTextColor.WHITE)))
                 .body(Component.text("$" + Num.money(entry.price()) + " each", NamedTextColor.DARK_GRAY))
-                .number("amount", Component.text("Amount"), 1, max, Math.min(64, max), 1)
+                .text("amount", Component.text("Amount"), String.valueOf(Math.min(64, max)), 8)
                 .presets(1, 8, 16, 32, 64)
-                .confirm(Component.text("Add to Quick Buy", NamedTextColor.GREEN), (p, values) -> {
-                    int amount = Math.max(1, Math.min(max, values.intVal("amount", 1)));
+                .confirm(Component.text("Add to Quick Buy", NamedTextColor.WHITE), (p, values) -> {
+                    double parsed = Num.parse(values.text("amount", ""));
+                    if (parsed < 1) {
+                        core.lang().send(p, "number-invalid", Text.p("input", values.text("amount", "")));
+                        quickBuyAmount(p, index, entry);
+                        return;
+                    }
+                    int amount = (int) Math.min(max, Math.floor(parsed));
                     core.quickBuy().set(p.getUniqueId(), index, entry.material(), amount);
                     core.lang().send(p, "quickbuy.saved",
                             Text.p("amount", String.valueOf(amount)),
@@ -325,7 +297,8 @@ public final class Screens {
                     quickBuy(p);
                 })
                 .cancel(Component.text("Cancel", NamedTextColor.RED), p -> quickBuyPicker(p, index, null));
-        core.ui().open(player, form);
+
+        core.ui().openDialog(player, form);
     }
 
     // ----------------------------------------------------------- shard shop

@@ -54,9 +54,27 @@ public final class DialogRenderer {
         List<DialogBody> body = new ArrayList<>(menu.body.size());
         for (Component line : menu.body) body.add(DialogBody.plainMessage(line));
 
+        List<DialogInput> inputs = new ArrayList<>(1);
+        if (menu.inputKey != null) {
+            inputs.add(DialogInput.text(menu.inputKey, 300, menu.inputLabel, true,
+                    menu.inputInitial, menu.inputMaxLength, null));
+        }
+
         List<ActionButton> actions = new ArrayList<>(menu.buttons.size());
         for (MenuButton b : menu.buttons) {
-            actions.add(ActionButton.create(b.label(), b.tooltip(), BUTTON_WIDTH, action(b.onClick())));
+            DialogAction buttonAction = b.onSubmit() == null
+                    ? action(b.onClick())
+                    : DialogAction.customClick((response, audience) -> {
+                        if (!(audience instanceof Player clicker)) return;
+                        Map<String, Object> values = new HashMap<>(2);
+                        if (menu.inputKey != null) {
+                            String typed = response.getText(menu.inputKey);
+                            if (typed != null) values.put(menu.inputKey, typed);
+                        }
+                        MenuValues wrapped = new MenuValues(values);
+                        Bukkit.getScheduler().runTask(plugin, () -> b.onSubmit().accept(clicker, wrapped));
+                    }, options);
+            actions.add(ActionButton.create(b.label(), b.tooltip(), BUTTON_WIDTH, buttonAction));
         }
 
         ActionButton exit = menu.onBack == null
@@ -66,6 +84,7 @@ public final class DialogRenderer {
 
         DialogBase base = DialogBase.builder(menu.title)
                 .body(body)
+                .inputs(inputs)
                 .canCloseWithEscape(true)
                 .pause(false)
                 .afterAction(DialogBase.DialogAfterAction.CLOSE)
@@ -79,7 +98,8 @@ public final class DialogRenderer {
     }
 
     public void open(Player player, MenuForm form) {
-        List<DialogBody> body = new ArrayList<>(form.body.size());
+        List<DialogBody> body = new ArrayList<>(form.body.size() + 1);
+        if (form.icon != null) body.add(DialogBody.item(form.icon).build());
         for (Component line : form.body) body.add(DialogBody.plainMessage(line));
 
         List<DialogInput> inputs = new ArrayList<>(2 + form.bools.size());
