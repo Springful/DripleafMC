@@ -84,6 +84,7 @@ public final class RebirthModule implements DripleafModule {
         settings.load(services.configs().view("rebirth/rebirth.yml"));
         tiers.load();
         unlocks.load();
+        commands.reload();
     }
 
     public boolean enabled() {

@@ -51,8 +51,12 @@ The exceptions that ship **enabled**: `/uimode`, `/dripleafcore`, `/rebirth`,
 
 | Command | Aliases | Permission | CD | Warmup | What it does |
 |---|---|---|---:|---:|---|
+| `/menu [id]` | `/dripleaf` `/hub` | `dripleaf.menu` | — | — | The player menu; contents come entirely from `menus.yml` |
 | `/uimode [mode]` | `/ui` `/menumode` | `dripleaf.uimode` | — | — | Switch between dialogs and chest GUIs |
 | `/dripleafcore [reload\|admin]` | `/dcore` `/dlc` | — | — | — | Status, reload, admin panel |
+
+`/menu` ships **enabled** — it is the front door to everything else. What is on
+it is `screens.main-menu` in `menus.yml`; see [UI.md](UI.md#menusyml--every-screen-and-button).
 
 ### Teleportation
 
@@ -160,6 +164,7 @@ being refused.
 | `/stonecutter` | — | `dripleaf.stonecutter` |
 | `/loom` | — | `dripleaf.loom` |
 | `/smithing` | — | `dripleaf.smithing` |
+| `/enchanting` | `/etable` | `dripleaf.enchanting` |
 
 ### Utility
 
@@ -173,7 +178,8 @@ being refused.
 | `/heal [player]` | — | `dripleaf.heal` | |
 | `/feed [player]` | — | `dripleaf.feed` | |
 | `/god [player]` | — | `dripleaf.god` | |
-| `/fly [player]` | — | `dripleaf.fly` | Also honours `dripleaf.fly.claims` |
+| `/fly [player]` | — | `dripleaf.fly` | Spends flight time; see §15 |
+| `/flytime [check\|give\|take\|set]` | `/ft` | `dripleaf.flytime`, `.admin` | Purchasable flight balance |
 | `/speed <1-10> [player]` | — | `dripleaf.speed` | |
 | `/vanish` | `/v` | `dripleaf.vanish` | `dripleaf.vanish.see` to see through it |
 | `/invsee <player>` | — | `dripleaf.invsee` | |
@@ -304,6 +310,32 @@ is how the shard and soul shops sell home slots and unlocks.
 Every transaction lands in `logs/transactions.log` with timestamp, UUID, item,
 quantity, unit price, total and resulting balance. That is what makes
 duplication bugs and staff disputes resolvable.
+
+---
+
+## 4a. Quick Buy
+
+Each player gets their own grid of shortcut slots per shop. An empty slot opens
+a picker of every item the shop sells; choosing one and giving a quantity binds
+it to that slot until the player removes it. A filled slot buys its binding.
+
+A **Manage** toggle switches the panel into change/remove mode. That is a
+toggle rather than a shift-click because a dialog cannot distinguish click
+types, and both surfaces have to behave identically.
+
+```yaml
+settings:
+  quick-buy-enabled: true
+  quick-buy-slots: 14        # personal slots per player, per shop
+  quick-buy-confirm: true    # still show a confirmation on a shortcut buy
+```
+
+Leave `quick-buy-confirm` on unless players ask otherwise — spending money on
+one click is exactly the thing that gets reported as a bug.
+
+Bindings live in player data, so they survive restarts. A shortcut whose item is
+later deleted from the shop config shows as broken and offers to clear itself
+rather than silently vanishing.
 
 ---
 
@@ -484,6 +516,69 @@ Bypass with `dripleaf.bypass.cooldown[.<id>]` and
 
 ---
 
+## 10a. Random teleport
+
+`/rtp` will not strand, bury, drown or trespass on anyone.
+
+```yaml
+teleport:
+  rtp-radius: 5000
+  rtp-min-radius: 200          # never lands back on spawn
+  rtp-attempts: 24             # candidates tried before giving up
+  rtp-allow-water: false
+  rtp-respect-claims: true     # GriefPrevention
+  rtp-respect-worldguard: true # refuses spots the player could not build in
+  rtp-preload-radius: 1        # chunks held around the destination (1 = 3x3)
+  rtp-ticket-seconds: 10       # how long they are held afterwards
+```
+
+**It only lands in chunks that already exist.** This is enforced, not
+configurable. Generating fresh terrain on a player's command is the single most
+expensive thing an RTP can do, and it grows the world folder forever. If `/rtp`
+starts failing often, the world has not been explored enough for the radius —
+lower `rtp-radius`, or pre-generate.
+
+The destination and its neighbours are loaded and held with plugin chunk tickets
+*before* the teleport, and released a few seconds after, so nobody arrives in
+grey void or has the ground unload from under them.
+
+---
+
+## 15. Flight time
+
+Purchasable flight, measured in seconds, spent **only while the player is
+actually airborne**. Buying an hour and then walking around does not burn it.
+
+| Command | Permission |
+|---|---|
+| `/flytime` | `dripleaf.flytime` |
+| `/flytime check <player>` | `dripleaf.flytime` |
+| `/flytime give\|take\|set <player> <duration>` | `dripleaf.flytime.admin` |
+
+Durations accept `30s`, `10m`, `2h`, `1d`, or a plain number of seconds.
+
+**Granting it.** Anything that can run a console command can grant flight —
+the shard shop, a rebirth unlock, a crate reward:
+
+```yaml
+commands:
+  - "flytime give <player> 1h"
+```
+
+The shard shop ships with 1-hour and 6-hour entries.
+
+**Who is never charged:** anyone holding `dripleaf.fly.permanent`, and anyone in
+creative or spectator. Granting a rank perk therefore does not silently drain a
+player's purchase.
+
+```yaml
+flight:
+  warn-at-seconds: 60    # one warning at this point; 0 disables
+  action-bar: true       # live countdown while flying
+```
+
+---
+
 ## 11. Retheming
 
 Two files, no rebuild.
@@ -491,6 +586,11 @@ Two files, no rebuild.
 **`messages.yml`** holds every player-facing string, as MiniMessage. The palette
 and glyph set are documented at the top of the file and in
 [UI.md](UI.md#the-design-language). Edit, then `/dripleafcore reload messages`.
+
+**`menus.yml`** holds every screen and button — titles, labels, lore, icons,
+chest slots, dialog columns, and whether an entry appears at all. Edit, then
+`/dripleafcore reload menus`. Full reference in
+[UI.md](UI.md#menusyml--every-screen-and-button).
 
 **`config.yml`** holds the sounds, one per event, as `<key> [volume] [pitch]`.
 A blank value silences an event without disabling the feature — usually what you
@@ -538,7 +638,8 @@ That thread count on Diagnostics is there on purpose. It should read **1**.
 | `/dripleafcore reload core` | Core module data only |
 | `/dripleafcore reload rebirth` | Tier and unlock data only |
 | `/dripleafcore reload shops` | All three shop configs |
-| `/dripleafcore reload messages` | `messages.yml` only |
+| `/dripleafcore reload messages` | `messages.yml` and `menus.yml` |
+| `/dripleafcore reload menus` | `menus.yml` only |
 
 Permission: `dripleaf.admin.reload`.
 
@@ -567,8 +668,16 @@ exactly which optional integrations were found.
 - **EssentialsX owns it.** Two plugins registering `/fly` means one of them
   loses. Disable the Essentials command in its config, then reload.
 - **You reloaded.** Enabling a command in config and reloading does not register
-  it — registration happens once, at enable. That is the same rule that stops
+  it — registration happens once, at enable, which is the same rule that stops
   reloads leaking. **Restart the server** after enabling a command.
+
+  Reload *does* apply cooldown, warmup, permission and description changes
+  immediately, and it now names the commands still waiting on a restart:
+
+  ```
+  ⚠ 2 command(s) changed enabled state and need a server restart to take
+    effect: fly (+), craft (-)
+  ```
 
 The console prints `Registered N of M commands from core/commands.yml (K
 disabled)` at start-up.

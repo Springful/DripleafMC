@@ -23,6 +23,12 @@ settings:
   show-balance: true
   search-enabled: true
   quick-buy-enabled: true
+  # How many personal shortcut slots each player gets in this shop.
+  quick-buy-slots: 14
+  # Whether a shortcut purchase still shows a confirmation. On by
+  # default: spending money on one click is exactly the thing players
+  # report as a bug.
+  quick-buy-confirm: true
   # Multiplies every sell price. Rebirth multipliers stack on top of it.
   global-sell-multiplier: 1.0
   # Required to open the shop at all. Blank = everyone.

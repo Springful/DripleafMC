@@ -12,6 +12,101 @@
 
 ---
 
+## 1.5.0
+
+### Fixed
+
+- **`/setwarp` saved the wrong display name.** It looked the warp's key up as a
+  *material*, so every warp created in game was called "Ender Pearl". Warps now
+  take their own name.
+- **`/workbench` and `/craft` opened a window that could not craft.** They built
+  an inventory from an `InventoryType` rather than calling `openWorkbench` — so
+  there was no block behind the screen and no recipe ever resolved. Every
+  virtual station (`/anvil`, `/grindstone`, `/cartography`, `/stonecutter`,
+  `/loom`, `/smithing`) had the same bug and is fixed the same way.
+  `/enchanting` is new alongside them.
+- **`/baltop` was empty with players online.** It walked the player-data
+  directory only, and someone who joined this session has no file there yet.
+  Online players are now merged in, the first refresh happens 5 seconds after
+  start instead of 30, and the tier tie-break no longer does a disk read per
+  comparison.
+- **`/dripleafcore reload` ignored command changes.** Cooldowns, warmups,
+  permissions and descriptions now apply the instant a reload finishes. Whether
+  a command *exists* still needs a restart — that is a hard constraint of
+  Paper's command registrar — but the reload output now names exactly which
+  commands are waiting on one instead of saying nothing.
+
+### Quick Buy is a quick buy again
+
+It had turned into a second search box. It is now what the name says: a grid of
+personal shortcut slots per shop.
+
+- An empty slot opens a picker listing every item the shop sells; choose one,
+  give a quantity, and it is bound to that slot **permanently** until removed.
+- A filled slot buys its binding.
+- A **Manage** toggle switches the panel into change/remove mode. That is a
+  toggle rather than a shift-click because a dialog cannot distinguish click
+  types and both surfaces have to behave identically.
+- Slots, and whether a shortcut purchase still confirms, are per-shop config.
+- A shortcut whose item is later removed from the shop shows as broken and
+  offers to clear itself, rather than silently vanishing.
+
+### Every screen and button is configurable — `menus.yml`
+
+New file. Titles, body text, button labels, lore, icons, styles, chest slots,
+stack sizes, dialog column counts, and whether a button appears at all — for
+any menu — without a rebuild. `/dripleafcore reload menus`.
+
+Buttons on config-driven screens also carry an `action:`, so staff can add,
+remove and reorder entries themselves:
+
+```yaml
+action: "command:home"     # run as the player
+action: "console:..."      # run on the console, <player> substituted
+action: "screen:my-menu"   # open another screen in this file
+action: "shop"             # a built-in screen, by name
+```
+
+### `/menu` — the player menu
+
+A two-column front door to everything, modelled on the layout in the
+screenshots. Its entire contents come from `screens.main-menu` in `menus.yml`;
+nothing in the code knows which buttons are on it. Ships enabled.
+
+### Flight time
+
+Purchasable flight, measured in seconds.
+
+- Sold in the shard shop (1h and 6h entries ship), grantable from rebirth
+  rewards or by staff with `/flytime give <player> 1h`.
+- **Only counts down while the player is actually airborne.** Buying an hour and
+  then walking around does not burn it.
+- Players holding `dripleaf.fly.permanent`, and anyone in creative or
+  spectator, are never charged.
+- One repeating task drives every player's countdown, with a configurable
+  warning and an action-bar readout.
+
+### Random teleport is safe now
+
+`/rtp` previously picked a column, took the highest block and hoped.
+
+- **Generated chunks only.** A candidate whose chunk has never been generated is
+  rejected rather than generated on demand — that is what turns `/rtp` into a
+  lag spike and grows the world folder forever.
+- **The destination is preloaded** and held with plugin chunk tickets before the
+  teleport, then released a few seconds after, so nobody lands in grey void or
+  has the ground unload from under them.
+- **Claims are respected**: GriefPrevention claims are avoided entirely, and a
+  new WorldGuard bridge refuses spots the player could not build in.
+- **Landings are checked**: solid ground that is not lava, magma, cactus, fire
+  or powder snow; two passable blocks above; inside world height; not
+  underwater unless configured. The Nether gets a downward scan instead of
+  `getHighestBlockYAt`, which only ever finds the bedrock roof.
+- Samples a ring between `rtp-min-radius` and `rtp-radius`, so it never drops
+  someone back on spawn.
+
+---
+
 ## 1.4.1
 
 The first release of the merged plugin. `DripleafCore` and the Rebirth Skripts

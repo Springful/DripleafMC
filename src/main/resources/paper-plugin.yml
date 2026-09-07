@@ -31,6 +31,10 @@ dependencies:
       load: BEFORE
       required: false
       join-classpath: true
+    WorldGuard:
+      load: BEFORE
+      required: false
+      join-classpath: true
     ExcellentCrates:
       load: BEFORE
       required: false
@@ -51,7 +55,23 @@ permissions:
     children:
       dripleaf.admin: true
       dripleaf.rebirth: true
-      dripleaf.uimode: true
+      dripleaf.menu:
+    description: Open the server menu.
+    default: true
+  dripleaf.menu.other:
+    description: Open any screen defined in menus.yml by name.
+    default: op
+  dripleaf.flytime:
+    description: Check your own flight time.
+    default: true
+  dripleaf.flytime.admin:
+    description: Give, take and set flight time.
+    default: op
+  dripleaf.fly.permanent:
+    description: Fly without spending purchased flight time.
+    default: op
+
+  dripleaf.uimode: true
 
   dripleaf.admin:
     description: Admin panel and every admin subcommand.
@@ -60,6 +80,22 @@ permissions:
       dripleaf.admin.reload: true
   dripleaf.admin.reload:
     description: Reload configuration.
+    default: op
+
+  dripleaf.menu:
+    description: Open the server menu.
+    default: true
+  dripleaf.menu.other:
+    description: Open any screen defined in menus.yml by name.
+    default: op
+  dripleaf.flytime:
+    description: Check your own flight time.
+    default: true
+  dripleaf.flytime.admin:
+    description: Give, take and set flight time.
+    default: op
+  dripleaf.fly.permanent:
+    description: Fly without spending purchased flight time.
     default: op
 
   dripleaf.uimode:

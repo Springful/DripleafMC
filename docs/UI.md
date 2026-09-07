@@ -137,6 +137,69 @@ information is on the admin **Diagnostics** screen, and
 
 ---
 
+## menus.yml — every screen and button
+
+Appearance lives in `menus.yml`; behaviour lives in the code. That split is
+enforced by the types: a screen builder asks for a template by id, supplies an
+action, and never writes a label, an icon or a slot in Java.
+
+```yaml
+screens:
+  main-menu:
+    title: "<gradient:#dce35b:#45b649><bold>Dripleaf</bold></gradient>"
+    body: [ "<#AAAAAA>Everything, in one place.</#AAAAAA>" ]
+    dialog:
+      columns: 2          # 1-4 button columns
+      button-width: 190
+    chest:
+      type: CHEST         # CHEST | HOPPER
+      rows: 5             # 0 sizes to content
+      decorated: true
+      filler: BLACK_STAINED_GLASS_PANE
+      header-slot: 4      # -1 for none
+    buttons:
+      homes:
+        label: "<gradient:#dce35b:#45b649>Homes</gradient>"
+        lore: [ "<#555555>➥ <#AAAAAA>Your saved locations.</#AAAAAA>" ]
+        icon: RED_BED
+        style: PRIMARY    # PRIMARY SOUL SHARD DANGER NEUTRAL LOCKED
+        slot: 10          # chest slot; -1 auto-arranges
+        permission: ""    # blank = everyone
+        hidden: false     # true removes it entirely
+        action: "homes"
+```
+
+`/dripleafcore reload menus` applies it.
+
+### Actions
+
+Buttons on config-driven screens carry an `action:`, which is what lets staff
+add, remove and reorder entries with no code change:
+
+| Action | Effect |
+|---|---|
+| `command:home` | Runs `/home` as the player |
+| `console:give <player> diamond 1` | Runs on the console; `<player>` is substituted |
+| `screen:my-menu` | Opens another screen defined in this file |
+| `message:some.key` | Sends a `messages.yml` key |
+| `close` | Closes the menu |
+| `none` | Decorative |
+| `shop`, `shardshop`, `soulshop`, `quickbuy`, `warps`, `homes`, `kits`, `settings`, `flight`, `admin` | A built-in screen, by name |
+
+Building a second menu is a screen block plus a button pointing at it with
+`action: "screen:my-menu"`. `/menu <id>` opens any screen by name for staff
+holding `dripleaf.menu.other`.
+
+### Placeholders
+
+Each screen documents the placeholders available in its labels and lore at the
+top of its block in the file — `<player>` on the main menu, `<item>`,
+`<amount>`, `<price>` on Quick Buy slots, and so on. They resolve through
+MiniMessage's tag resolver, so a value containing a `<` cannot inject
+formatting.
+
+---
+
 ## Configuration
 
 ```yaml

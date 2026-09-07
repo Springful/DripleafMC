@@ -76,8 +76,7 @@ public final class WarpService {
             }
             warps.put(key.toLowerCase(Locale.ROOT), new Warp(
                     key.toLowerCase(Locale.ROOT),
-                    node.string("display", IconService.pretty(
-                            IconService.material(key, Material.ENDER_PEARL))),
+                    node.string("display", Palette.brand(prettyName(key))),
                     IconService.material(node.string("icon", ""), Material.ENDER_PEARL),
                     List.copyOf(node.stringList("description")),
                     location,
@@ -216,8 +215,9 @@ public final class WarpService {
         ConfigurationSection node = section.getConfigurationSection(key);
         if (node == null) {
             node = section.createSection(key);
-            node.set("display", Palette.brand(IconService.pretty(
-                    IconService.material(key, Material.ENDER_PEARL))));
+            // The warp's own name, not a material lookup of it. Looking the key
+            // up as a Material meant every /setwarp produced "Ender Pearl".
+            node.set("display", Palette.brand(prettyName(key)));
             node.set("icon", "ENDER_PEARL");
             node.set("permission", "");
             node.set("cost", 0);
@@ -259,5 +259,18 @@ public final class WarpService {
 
     private String applied(String key, Ctx ctx) {
         return ctx.applyRaw(services.messages().raw(key));
+    }
+
+    /** {@code nether_hub} to {@code Nether Hub}, for a warp created in game. */
+    static String prettyName(String key) {
+        String spaced = key.replace('_', ' ').replace('-', ' ');
+        StringBuilder sb = new StringBuilder(spaced.length());
+        boolean capitalise = true;
+        for (int i = 0; i < spaced.length(); i++) {
+            char c = spaced.charAt(i);
+            sb.append(capitalise ? Character.toUpperCase(c) : c);
+            capitalise = c == ' ';
+        }
+        return sb.toString();
     }
 }

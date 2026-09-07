@@ -46,9 +46,15 @@ public final class ShopService {
 
     private final Services services;
     private final Map<String, ShopDefinition> shops = new LinkedHashMap<>(3);
+    private QuickBuyService quickBuy;
 
     public ShopService(Services services) {
         this.services = services;
+    }
+
+    /** Set once during module enable; the two services are mutually recursive. */
+    public void quickBuy(QuickBuyService quickBuy) {
+        this.quickBuy = quickBuy;
     }
 
     /** Reparses all three shop files. Never partially applies: each shop is atomic. */
@@ -142,13 +148,16 @@ public final class ShopService {
             builder.button(button.build());
         }
 
-        if (shop.quickBuyEnabled()) {
+        if (shop.quickBuyEnabled() && quickBuy != null) {
             builder.button(ScreenButton.of("quick-buy",
                             Palette.brand(services.messages().raw("shop.quick-buy")))
                     .style(ButtonStyle.NEUTRAL)
                     .material(Material.HOPPER)
                     .line(services.messages().raw("shop.quick-buy-hint"))
-                    .action(clicker -> openSearch(clicker, shopId))
+                    .line(applied("shop.quick-buy-count", new Ctx()
+                            .put("used", quickBuy.used(player, shopId))
+                            .put("slots", shop.quickBuySlots())))
+                    .action(clicker -> quickBuy.open(clicker, shopId))
                     .build());
         }
         if (shop.searchEnabled()) {
@@ -324,6 +333,17 @@ public final class ShopService {
     // -------------------------------------------------------- purchase flow
 
     private void confirmBuy(Player player, String shopId, String itemKey, int quantity) {
+        confirmBuy(player, shopId, itemKey, quantity,
+                clicker -> openItem(clicker, shopId, itemKey));
+    }
+
+    /**
+     * @param returnTo where Cancel and a completed purchase send the player.
+     *                 Quick Buy passes its own panel so a shortcut purchase
+     *                 does not dump the player into the item screen.
+     */
+    public void confirmBuy(Player player, String shopId, String itemKey, int quantity,
+                           java.util.function.Consumer<Player> returnTo) {
         ShopDefinition shop = shops.get(shopId);
         ShopItem item = shop == null ? null : shop.item(itemKey);
         if (item == null || !item.buyable()) {
@@ -349,14 +369,19 @@ public final class ShopService {
                                 services.messages().raw("shop.confirm-buy"))
                         .style(ButtonStyle.PRIMARY)
                         .material(Material.LIME_DYE)
-                        .action(clicker -> buy(clicker, shopId, itemKey, quantity))
+                        .action(clicker -> buy(clicker, shopId, itemKey, quantity, returnTo))
                         .build())
-                .button(backButton("cancel", clicker -> openItem(clicker, shopId, itemKey)))
+                .button(backButton("cancel", returnTo))
                 .build();
         services.ui().open(player, screen);
     }
 
     private void buy(Player player, String shopId, String itemKey, int quantity) {
+        buy(player, shopId, itemKey, quantity, clicker -> openItem(clicker, shopId, itemKey));
+    }
+
+    public void buy(Player player, String shopId, String itemKey, int quantity,
+                    java.util.function.Consumer<Player> returnTo) {
         ShopDefinition shop = shops.get(shopId);
         ShopItem item = shop == null ? null : shop.item(itemKey);
         if (item == null || !item.buyable()) {
@@ -402,7 +427,7 @@ public final class ShopService {
                 .put("item", item.display())
                 .put("price", services.amounts().formatExact(shop.currency(), total))
                 .put("balance", services.amounts().formatExact(shop.currency(), after)));
-        openItem(player, shopId, itemKey);
+        returnTo.accept(player);
     }
 
     private void confirmSell(Player player, String shopId, String itemKey, int quantity) {
@@ -550,6 +575,10 @@ public final class ShopService {
     }
 
     private String line(String key, Ctx ctx) {
+        return ctx.applyRaw(services.messages().raw(key));
+    }
+
+    private String applied(String key, Ctx ctx) {
         return ctx.applyRaw(services.messages().raw(key));
     }
 

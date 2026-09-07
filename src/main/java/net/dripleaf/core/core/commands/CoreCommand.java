@@ -103,6 +103,16 @@ public final class CoreCommand extends DripleafCommand {
             services.messages().send(sender, "core.reload-warnings",
                     Ctx.of("count", String.valueOf(newIssues)));
         }
+
+        // "I enabled it and nothing happened" should never need guessing at.
+        List<String> pending = new java.util.ArrayList<>(
+                plugin.core().commands().pendingRegistrationChanges());
+        pending.addAll(plugin.rebirth().commands().pendingRegistrationChanges());
+        if (!pending.isEmpty()) {
+            services.messages().send(sender, "core.reload-restart-needed", new Ctx()
+                    .put("count", String.valueOf(pending.size()))
+                    .put("commands", String.join(", ", pending)));
+        }
         services.audit().admin(sender.getName() + " reloaded " + scope
                 + " in " + millis + "ms");
         return true;
@@ -128,7 +138,7 @@ public final class CoreCommand extends DripleafCommand {
             return filter(List.of("reload", "admin"), args);
         }
         if (args[0].equalsIgnoreCase("reload")) {
-            return filter(List.of("all", "core", "rebirth", "shops", "messages"), args);
+            return filter(List.of("all", "core", "rebirth", "shops", "messages", "menus"), args);
         }
         return List.of();
     }

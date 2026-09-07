@@ -28,7 +28,12 @@ import java.util.Locale;
 public abstract class DripleafCommand implements BasicCommand {
 
     protected final Services services;
-    private final CommandSpec spec;
+    /**
+     * Swapped in place by {@code /dripleafcore reload}. Volatile because the
+     * reload runs on the main thread while tab completion may read it from
+     * another.
+     */
+    private volatile CommandSpec spec;
 
     protected DripleafCommand(Services services, CommandSpec spec) {
         this.services = services;
@@ -37,6 +42,17 @@ public abstract class DripleafCommand implements BasicCommand {
 
     public CommandSpec spec() {
         return spec;
+    }
+
+    /**
+     * Applies freshly parsed config to a live command.
+     *
+     * <p>Cooldown, warmup, permission and description all take effect
+     * immediately. The command's <em>existence</em> cannot change here — see
+     * {@link CommandRegistry#pendingRegistrationChanges()}.
+     */
+    public void spec(CommandSpec updated) {
+        this.spec = updated;
     }
 
     public String id() {

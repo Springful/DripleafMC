@@ -45,29 +45,45 @@ public final class UtilityCommands {
     }
 
     /**
-     * Every virtual workstation — {@code /workbench}, {@code /anvil},
-     * {@code /grindstone}, {@code /cartography}, {@code /stonecutter},
-     * {@code /loom}, {@code /smithing}, {@code /enderchest} — is this one class
-     * with a different {@link InventoryType}.
+     * Every virtual workstation is this one class with a different {@link Station}.
+     *
+     * <p>These have to go through the dedicated {@code openWorkbench},
+     * {@code openAnvil}, {@code openGrindstone} … methods with
+     * {@code force = true}. Handing {@code Bukkit.createInventory} an
+     * {@link InventoryType} produces a window that looks right and does
+     * nothing: it has no block behind it, so no recipe ever resolves. That is
+     * why {@code /workbench} and {@code /craft} appeared to open and then
+     * refused to craft.
      */
     public static final class Workstation extends DripleafCommand {
 
-        private final InventoryType type;
-        private final boolean enderChest;
+        /** Which station to open. Each maps to its own Bukkit call. */
+        public enum Station {
+            ENDER_CHEST, WORKBENCH, ANVIL, GRINDSTONE, CARTOGRAPHY,
+            STONECUTTER, LOOM, SMITHING, ENCHANTING
+        }
 
-        public Workstation(Services services, CommandSpec spec, InventoryType type) {
+        private final Station station;
+
+        public Workstation(Services services, CommandSpec spec, Station station) {
             super(services, spec);
-            this.type = type;
-            this.enderChest = type == null;
+            this.station = station;
         }
 
         @Override
         protected boolean run(CommandSender sender, Player player, String[] args) {
-            if (enderChest) {
-                player.openInventory(player.getEnderChest());
-                return true;
+            // `force = true` is what makes these work with no block present.
+            switch (station) {
+                case ENDER_CHEST -> player.openInventory(player.getEnderChest());
+                case WORKBENCH -> player.openWorkbench(null, true);
+                case ANVIL -> player.openAnvil(null, true);
+                case GRINDSTONE -> player.openGrindstone(null, true);
+                case CARTOGRAPHY -> player.openCartographyTable(null, true);
+                case STONECUTTER -> player.openStonecutter(null, true);
+                case LOOM -> player.openLoom(null, true);
+                case SMITHING -> player.openSmithingTable(null, true);
+                case ENCHANTING -> player.openEnchanting(null, true);
             }
-            player.openInventory(Bukkit.createInventory(player, type));
             return true;
         }
     }
@@ -419,8 +435,11 @@ public final class UtilityCommands {
      */
     public static final class Fly extends DripleafCommand {
 
-        public Fly(Services services, CommandSpec spec) {
+        private final CoreModule core;
+
+        public Fly(Services services, CommandSpec spec, CoreModule core) {
             super(services, spec);
+            this.core = core;
         }
 
         @Override
@@ -434,16 +453,28 @@ public final class UtilityCommands {
             if (target == null) {
                 return false;
             }
-            boolean enabling = !target.getAllowFlight();
-            if (enabling && !target.hasPermission("dripleaf.fly")
-                    && !(target.hasPermission("dripleaf.fly.claims")
-                    && services.hooks().claims().trustedHere(target))) {
+            if (target.getAllowFlight()) {
+                core.flight().disable(target, null);
+                services.messages().send(sender, "utility.fly-off",
+                        Ctx.of("player", target.getName()));
+                return true;
+            }
+
+            boolean permanent = target.hasPermission("dripleaf.fly.permanent");
+            boolean inTrustedClaim = target.hasPermission("dripleaf.fly.claims")
+                    && services.hooks().claims().trustedHere(target);
+            boolean banked = core.flight().remaining(target) > 0L;
+
+            // Permanent flight and the Rebirth XX claim unlock are free; anyone
+            // else spends purchased flight time.
+            if (!permanent && !inTrustedClaim && !banked) {
                 services.messages().send(sender, "utility.fly-denied");
                 return false;
             }
-            target.setAllowFlight(enabling);
-            target.setFlying(enabling);
-            services.messages().send(sender, enabling ? "utility.fly-on" : "utility.fly-off",
+            if (!core.flight().enable(target)) {
+                return false;
+            }
+            services.messages().send(sender, "utility.fly-on",
                     Ctx.of("player", target.getName()));
             return true;
         }

@@ -78,6 +78,59 @@ public final class CommandRegistry {
         });
     }
 
+    /**
+     * Re-reads {@code commands.yml} and pushes the new timings, permissions and
+     * descriptions into the live command objects.
+     *
+     * <p>Cooldown, warmup and permission changes apply the instant this
+     * returns. Whether a command <em>exists</em> is fixed at start-up — Paper's
+     * command registrar is only valid inside its lifecycle event, and
+     * re-registering outside it is exactly the leak this class exists to avoid
+     * — so a change to {@code enabled} is reported by
+     * {@link #pendingRegistrationChanges()} rather than silently ignored.
+     *
+     * @return how many live commands were retuned
+     */
+    public int reload() {
+        Cfg root = services.configs().view(configResource, "commands");
+        int updated = 0;
+        for (Map.Entry<String, DripleafCommand> entry : registered.entrySet()) {
+            Declaration declaration = declarations.get(entry.getKey());
+            if (declaration == null) {
+                continue;
+            }
+            CommandSpec fresh = CommandSpec.read(root.child(entry.getKey()),
+                    declaration.defaults());
+            if (!fresh.equals(entry.getValue().spec())) {
+                entry.getValue().spec(fresh);
+                updated++;
+            }
+        }
+        return updated;
+    }
+
+    /**
+     * Command ids whose {@code enabled:} in config no longer matches what was
+     * registered at start-up — that is, the ones that need a restart to appear
+     * or disappear.
+     *
+     * <p>Surfaced by the reload output so "I enabled it and nothing happened"
+     * never has to be guessed at.
+     */
+    public List<String> pendingRegistrationChanges() {
+        Cfg root = services.configs().view(configResource, "commands");
+        List<String> pending = new ArrayList<>();
+        for (Map.Entry<String, Declaration> entry : declarations.entrySet()) {
+            CommandSpec fresh = CommandSpec.read(root.child(entry.getKey()),
+                    entry.getValue().defaults());
+            boolean live = registered.containsKey(entry.getKey());
+            if (fresh.enabled() != live) {
+                pending.add(entry.getKey() + (fresh.enabled() ? " (+)" : " (-)"));
+            }
+        }
+        return pending;
+    }
+
     public Map<String, DripleafCommand> registered() {
         return Map.copyOf(registered);
     }

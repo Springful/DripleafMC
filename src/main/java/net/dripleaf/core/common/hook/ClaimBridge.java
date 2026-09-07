@@ -60,6 +60,24 @@ public final class ClaimBridge implements Bridge {
         return present && getClaimAt != null && allowBuild != null;
     }
 
+    /**
+     * True when anyone has claimed {@code location}.
+     *
+     * <p>Random teleport uses this rather than {@link #trustedHere}: dropping a
+     * stranger into the middle of someone's base is unwelcome even when the
+     * claim would technically allow it.
+     */
+    public boolean claimedAt(Location location) {
+        if (!available()) {
+            return false;
+        }
+        try {
+            return getClaimAt.invoke(dataStore, location, true, null) != null;
+        } catch (Throwable ex) {
+            return false;
+        }
+    }
+
     /** True when {@code player} may build where they are standing. */
     public boolean trustedHere(Player player) {
         if (!available()) {

@@ -8,21 +8,24 @@ import net.dripleaf.core.common.command.CommandSpec;
 import net.dripleaf.core.core.admin.AdminScreens;
 import net.dripleaf.core.core.commands.ChatCommands;
 import net.dripleaf.core.core.commands.EconomyCommands;
+import net.dripleaf.core.core.commands.FlightCommand;
 import net.dripleaf.core.core.commands.HomeCommands;
 import net.dripleaf.core.core.commands.KitCommands;
+import net.dripleaf.core.core.commands.MenuCommand;
 import net.dripleaf.core.core.commands.TeleportCommands;
 import net.dripleaf.core.core.commands.UiModeCommand;
 import net.dripleaf.core.core.commands.UtilityCommands;
 import net.dripleaf.core.core.commands.WarpCommands;
 import net.dripleaf.core.core.currency.CoreCurrencies;
+import net.dripleaf.core.core.flight.FlightService;
 import net.dripleaf.core.core.homes.HomeService;
 import net.dripleaf.core.core.kits.KitService;
 import net.dripleaf.core.core.leaderboard.LeaderboardService;
+import net.dripleaf.core.core.shop.QuickBuyService;
 import net.dripleaf.core.core.shop.ShopService;
 import net.dripleaf.core.core.social.SocialService;
 import net.dripleaf.core.core.teleport.TeleportService;
 import net.dripleaf.core.core.warps.WarpService;
-import org.bukkit.event.inventory.InventoryType;
 
 import java.util.List;
 
@@ -41,8 +44,10 @@ public final class CoreModule implements DripleafModule {
 
     private final CoreCurrencies currencies;
     private final ShopService shops;
+    private final QuickBuyService quickBuy;
     private final WarpService warps;
     private final HomeService homes;
+    private final FlightService flight;
     private final KitService kits;
     private final TeleportService teleports;
     private final SocialService social;
@@ -56,8 +61,11 @@ public final class CoreModule implements DripleafModule {
         this.services = services;
         this.currencies = new CoreCurrencies(services);
         this.shops = new ShopService(services);
+        this.quickBuy = new QuickBuyService(services, shops);
+        shops.quickBuy(quickBuy);
         this.warps = new WarpService(services);
         this.homes = new HomeService(services);
+        this.flight = new FlightService(services);
         this.kits = new KitService(services);
         this.teleports = new TeleportService(services);
         this.social = new SocialService(services);
@@ -79,12 +87,15 @@ public final class CoreModule implements DripleafModule {
         var manager = services.plugin().getServer().getPluginManager();
         manager.registerEvents(teleports, services.plugin());
         manager.registerEvents(social, services.plugin());
+        manager.registerEvents(flight, services.plugin());
+        flight.start();
 
         teleports.startExpiry();
         social.startAfkSweep();
         leaderboards.start(services.configs().view("config.yml")
                 .integer("leaderboards.refresh-minutes", 5, 1, 1440));
 
+        registerMenuActions();
         declareCommands();
         commands.registerAll(services.plugin());
         enabled = true;
@@ -105,15 +116,38 @@ public final class CoreModule implements DripleafModule {
 
         var config = services.configs().view("config.yml");
         homes.configure(config.integer("homes.default-limit", 1, 0, 1000));
-        teleports.configure(
-                (long) config.number("teleport.request-timeout-seconds", 60d, 5d, 3600d),
-                config.integer("teleport.rtp-radius", 5000, 100, 10_000_000),
-                config.integer("teleport.rtp-attempts", 24, 1, 200));
+        teleports.configure(services.configs().view("config.yml", "teleport"));
+        flight.configure(config.integer("flight.warn-at-seconds", 60, 0, 3600),
+                config.bool("flight.action-bar", true));
         social.configure((long) config.number("social.afk-after-seconds", 300d, 30d, 86_400d));
+
+        // Timings, permissions and descriptions apply live; whether a command
+        // exists is decided once at start-up.
+        commands.reload();
     }
 
     public boolean enabled() {
         return enabled;
+    }
+
+    /**
+     * Publishes the Java-backed screens under stable names, so {@code menus.yml}
+     * can put any of them on any button without knowing a class exists.
+     */
+    private void registerMenuActions() {
+        var actions = services.actions();
+        actions.register("shop", player -> shops.openRoot(player, "server"));
+        actions.register("shardshop", player -> shops.openRoot(player, "shard"));
+        actions.register("soulshop", player -> shops.openRoot(player, "soul"));
+        actions.register("quickbuy", player -> quickBuy.open(player, "server"));
+        actions.register("quickbuy-shard", player -> quickBuy.open(player, "shard"));
+        actions.register("quickbuy-soul", player -> quickBuy.open(player, "soul"));
+        actions.register("warps", warps::openMenu);
+        actions.register("homes", homes::openPicker);
+        actions.register("kits", kits::openMenu);
+        actions.register("admin", admin::openRoot);
+        actions.register("settings", player -> player.performCommand("uimode"));
+        actions.register("flight", player -> player.performCommand("fly"));
     }
 
     // ------------------------------------------------------------ catalogue
@@ -131,6 +165,13 @@ public final class CoreModule implements DripleafModule {
                         List.of("ui", "menumode"), 0L, 0d,
                         "Switch between dialog and chest-GUI menus"),
                 UiModeCommand::new);
+
+        // The player menu. Ships enabled: it is the front door to everything
+        // else, and its contents are entirely menus.yml's business.
+        commands.declare(new CommandSpec("menu", true, "dripleaf.menu",
+                        List.of("dripleaf", "hub"), 0L, 0d,
+                        "Open the server menu"),
+                (s, spec) -> new MenuCommand(s, spec));
 
         // -- teleportation ------------------------------------------------
         declare("spawn", "dripleaf.spawn", List.of(), 30L, 5d, "Teleport to spawn",
@@ -231,21 +272,24 @@ public final class CoreModule implements DripleafModule {
                 (s, spec) -> new ChatCommands.RealName(s, spec, this));
 
         // -- workstations ---------------------------------------------------
-        declare("enderchest", "dripleaf.enderchest", List.of("ec"), 0L, 0d,
-                "Open your ender chest",
-                (s, spec) -> new UtilityCommands.Workstation(s, spec, null));
+        workstation("enderchest", "dripleaf.enderchest", List.of("ec"),
+                UtilityCommands.Workstation.Station.ENDER_CHEST, "Open your ender chest");
         workstation("workbench", "dripleaf.workbench", List.of("wb", "craft"),
-                InventoryType.CRAFTING, "Open a crafting table");
-        workstation("anvil", "dripleaf.anvil", List.of(), InventoryType.ANVIL, "Open an anvil");
+                UtilityCommands.Workstation.Station.WORKBENCH, "Open a crafting table");
+        workstation("anvil", "dripleaf.anvil", List.of(),
+                UtilityCommands.Workstation.Station.ANVIL, "Open an anvil");
         workstation("grindstone", "dripleaf.grindstone", List.of(),
-                InventoryType.GRINDSTONE, "Open a grindstone");
+                UtilityCommands.Workstation.Station.GRINDSTONE, "Open a grindstone");
         workstation("cartography", "dripleaf.cartography", List.of(),
-                InventoryType.CARTOGRAPHY, "Open a cartography table");
+                UtilityCommands.Workstation.Station.CARTOGRAPHY, "Open a cartography table");
         workstation("stonecutter", "dripleaf.stonecutter", List.of(),
-                InventoryType.STONECUTTER, "Open a stonecutter");
-        workstation("loom", "dripleaf.loom", List.of(), InventoryType.LOOM, "Open a loom");
+                UtilityCommands.Workstation.Station.STONECUTTER, "Open a stonecutter");
+        workstation("loom", "dripleaf.loom", List.of(),
+                UtilityCommands.Workstation.Station.LOOM, "Open a loom");
         workstation("smithing", "dripleaf.smithing", List.of(),
-                InventoryType.SMITHING, "Open a smithing table");
+                UtilityCommands.Workstation.Station.SMITHING, "Open a smithing table");
+        workstation("enchanting", "dripleaf.enchanting", List.of("etable"),
+                UtilityCommands.Workstation.Station.ENCHANTING, "Open an enchanting table");
 
         // -- utility ---------------------------------------------------------
         declare("disposal", "dripleaf.disposal", List.of("trash"), 0L, 0d,
@@ -265,7 +309,10 @@ public final class CoreModule implements DripleafModule {
         declare("god", "dripleaf.god", List.of(), 0L, 0d, "Toggle invulnerability",
                 (s, spec) -> new UtilityCommands.God(s, spec, this));
         declare("fly", "dripleaf.fly", List.of(), 0L, 0d, "Toggle flight",
-                UtilityCommands.Fly::new);
+                (s, spec) -> new UtilityCommands.Fly(s, spec, this));
+        declare("flytime", "dripleaf.flytime", List.of("ft"), 0L, 0d,
+                "Check or manage purchasable flight time",
+                (s, spec) -> new FlightCommand(s, spec, this));
         declare("speed", "dripleaf.speed", List.of(), 0L, 0d, "Set movement speed",
                 UtilityCommands.Speed::new);
         declare("vanish", "dripleaf.vanish", List.of("v"), 0L, 0d, "Toggle vanish",
@@ -297,9 +344,10 @@ public final class CoreModule implements DripleafModule {
     }
 
     private void workstation(String id, String permission, List<String> aliases,
-                             InventoryType type, String description) {
+                             UtilityCommands.Workstation.Station station,
+                             String description) {
         declare(id, permission, aliases, 0L, 0d, description,
-                (s, spec) -> new UtilityCommands.Workstation(s, spec, type));
+                (s, spec) -> new UtilityCommands.Workstation(s, spec, station));
     }
 
     private void declare(String id, String permission, List<String> aliases, long cooldown,
@@ -320,12 +368,20 @@ public final class CoreModule implements DripleafModule {
         return shops;
     }
 
+    public QuickBuyService quickBuy() {
+        return quickBuy;
+    }
+
     public WarpService warps() {
         return warps;
     }
 
     public HomeService homes() {
         return homes;
+    }
+
+    public FlightService flight() {
+        return flight;
     }
 
     public KitService kits() {

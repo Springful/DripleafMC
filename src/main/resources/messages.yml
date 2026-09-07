@@ -66,6 +66,9 @@ ui:
   set-other: "<#55FF55>Set <#dce35b><player></#dce35b>'s menu style to <#dce35b><mode></#dce35b>.</#55FF55>"
   unknown-mode: "<#FF5555><mode> is not a menu style. Try dialog, chest or auto.</#FF5555>"
   override-disabled: "<#FF5555>Menu styles are fixed by the server on this network.</#FF5555>"
+  button-locked: "<#FF5555>Requires <permission></#FF5555>"
+  unknown-action: "<#FF5555>That button has no action set (<action>). Check menus.yml.</#FF5555>"
+  unknown-screen: "<#FF5555>There is no screen called <#DDDDDD><screen></#DDDDDD> in menus.yml.</#FF5555>"
 
 
 # ─────────────────────────────────────────────────────────────────────
@@ -108,6 +111,7 @@ core:
   reload-warnings: "<#FFAA00>⚠ <count> configuration problem(s) were found — see the console or the Diagnostics screen.</#FFAA00>"
   reload-failed: "<#FF5555>Reload failed and the old configuration is still live: <error></#FF5555>"
   menu-closed-by-reload: "<#FFAA00>⚠ Your menu was closed because the configuration reloaded.</#FFAA00>"
+  reload-restart-needed: "<#FFAA00>⚠ <count> command(s) changed enabled state and need a server restart to take effect: <#DDDDDD><commands></#DDDDDD></#FFAA00>"
 
 
 # ─────────────────────────────────────────────────────────────────────
@@ -138,8 +142,8 @@ teleport:
   moved-other: "<#55FF55>Moved <#DDDDDD><player></#DDDDDD> to <#DDDDDD><target></#DDDDDD>.</#55FF55>"
   summoned: "<#55FF55>You have been summoned.</#55FF55>"
   rtp-searching: "<#AAAAAA>Looking for somewhere to put you…</#AAAAAA>"
-  rtp-success: "<#55FF55>Off you go.</#55FF55>"
-  rtp-failed: "<#FF5555>Could not find a safe spot. Try again in a moment.</#FF5555>"
+  rtp-success: "<#55FF55>Off you go. <#555555>(<x>, <y>, <z>)</#555555></#55FF55>"
+  rtp-failed: "<#FF5555>Could not find a safe, unclaimed spot in already-explored land. Try again in a moment.</#FF5555>"
 
 
 # ─────────────────────────────────────────────────────────────────────
@@ -233,7 +237,8 @@ shop:
   sell-button: "<#00CFFF>Sell <amount></#00CFFF> <#555555>┃</#555555> <#DDDDDD><price></#DDDDDD>"
   nothing-to-sell: "<#FF5555>You have none of those to sell.</#FF5555>"
   quick-buy: "Quick Buy"
-  quick-buy-hint: "<#555555>➥ <#AAAAAA>Search the whole shop by name.</#AAAAAA>"
+  quick-buy-hint: "<#555555>➥ <#AAAAAA>Your own saved shortcuts. Set once, buy in one click.</#AAAAAA>"
+  quick-buy-count: "<#555555>➥ <#333333><used>/<slots> shortcuts set</#333333>"
   search: "Search"
   search-hint: "<#AAAAAA>Type part of an item name.</#AAAAAA>"
   search-label: "Item name"
@@ -254,6 +259,39 @@ shop:
   transaction-failed: "<#FF5555>The transaction could not be completed.</#FF5555>"
   bought: "<#55FF55>Bought <#DDDDDD><amount>× <item></#DDDDDD> for <#dce35b><price></#dce35b>. <#555555>Balance: <balance></#555555></#55FF55>"
   sold: "<#55FF55>Sold <#DDDDDD><amount>× <item></#DDDDDD> for <#dce35b><price></#dce35b>. <#555555>Balance: <balance></#555555></#55FF55>"
+
+
+# ─────────────────────────────────────────────────────────────────────
+#   QUICK BUY
+# ─────────────────────────────────────────────────────────────────────
+quickbuy:
+  filter-label: "Filter by name"
+  filter-hint: "diamond"
+  filter-apply: "<#55FF55>Filter</#55FF55>"
+  amount-label: "Quantity"
+  amount-hint: "1 - 2304"
+  amount-save: "<#55FF55>Save shortcut</#55FF55>"
+  amount-range: "<#FF5555>Pick a quantity between 1 and 2304.</#FF5555>"
+  saved: "<#55FF55>Shortcut <#dce35b><slot></#dce35b> set to <#DDDDDD><amount>× <item></#DDDDDD>.</#55FF55>"
+  removed: "<#AAAAAA>Shortcut <#DDDDDD><slot></#DDDDDD> removed.</#AAAAAA>"
+  item-gone: "<#FF5555>That item is no longer sold here. Clear the shortcut and pick another.</#FF5555>"
+
+
+# ─────────────────────────────────────────────────────────────────────
+#   FLIGHT TIME
+# ─────────────────────────────────────────────────────────────────────
+flight:
+  balance: "<#DDDDDD><player> has <time> <#AAAAAA>of flight left.</#AAAAAA></#DDDDDD>"
+  unlimited: "unlimited flight"
+  empty: "no flight time"
+  none: "<#FF5555>You have no flight time. Buy some in the shard shop.</#FF5555>"
+  enabled: "<#55FF55>Flight on. <#AAAAAA>You have <#DDDDDD><time></#DDDDDD> banked — it only counts down while you are actually flying.</#AAAAAA></#55FF55>"
+  expired: "<#FF5555>Your flight time has run out.</#FF5555>"
+  running-out: "<#FFAA00>⚠ <#DDDDDD><time></#DDDDDD> of flight left.</#FFAA00>"
+  granted: "<#55FF55>+<#DDDDDD><time></#DDDDDD> flight time. <#555555>(<total> total)</#555555></#55FF55>"
+  action-bar: "<#555555>Flight</#555555> <gradient:#dce35b:#45b649><time></gradient>"
+  bad-duration: "<#FF5555><input> is not a duration. Try 30s, 10m, 2h or 1d.</#FF5555>"
+  admin-applied: "<#55FF55>Flight time <action> for <#dce35b><player></#dce35b>: <#AAAAAA><before></#AAAAAA> → <#DDDDDD><after></#DDDDDD></#55FF55>"
 
 
 # ─────────────────────────────────────────────────────────────────────

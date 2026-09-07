@@ -121,13 +121,58 @@ homes:
 
 teleport:
   request-timeout-seconds: 60
+
+  # ── Random teleport ───────────────────────────────────────────────
+  # /rtp samples the ring between rtp-min-radius and rtp-radius, so it
+  # never drops someone back on top of spawn.
   rtp-radius: 5000
-  # How many candidate columns /rtp tries before giving up.
+  rtp-min-radius: 200
+
+  # How many candidate spots to try before giving up.
   rtp-attempts: 24
+
+  # ONLY land in chunks that already exist. Leave this on: generating
+  # fresh terrain on a player's command is the single most expensive
+  # thing an RTP can do, and it grows the world folder forever.
+  # (This is not configurable off — it is enforced — but the attempt
+  # budget above decides how hard the search tries.)
+
+  # Refuse a landing spot that is underwater.
+  rtp-allow-water: false
+
+  # Refuse spots inside a GriefPrevention claim, or where WorldGuard
+  # would not let this player build. Both are no-ops when the plugin
+  # in question is absent.
+  rtp-respect-claims: true
+  rtp-respect-worldguard: true
+
+  # Chunks around the destination to load and hold before teleporting,
+  # so the player arrives in a world that is already there. 1 = a 3x3.
+  rtp-preload-radius: 1
+  # How long to hold them afterwards, so the ground does not unload
+  # from under the player while their client catches up.
+  rtp-ticket-seconds: 10
 
 
 social:
   afk-after-seconds: 300
+
+
+# ─────────────────────────────────────────────────────────────────────
+#   FLIGHT TIME
+#   Purchasable flight, measured in seconds and spent ONLY while the
+#   player is actually airborne — standing still costs nothing.
+#
+#   Granted from the shard shop, from rebirth rewards, or by staff:
+#       flytime give <player> 1h
+#
+#   Players with dripleaf.fly.permanent are never charged.
+# ─────────────────────────────────────────────────────────────────────
+flight:
+  # Warn once when this many seconds remain. 0 disables the warning.
+  warn-at-seconds: 60
+  # Show a live countdown on the action bar while flying.
+  action-bar: true
 
 
 warmup:

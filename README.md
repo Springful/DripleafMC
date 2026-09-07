@@ -7,7 +7,7 @@
 Core server utilities and the Rebirth progression system for **DripleafMC**,
 merged into a single Paper plugin.
 
-`Paper 26.2` · `Java 25` · `v1.4.1`
+`Paper 26.2` · `Java 25` · `v1.5.0`
 
 </div>
 
@@ -187,7 +187,7 @@ Adding tier 26 is a YAML block and a reload.
 mvn clean package
 ```
 
-Output: `target/DripleafCore-1.4.1.jar`. Requires **JDK 25**; the `paper.version`
+Output: `target/DripleafCore-1.5.0.jar`. Requires **JDK 25**; the `paper.version`
 property in `pom.xml` should track the Paper build the server actually runs.
 
 GitHub Actions builds every push and uploads the jar as an artifact.

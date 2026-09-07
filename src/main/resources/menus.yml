@@ -1,0 +1,380 @@
+# ═════════════════════════════════════════════════════════════════════
+#   DripleafCore — menus.yml
+#
+#   The appearance of every screen and every button, in one file.
+#   Nothing here is behaviour; nothing in the code is appearance.
+#
+#   Retitle a screen, relabel a button, change an icon, move a chest
+#   slot, reorder a grid, add lore, or hide an entry entirely — for any
+#   menu the plugin has — without a rebuild.
+#
+#       /dripleafcore reload menus
+#
+#   ─────────────────────────────────────────────────────────────────
+#   A SCREEN
+#
+#     screens:
+#       <id>:
+#         title: "<MiniMessage>"
+#         body:  [ "<MiniMessage>", ... ]      # description lines
+#         closeable: true
+#         dialog:                              # ignored by chest GUIs
+#           columns: 2                         # 1-4 button columns
+#           button-width: 220
+#         chest:                               # ignored by dialogs
+#           type: CHEST                        # CHEST | HOPPER
+#           rows: 5                            # 0 = size to content
+#           decorated: true                    # filler behind empty slots
+#           filler: GRAY_STAINED_GLASS_PANE
+#           header-slot: 4                     # -1 for no header item
+#         buttons:
+#           <id>: { ... }
+#
+#   A BUTTON
+#
+#     <id>:
+#       label: "<MiniMessage>"
+#       lore: [ "<MiniMessage>", ... ]
+#       icon: MATERIAL                  # chest icon
+#       style: PRIMARY                  # PRIMARY SOUL SHARD DANGER NEUTRAL LOCKED
+#       slot: 10                        # chest slot; -1 auto-arranges
+#       amount: 1                       # stack size shown
+#       glint: false
+#       hidden: false                   # true removes it entirely
+#       permission: ""                  # blank = everyone
+#       locked-label: "<MiniMessage>"   # optional, used when unavailable
+#       action: "command:home"          # see below
+#
+#   ACTIONS  (only on config-driven screens, e.g. main-menu)
+#
+#     command:<cmd>     run as the player
+#     console:<cmd>     run on the console; <player> is substituted
+#     screen:<id>       open another screen in this file
+#     message:<key>     send a messages.yml key
+#     close             close the menu
+#     none              decorative
+#     <name>            a built-in screen — one of:
+#                         shop  shardshop  soulshop
+#                         quickbuy  quickbuy-shard  quickbuy-soul
+#                         warps  homes  kits  settings  flight  admin
+#
+#   Placeholders available in labels and lore are listed per screen.
+# ═════════════════════════════════════════════════════════════════════
+
+screens:
+
+  # ───────────────────────────────────────────────────────────────────
+  #   THE PLAYER MENU  —  /menu
+  #
+  #   Entirely yours. Add, remove or reorder these freely; nothing in
+  #   the code knows which buttons are here. Point a button at a menu
+  #   of your own with  action: "screen:my-menu"  and define that
+  #   screen further down this file.
+  #
+  #   Placeholders: <player>
+  # ───────────────────────────────────────────────────────────────────
+  main-menu:
+    title: "<gradient:#dce35b:#45b649><bold>Dripleaf</bold></gradient>"
+    body:
+      - "<#AAAAAA>Everything, in one place.</#AAAAAA>"
+      - ""
+    closeable: true
+    dialog:
+      columns: 2
+      button-width: 190
+    chest:
+      type: CHEST
+      rows: 5
+      decorated: true
+      filler: BLACK_STAINED_GLASS_PANE
+      header-slot: 4
+    buttons:
+
+      homes:
+        label: "<gradient:#dce35b:#45b649>Homes</gradient>"
+        lore: [ "<#555555>➥ <#AAAAAA>Your saved locations.</#AAAAAA>" ]
+        icon: RED_BED
+        style: PRIMARY
+        slot: 10
+        action: "homes"
+
+      rtp:
+        label: "<gradient:#dce35b:#45b649>Random Teleport</gradient>"
+        lore: [ "<#555555>➥ <#AAAAAA>Somewhere new, somewhere safe.</#AAAAAA>" ]
+        icon: ENDER_PEARL
+        style: PRIMARY
+        slot: 11
+        action: "command:rtp"
+
+      warps:
+        label: "<gradient:#dce35b:#45b649>Warps</gradient>"
+        lore: [ "<#555555>➥ <#AAAAAA>Server destinations.</#AAAAAA>" ]
+        icon: LODESTONE
+        style: PRIMARY
+        slot: 12
+        action: "warps"
+
+      kits:
+        label: "<gradient:#dce35b:#45b649>Kits</gradient>"
+        lore: [ "<#555555>➥ <#AAAAAA>Claim your gear.</#AAAAAA>" ]
+        icon: CHEST
+        style: PRIMARY
+        slot: 13
+        action: "kits"
+
+      spawn:
+        label: "<gradient:#dce35b:#45b649>Spawn</gradient>"
+        lore: [ "<#555555>➥ <#AAAAAA>Back to the middle of it all.</#AAAAAA>" ]
+        icon: BEACON
+        style: PRIMARY
+        slot: 14
+        action: "command:spawn"
+
+      shop:
+        label: "<gradient:#dce35b:#45b649>Server Shop</gradient>"
+        lore: [ "<#555555>➥ <#AAAAAA>Buy and sell for money.</#AAAAAA>" ]
+        icon: EMERALD
+        style: PRIMARY
+        slot: 15
+        action: "shop"
+
+      quickbuy:
+        label: "<gradient:#dce35b:#45b649>Quick Buy</gradient>"
+        lore:
+          - "<#555555>➥ <#AAAAAA>Your own saved shortcuts.</#AAAAAA>"
+          - "<#555555>➥ <#333333>Set once, buy in one click.</#333333>"
+        icon: HOPPER
+        style: PRIMARY
+        slot: 16
+        action: "quickbuy"
+
+      shardshop:
+        label: "<gradient:#00CFFF:#7FE9FF>Shard Shop</gradient>"
+        lore: [ "<#555555>➥ <#AAAAAA>Spend shards on convenience.</#AAAAAA>" ]
+        icon: DIAMOND
+        style: SHARD
+        slot: 19
+        action: "shardshop"
+
+      soulshop:
+        label: "<gradient:#AA00FF:#FF55FF>✦ Soul Shop</gradient>"
+        lore: [ "<#555555>➥ <#AAAAAA>Ascension rewards only.</#AAAAAA>" ]
+        icon: NETHER_STAR
+        style: SOUL
+        slot: 20
+        action: "soulshop"
+
+      rebirth:
+        label: "<gradient:#AA00FF:#FF55FF>✦ Rebirth</gradient>"
+        lore: [ "<#555555>➥ <#AAAAAA>Start again, stronger.</#AAAAAA>" ]
+        icon: END_CRYSTAL
+        style: SOUL
+        slot: 21
+        action: "command:rebirth"
+
+      flight:
+        label: "<gradient:#dce35b:#45b649>Flight</gradient>"
+        lore:
+          - "<#555555>➥ <#AAAAAA>Toggle your purchased flight time.</#AAAAAA>"
+          - "<#555555>➥ <#333333>Only spent while airborne.</#333333>"
+        icon: FEATHER
+        style: PRIMARY
+        slot: 22
+        action: "flight"
+
+      pay:
+        label: "<gradient:#dce35b:#45b649>Pay</gradient>"
+        lore: [ "<#555555>➥ <#AAAAAA>Send money to another player.</#AAAAAA>" ]
+        icon: GOLD_INGOT
+        style: PRIMARY
+        slot: 23
+        action: "command:pay"
+
+      leaderboards:
+        label: "<gradient:#dce35b:#45b649>Leaderboards</gradient>"
+        lore: [ "<#555555>➥ <#AAAAAA>Who is winning.</#AAAAAA>" ]
+        icon: GOLDEN_HELMET
+        style: PRIMARY
+        slot: 24
+        action: "command:baltop"
+
+      settings:
+        label: "<gradient:#dce35b:#45b649>Settings</gradient>"
+        lore:
+          - "<#555555>➥ <#AAAAAA>Switch between pop-up and chest menus.</#AAAAAA>"
+        icon: COMPARATOR
+        style: NEUTRAL
+        slot: 25
+        action: "settings"
+
+
+  # ───────────────────────────────────────────────────────────────────
+  #   QUICK BUY  —  a player's saved shortcuts into a shop
+  #
+  #   Placeholders: <shop> <used> <slots> <balance>
+  # ───────────────────────────────────────────────────────────────────
+  quick-buy:
+    title: "<gradient:#dce35b:#45b649>Quick Buy</gradient>"
+    body:
+      - "<#555555>➥ <#AAAAAA>Balance: <gradient:#dce35b:#45b649><balance></gradient></#AAAAAA>"
+      - "<#555555>➥ <#AAAAAA><used> of <slots> shortcuts set.</#AAAAAA>"
+      - ""
+      - "<#333333>Empty slots let you pick an item and a quantity.</#333333>"
+      - "<#333333>Saved slots stay until you remove them.</#333333>"
+      - ""
+    dialog:
+      columns: 2
+      button-width: 190
+    chest:
+      type: CHEST
+      rows: 5
+      decorated: true
+      filler: BLACK_STAINED_GLASS_PANE
+      header-slot: 4
+    buttons:
+
+      # Placeholders: <slot>
+      slot-empty:
+        label: "<#555555>Empty slot <slot></#555555>"
+        lore:
+          - "<#555555>➥ <#AAAAAA>Click to choose an item.</#AAAAAA>"
+        icon: LIGHT_GRAY_STAINED_GLASS_PANE
+        style: NEUTRAL
+
+      # Placeholders: <slot> <item> <amount> <price> <unit>
+      slot-filled:
+        label: "<gradient:#dce35b:#45b649><amount>× <item></gradient>"
+        lore:
+          - "<#555555>➥ <#AAAAAA>Each: <#DDDDDD><unit></#DDDDDD></#AAAAAA>"
+          - "<#555555>➥ <#AAAAAA>Total: <gradient:#dce35b:#45b649><price></gradient></#AAAAAA>"
+          - ""
+          - "<#55FF55>↪ Click to buy</#55FF55>"
+        icon: CHEST
+        style: PRIMARY
+
+      slot-manage:
+        label: "<#FFAA00><amount>× <item></#FFAA00>"
+        lore:
+          - "<#555555>➥ <#AAAAAA>Total: <#DDDDDD><price></#DDDDDD></#AAAAAA>"
+          - ""
+          - "<#FFAA00>↪ Click to change or remove</#FFAA00>"
+        icon: CHEST
+        style: NEUTRAL
+
+      # Shown when a saved item no longer exists in the shop config.
+      slot-broken:
+        label: "<#FF5555>Unavailable: <item></#FF5555>"
+        lore:
+          - "<#555555>➥ <#AAAAAA>This item is no longer sold here.</#AAAAAA>"
+          - "<#FF5555>↪ Click to clear the slot</#FF5555>"
+        icon: BARRIER
+        style: LOCKED
+
+      manage-off:
+        label: "<#AAAAAA>Manage shortcuts</#AAAAAA>"
+        lore: [ "<#555555>➥ <#AAAAAA>Change or remove saved slots.</#AAAAAA>" ]
+        icon: COMPARATOR
+        style: NEUTRAL
+        slot: 40
+
+      manage-on:
+        label: "<#55FF55>Done managing</#55FF55>"
+        lore: [ "<#555555>➥ <#AAAAAA>Back to buying.</#AAAAAA>" ]
+        icon: LIME_DYE
+        style: PRIMARY
+        slot: 40
+
+      back:
+        label: "<#AAAAAA>← Back to the shop</#AAAAAA>"
+        icon: ARROW
+        style: NEUTRAL
+        slot: 38
+
+  # Placeholders: <slot> <count> <filter>   |   item button: <item> <unit>
+  quick-buy-picker:
+    title: "<gradient:#dce35b:#45b649>Choose an item</gradient>"
+    body:
+      - "<#AAAAAA>Everything this shop sells — <#DDDDDD><count></#DDDDDD> items.</#AAAAAA>"
+      - "<#333333>Picking one asks for a quantity next.</#333333>"
+      - ""
+    dialog:
+      columns: 2
+      button-width: 190
+    chest:
+      type: CHEST
+      rows: 6
+      decorated: true
+      filler: BLACK_STAINED_GLASS_PANE
+      header-slot: 4
+    buttons:
+      item:
+        label: "<gradient:#dce35b:#45b649><item></gradient>"
+        lore: [ "<#555555>➥ <#AAAAAA>Each: <#DDDDDD><unit></#DDDDDD></#AAAAAA>" ]
+        icon: PAPER
+        style: PRIMARY
+      back:
+        label: "<#AAAAAA>← Back</#AAAAAA>"
+        icon: ARROW
+        style: NEUTRAL
+
+  # Placeholders: <slot> <item> <unit>   |   preset button: <amount> <price>
+  quick-buy-amount:
+    title: "<gradient:#dce35b:#45b649>How many?</gradient>"
+    body:
+      - "<#AAAAAA>Shortcut for <#DDDDDD><item></#DDDDDD>.</#AAAAAA>"
+      - "<#555555>➥ <#AAAAAA>Each: <#DDDDDD><unit></#DDDDDD></#AAAAAA>"
+      - ""
+      - "<#333333>Pick a preset, or type any amount.</#333333>"
+      - ""
+    dialog:
+      columns: 3
+      button-width: 120
+    chest:
+      type: CHEST
+      rows: 4
+      decorated: true
+      filler: BLACK_STAINED_GLASS_PANE
+      header-slot: 4
+    buttons:
+      preset:
+        label: "<gradient:#dce35b:#45b649><amount></gradient>"
+        lore: [ "<#555555>➥ <#AAAAAA>Total: <#DDDDDD><price></#DDDDDD></#AAAAAA>" ]
+        icon: PAPER
+        style: PRIMARY
+      back:
+        label: "<#AAAAAA>← Back</#AAAAAA>"
+        icon: ARROW
+        style: NEUTRAL
+
+  # Placeholders: <slot> <item> <amount>
+  quick-buy-slot:
+    title: "<#FFAA00>Shortcut <slot></#FFAA00>"
+    body:
+      - "<#AAAAAA>Currently <#DDDDDD><amount>× <item></#DDDDDD>.</#AAAAAA>"
+      - ""
+    dialog:
+      columns: 1
+      button-width: 220
+    chest:
+      type: CHEST
+      rows: 3
+      decorated: true
+      filler: BLACK_STAINED_GLASS_PANE
+      header-slot: 4
+    buttons:
+      change:
+        label: "<gradient:#dce35b:#45b649>Change item</gradient>"
+        icon: WRITABLE_BOOK
+        style: PRIMARY
+        slot: 11
+      remove:
+        label: "<#FF3333>Remove shortcut</#FF3333>"
+        lore: [ "<#555555>➥ <#AAAAAA>Frees the slot.</#AAAAAA>" ]
+        icon: REDSTONE
+        style: DANGER
+        slot: 13
+      back:
+        label: "<#AAAAAA>← Back</#AAAAAA>"
+        icon: ARROW
+        style: NEUTRAL
+        slot: 15

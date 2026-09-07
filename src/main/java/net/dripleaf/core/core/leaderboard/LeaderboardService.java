@@ -8,7 +8,11 @@ import org.bukkit.OfflinePlayer;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -43,7 +47,9 @@ public final class LeaderboardService {
 
     public void start(int minutes) {
         long period = Math.max(1, minutes) * 60L;
-        services.schedulers().repeatAsync(this::refresh, 30L, period, TimeUnit.SECONDS);
+        // Five seconds, not thirty: /baltop returning "nothing yet" for half a
+        // minute after a restart reads as broken.
+        services.schedulers().repeatAsync(this::refresh, 5L, period, TimeUnit.SECONDS);
     }
 
     /** Forced refresh, from the admin screen. Runs off-thread like the timer does. */
@@ -52,28 +58,46 @@ public final class LeaderboardService {
     }
 
     private void refresh() {
-        List<UUID> ids = services.players().allStoredIds();
+        // Online players first. Someone who joined this session may not have
+        // been flushed to disk yet, so a directory listing alone misses them
+        // entirely — which is why the board read as empty on a fresh server
+        // with players connected.
+        Map<UUID, PlayerData> online = services.players().snapshot();
+
+        Set<UUID> ids = new LinkedHashSet<>(online.keySet());
+        ids.addAll(services.players().allStoredIds());
+
         List<Entry> money = new ArrayList<>(ids.size());
         List<Entry> tiers = new ArrayList<>(ids.size());
+        // Precomputed so the tie-break below is a map lookup rather than a disk
+        // read per comparison.
+        Map<UUID, Long> reachedAt = new HashMap<>(ids.size());
 
         for (UUID uuid : ids) {
-            PlayerData data = services.players().loadOffline(uuid);
-            String name = data.lastKnownName().isBlank() ? uuid.toString() : data.lastKnownName();
+            PlayerData data = online.get(uuid);
+            if (data == null) {
+                data = services.players().loadOffline(uuid);
+            }
+            String name = data.lastKnownName();
+            if (name.isBlank()) {
+                OfflinePlayer offline = Bukkit.getOfflinePlayer(uuid);
+                name = offline.getName() == null ? uuid.toString() : offline.getName();
+            }
 
             if (services.hooks().vault().available()) {
-                OfflinePlayer offline = Bukkit.getOfflinePlayer(uuid);
-                money.add(new Entry(uuid, name, services.hooks().vault().balance(offline)));
+                money.add(new Entry(uuid, name,
+                        services.hooks().vault().balance(Bukkit.getOfflinePlayer(uuid))));
             }
             if (data.rebirthTier() > 0) {
                 tiers.add(new Entry(uuid, name, BigDecimal.valueOf(data.rebirthTier())));
             }
+            reachedAt.put(uuid, data.rebirthLast());
         }
 
         money.sort(Comparator.comparing(Entry::value).reversed());
         // Ties on tier fall back to who reached it first.
         tiers.sort(Comparator.comparing(Entry::value).reversed()
-                .thenComparing(entry -> services.players().loadOffline(entry.uuid())
-                        .rebirthLast()));
+                .thenComparing(entry -> reachedAt.getOrDefault(entry.uuid(), Long.MAX_VALUE)));
 
         this.balances = List.copyOf(money);
         this.rebirths = List.copyOf(tiers);

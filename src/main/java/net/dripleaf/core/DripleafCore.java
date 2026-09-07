@@ -18,6 +18,8 @@ import net.dripleaf.core.common.ui.ChatPrompt;
 import net.dripleaf.core.common.ui.ChestListener;
 import net.dripleaf.core.common.ui.ChestRenderer;
 import net.dripleaf.core.common.ui.DialogRenderer;
+import net.dripleaf.core.common.ui.MenuActions;
+import net.dripleaf.core.common.ui.MenuConfig;
 import net.dripleaf.core.common.ui.UiService;
 import net.dripleaf.core.core.CoreModule;
 import net.dripleaf.core.core.commands.CoreCommand;
@@ -86,8 +88,13 @@ public final class DripleafCore extends JavaPlugin {
         UiService ui = new UiService(players, new net.dripleaf.core.common.ui.BedrockService(
                 hooks.floodgate(), hooks.papi()), new DialogRenderer(messages), chests);
 
+        MenuConfig menus = new MenuConfig(configs);
+        menus.load();
+
         this.services = new Services(this, schedulers, configs, messages, players, hooks,
-                sounds, icons, amounts, audit, cooldowns, warmups, prompts, ui);
+                sounds, icons, amounts, audit, cooldowns, warmups, prompts, ui, menus);
+
+        services.actions(new MenuActions(services));
 
         applySharedConfig();
 
@@ -163,7 +170,13 @@ public final class DripleafCore extends JavaPlugin {
         switch (scope) {
             case "messages" -> {
                 services.messages().load(services.configs().reload("messages.yml"));
+                services.menus().load();
                 changed.add("messages");
+                changed.add(services.menus().size() + " screens");
+            }
+            case "menus" -> {
+                services.menus().load();
+                changed.add(services.menus().size() + " screens");
             }
             case "shops" -> {
                 core.shops().load();
@@ -181,10 +194,12 @@ public final class DripleafCore extends JavaPlugin {
                 reloadConfig();
                 services.configs().reload("config.yml");
                 services.messages().load(services.configs().reload("messages.yml"));
+                services.menus().load();
                 applySharedConfig();
                 core.reload();
                 rebirth.reload();
                 changed.add("messages");
+                changed.add(services.menus().size() + " screens");
                 changed.add(core.warps().count() + " warps");
                 changed.add(core.kits().count() + " kits");
                 changed.add(core.shops().shops().size() + " shops");
@@ -244,7 +259,7 @@ public final class DripleafCore extends JavaPlugin {
     private void saveDefaults(ConfigManager configs) {
         saveDefaultConfig();
         for (String resource : List.of(
-                "config.yml", "messages.yml",
+                "config.yml", "messages.yml", "menus.yml",
                 "core/commands.yml", "core/warps.yml", "core/kits.yml", "core/icons.yml",
                 "core/shops/server-shop.yml", "core/shops/shard-shop.yml",
                 "core/shops/soul-shop.yml",

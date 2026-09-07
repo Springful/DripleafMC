@@ -47,6 +47,8 @@ public final class ShopDefinition {
     private boolean showBalance = true;
     private boolean searchEnabled = true;
     private boolean quickBuyEnabled = true;
+    private int quickBuySlots = 14;
+    private boolean quickBuyConfirm = true;
     private double globalSellMultiplier = 1d;
     private String permission = "";
 
@@ -71,6 +73,8 @@ public final class ShopDefinition {
         this.showBalance = settings.bool("show-balance", true);
         this.searchEnabled = settings.bool("search-enabled", true);
         this.quickBuyEnabled = settings.bool("quick-buy-enabled", true);
+        this.quickBuySlots = settings.integer("quick-buy-slots", 14, 1, 45);
+        this.quickBuyConfirm = settings.bool("quick-buy-confirm", true);
         this.globalSellMultiplier = settings.number("global-sell-multiplier", 1d, 0d, 1000d);
         this.permission = settings.string("permission", "");
 
@@ -197,6 +201,19 @@ public final class ShopDefinition {
 
     public boolean quickBuyEnabled() {
         return quickBuyEnabled;
+    }
+
+    /** How many shortcut slots each player gets in this shop. */
+    public int quickBuySlots() {
+        return quickBuySlots;
+    }
+
+    /**
+     * Whether a quick buy still shows a confirmation. On by default: spending
+     * money on one click is exactly the kind of thing players report as a bug.
+     */
+    public boolean quickBuyConfirm() {
+        return quickBuyConfirm;
     }
 
     public double globalSellMultiplier() {

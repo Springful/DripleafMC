@@ -4,8 +4,6 @@ import net.dripleaf.core.common.Services;
 import net.dripleaf.core.common.sound.SoundService;
 import net.dripleaf.core.common.text.Ctx;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,7 +13,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Teleport requests, {@code /back} history and random teleport.
@@ -34,18 +31,18 @@ public final class TeleportService implements Listener {
     private final Services services;
     /** Keyed by the player who must answer. */
     private final Map<UUID, Request> incoming = new ConcurrentHashMap<>();
+    private final RandomTeleport randomTeleport;
     private long timeoutSeconds = 60L;
-    private int rtpRadius = 5000;
-    private int rtpAttempts = 24;
 
     public TeleportService(Services services) {
         this.services = services;
+        this.randomTeleport = new RandomTeleport(services);
     }
 
-    public void configure(long timeoutSeconds, int rtpRadius, int rtpAttempts) {
-        this.timeoutSeconds = Math.max(5L, timeoutSeconds);
-        this.rtpRadius = Math.max(100, rtpRadius);
-        this.rtpAttempts = Math.max(1, rtpAttempts);
+    public void configure(net.dripleaf.core.common.config.Cfg teleport) {
+        this.timeoutSeconds = (long) teleport.number(
+                "request-timeout-seconds", 60d, 5d, 3600d);
+        randomTeleport.configure(teleport);
     }
 
     /** One sweep for every pending request, every five seconds. */
@@ -153,44 +150,19 @@ public final class TeleportService implements Listener {
     }
 
     /**
-     * Random teleport. Candidate columns are picked at random and checked with
-     * {@code getHighestBlockYAt}, which is chunk-loading, so the search runs
-     * through Paper's async chunk API rather than blocking the main thread.
+     * Random teleport.
+     *
+     * <p>Delegated to {@link RandomTeleport}, which only lands players in
+     * already-generated chunks, checks the spot is actually survivable, keeps
+     * out of GriefPrevention claims and WorldGuard regions, and preloads the
+     * destination before the player arrives.
      */
     public void randomTeleport(Player player, java.util.function.Consumer<Boolean> whenDone) {
-        World world = player.getWorld();
-        attemptRtp(player, world, 0, whenDone);
+        randomTeleport.teleport(player, whenDone);
     }
 
-    private void attemptRtp(Player player, World world, int attempt,
-                            java.util.function.Consumer<Boolean> whenDone) {
-        if (attempt >= rtpAttempts) {
-            whenDone.accept(false);
-            return;
-        }
-        ThreadLocalRandom random = ThreadLocalRandom.current();
-        int x = random.nextInt(-rtpRadius, rtpRadius + 1);
-        int z = random.nextInt(-rtpRadius, rtpRadius + 1);
-
-        world.getChunkAtAsync(x >> 4, z >> 4).thenAccept(chunk -> {
-            int y = world.getHighestBlockYAt(x, z);
-            Location candidate = new Location(world, x + 0.5, y + 1, z + 0.5);
-            Material ground = world.getBlockAt(x, y, z).getType();
-            if (!safe(ground)) {
-                attemptRtp(player, world, attempt + 1, whenDone);
-                return;
-            }
-            move(player, candidate, "teleport.rtp-success");
-            whenDone.accept(true);
-        });
-    }
-
-    private static boolean safe(Material ground) {
-        return ground.isSolid()
-                && ground != Material.LAVA
-                && ground != Material.MAGMA_BLOCK
-                && ground != Material.CACTUS
-                && ground != Material.POWDER_SNOW;
+    public RandomTeleport random() {
+        return randomTeleport;
     }
 
     // ---------------------------------------------------------------- events

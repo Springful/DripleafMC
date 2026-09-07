@@ -35,6 +35,16 @@ commands:
     warmup: 0
     description: "Switch between dialog and chest-GUI menus"
 
+  # The player menu. Ships ENABLED: it is the front door to everything
+  # else, and its entire contents are menus.yml's business.
+  menu:
+    enabled: true
+    permission: dripleaf.menu
+    aliases: [ dripleaf, hub ]
+    cooldown: 0
+    warmup: 0
+    description: "Open the server menu"
+
   # ── Teleportation ─────────────────────────────────────────────────
   spawn:
     enabled: false
@@ -377,6 +387,13 @@ commands:
     cooldown: 0
     warmup: 0
     description: "Open a smithing table"
+  enchanting:
+    enabled: false
+    permission: dripleaf.enchanting
+    aliases: [ etable ]
+    cooldown: 0
+    warmup: 0
+    description: "Open an enchanting table"
 
   # ── Utility ───────────────────────────────────────────────────────
   disposal:
@@ -442,6 +459,15 @@ commands:
     cooldown: 0
     warmup: 0
     description: "Toggle flight"
+  # Ships ENABLED so purchased flight time is always checkable, even
+  # before you turn /fly on.
+  flytime:
+    enabled: true
+    permission: dripleaf.flytime
+    aliases: [ ft ]
+    cooldown: 0
+    warmup: 0
+    description: "Check or manage purchasable flight time"
   speed:
     enabled: false
     permission: dripleaf.speed

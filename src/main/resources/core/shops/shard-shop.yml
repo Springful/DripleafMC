@@ -33,6 +33,31 @@ categories:
 
 items:
 
+  flight_1h:
+    material: FEATHER
+    display: "<#00CFFF>1 Hour of Flight</#00CFFF>"
+    category: convenience
+    buy: 15
+    sell: -1
+    stack-sizes: [ 1 ]
+    lore:
+      - "Only counts down while you are actually flying."
+      - "Stacks with any time you already have."
+    commands:
+      - "flytime give <player> 1h"
+
+  flight_6h:
+    material: ELYTRA
+    display: "<#00CFFF>6 Hours of Flight</#00CFFF>"
+    category: convenience
+    buy: 75
+    sell: -1
+    stack-sizes: [ 1 ]
+    lore:
+      - "The same thing, six times over, slightly cheaper."
+    commands:
+      - "flytime give <player> 6h"
+
   extra_home:
     material: RED_BED
     display: "<#00CFFF>+1 Home Slot</#00CFFF>"

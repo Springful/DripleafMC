@@ -50,6 +50,12 @@ public final class PlayerData {
     private String nickname = "";
     private final Set<UUID> ignored = new LinkedHashSet<>();
 
+    /** {@code "<shop>/<slot>"} to {@code "<itemKey>:<amount>"}. See QuickBuyService. */
+    private final Map<String, String> quickBuys = new LinkedHashMap<>();
+
+    /** Remaining flight seconds. Ticks down only while actually flying. */
+    private long flightSeconds;
+
     public PlayerData(UUID uuid) {
         this.uuid = uuid;
     }
@@ -278,5 +284,43 @@ public final class PlayerData {
     /** Players this one has muted with {@code /ignore}. Persisted deliberately. */
     public Set<UUID> ignored() {
         return ignored;
+    }
+
+    // -------------------------------------------------------- quick buy
+
+    /**
+     * Saved quick-buy slots, keyed {@code "<shop>/<slot>"}. Persisted, because
+     * a quick buy the player set is theirs until they remove it.
+     */
+    public Map<String, String> quickBuys() {
+        return quickBuys;
+    }
+
+    public void quickBuy(String key, String value) {
+        if (value == null) {
+            quickBuys.remove(key);
+        } else {
+            quickBuys.put(key, value);
+        }
+        markDirty();
+    }
+
+    // --------------------------------------------------------- flight
+
+    /** Remaining purchasable flight, in seconds. */
+    public long flightSeconds() {
+        return flightSeconds;
+    }
+
+    public void flightSeconds(long value) {
+        this.flightSeconds = Math.max(0L, value);
+        markDirty();
+    }
+
+    /** @return the new balance, floored at zero */
+    public long addFlightSeconds(long delta) {
+        this.flightSeconds = Math.max(0L, this.flightSeconds + delta);
+        markDirty();
+        return this.flightSeconds;
     }
 }

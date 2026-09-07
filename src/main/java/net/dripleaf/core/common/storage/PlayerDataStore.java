@@ -255,6 +255,23 @@ public final class PlayerDataStore implements Listener {
         data.uiPreference(ui.isBlank() ? null : ui);
 
         data.nickname(yaml.getString("nickname", ""));
+        data.flightSeconds(yaml.getLong("flight-seconds"));
+
+        ConfigurationSection quickBuys = yaml.getConfigurationSection("quick-buys");
+        if (quickBuys != null) {
+            for (String shop : quickBuys.getKeys(false)) {
+                ConfigurationSection slots = quickBuys.getConfigurationSection(shop);
+                if (slots == null) {
+                    continue;
+                }
+                for (String slot : slots.getKeys(false)) {
+                    String value = slots.getString(slot, "");
+                    if (!value.isBlank()) {
+                        data.quickBuys().put(shop + '/' + slot, value);
+                    }
+                }
+            }
+        }
         for (String raw : yaml.getStringList("ignored")) {
             try {
                 data.ignored().add(UUID.fromString(raw));
@@ -299,6 +316,11 @@ public final class PlayerDataStore implements Listener {
 
         yaml.set("ui-mode", data.uiPreference() == null ? "" : data.uiPreference());
         yaml.set("nickname", data.nickname());
+        yaml.set("flight-seconds", data.flightSeconds());
+        for (Map.Entry<String, String> entry : data.quickBuys().entrySet()) {
+            // Stored nested so the file stays readable by hand.
+            yaml.set("quick-buys." + entry.getKey().replace('/', '.'), entry.getValue());
+        }
         yaml.set("ignored", data.ignored().stream().map(UUID::toString).toList());
 
         try {

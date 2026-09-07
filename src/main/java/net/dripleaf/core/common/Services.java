@@ -14,6 +14,8 @@ import net.dripleaf.core.common.sound.SoundService;
 import net.dripleaf.core.common.storage.PlayerDataStore;
 import net.dripleaf.core.common.text.MessageService;
 import net.dripleaf.core.common.ui.ChatPrompt;
+import net.dripleaf.core.common.ui.MenuActions;
+import net.dripleaf.core.common.ui.MenuConfig;
 import net.dripleaf.core.common.ui.UiService;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -43,7 +45,9 @@ public final class Services {
     private final WarmupService warmups;
     private final ChatPrompt prompts;
     private final UiService ui;
+    private final MenuConfig menus;
 
+    private MenuActions menuActions;
     private CurrencyRegistry currencies;
     private RebirthApi rebirth;
 
@@ -51,7 +55,7 @@ public final class Services {
                     MessageService messages, PlayerDataStore players, Hooks hooks,
                     SoundService sounds, IconService icons, AmountParser amounts,
                     AuditLog audit, CooldownService cooldowns, WarmupService warmups,
-                    ChatPrompt prompts, UiService ui) {
+                    ChatPrompt prompts, UiService ui, MenuConfig menus) {
         this.plugin = plugin;
         this.schedulers = schedulers;
         this.configs = configs;
@@ -66,6 +70,7 @@ public final class Services {
         this.warmups = warmups;
         this.prompts = prompts;
         this.ui = ui;
+        this.menus = menus;
     }
 
     public JavaPlugin plugin() {
@@ -122,6 +127,20 @@ public final class Services {
 
     public UiService ui() {
         return ui;
+    }
+
+    /** {@code menus.yml} — the appearance of every screen and button. */
+    public MenuConfig menus() {
+        return menus;
+    }
+
+    /** Resolves config-declared button actions. Set during bootstrap. */
+    public MenuActions actions() {
+        return menuActions;
+    }
+
+    public void actions(MenuActions actions) {
+        this.menuActions = actions;
     }
 
     /** Published by the core module during its enable. */

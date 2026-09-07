@@ -17,6 +17,7 @@ public final class Hooks {
     private final LuckPermsBridge luckPerms = new LuckPermsBridge();
     private final CratesBridge crates = new CratesBridge();
     private final ClaimBridge claims = new ClaimBridge();
+    private final WorldGuardBridge worldGuard = new WorldGuardBridge();
     private final FloodgateBridge floodgate = new FloodgateBridge();
 
     /** @param papiCacheMillis how long a resolved placeholder stays cached */
@@ -27,6 +28,7 @@ public final class Hooks {
         luckPerms.connect();
         crates.connect();
         claims.connect();
+        worldGuard.connect();
         floodgate.connect();
     }
 
@@ -54,12 +56,16 @@ public final class Hooks {
         return claims;
     }
 
+    public WorldGuardBridge worldGuard() {
+        return worldGuard;
+    }
+
     public FloodgateBridge floodgate() {
         return floodgate;
     }
 
     public List<Bridge> all() {
-        return List.of(vault, papi, mcmmo, luckPerms, crates, claims, floodgate);
+        return List.of(vault, papi, mcmmo, luckPerms, crates, claims, worldGuard, floodgate);
     }
 
     /** One line per hook: {@code Vault: EssentialsX Economy}. */
