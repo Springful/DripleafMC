@@ -1,0 +1,315 @@
+# ═════════════════════════════════════════════════════════════════════
+#   DripleafCore — SERVER SHOP
+#   Currency: money (Vault)
+#
+#   Staff: to add an item, copy any block under `items:` and edit it.
+#   The key (e.g. `diamond`) must be unique within this file. Reload with
+#   /dripleafcore reload shops.
+#
+#   All three shop files share this schema and are parsed by the same
+#   code, so anything you learn here applies to the shard and soul shops
+#   too. Adding a fourth shop is a config file, not a code change.
+#
+#   The engine will refuse to start an item silently:
+#     • no buy and no sell  → logged by key and skipped
+#     • sell above buy      → loud startup warning (it is a money printer)
+#     • unknown category    → moved to an auto-made "Uncategorised"
+#     • unknown material    → logged by key and skipped
+# ═════════════════════════════════════════════════════════════════════
+
+settings:
+  title: "<gradient:#dce35b:#45b649>Server Shop</gradient>"
+  currency: money             # money | shards | souls
+  show-balance: true
+  search-enabled: true
+  quick-buy-enabled: true
+  # Multiplies every sell price. Rebirth multipliers stack on top of it.
+  global-sell-multiplier: 1.0
+  # Required to open the shop at all. Blank = everyone.
+  permission: ""
+
+categories:
+  blocks:
+    display: "Blocks"
+    icon: STONE
+    description: "Building materials and bulk blocks."
+    order: 1
+  nether:
+    display: "Nether"
+    icon: NETHERRACK
+    description: "Everything from the other side."
+    order: 2
+  end:
+    display: "End"
+    icon: END_STONE
+    description: "Spoils of the End."
+    order: 3
+  farming:
+    display: "Farming"
+    icon: WHEAT
+    description: "Crops, saplings and animal produce."
+    order: 4
+  gear:
+    display: "Gear"
+    icon: IRON_SWORD
+    description: "Tools, weapons and the metal to make them."
+    order: 5
+  food:
+    display: "Food"
+    icon: COOKED_BEEF
+    description: "Things to eat."
+    order: 6
+
+items:
+
+  # ── Blocks ────────────────────────────────────────────────────────
+  stone:
+    material: STONE
+    category: blocks
+    buy: 8
+    sell: 2
+    stack-sizes: [ 16, 64 ]
+  cobblestone:
+    material: COBBLESTONE
+    category: blocks
+    buy: 4
+    sell: 1
+    stack-sizes: [ 16, 64 ]
+  deepslate:
+    material: DEEPSLATE
+    category: blocks
+    buy: 10
+    sell: 3
+    stack-sizes: [ 16, 64 ]
+  sand:
+    material: SAND
+    category: blocks
+    buy: 12
+    sell: 3
+    stack-sizes: [ 16, 64 ]
+  gravel:
+    material: GRAVEL
+    category: blocks
+    buy: 12
+    sell: 3
+    stack-sizes: [ 16, 64 ]
+  glass:
+    material: GLASS
+    category: blocks
+    buy: 20
+    sell: 5
+    stack-sizes: [ 16, 64 ]
+  terracotta:
+    material: TERRACOTTA
+    category: blocks
+    buy: 24
+    sell: 6
+  white_concrete:
+    material: WHITE_CONCRETE
+    category: blocks
+    buy: 30
+    sell: 7
+  obsidian:
+    material: OBSIDIAN
+    category: blocks
+    buy: 250
+    sell: 60
+    stack-sizes: [ 1, 16, 64 ]
+    lore:
+      - "Slow to mine, quick to sell."
+  crying_obsidian:
+    material: CRYING_OBSIDIAN
+    category: blocks
+    buy: 750
+    sell: 180
+  oak_log:
+    material: OAK_LOG
+    category: blocks
+    buy: 16
+    sell: 4
+    stack-sizes: [ 16, 64 ]
+
+  # ── Nether ────────────────────────────────────────────────────────
+  netherrack:
+    material: NETHERRACK
+    category: nether
+    buy: 4
+    sell: 1
+    stack-sizes: [ 64 ]
+  blaze_rod:
+    material: BLAZE_ROD
+    category: nether
+    buy: 400
+    sell: 100
+  nether_quartz:
+    material: QUARTZ
+    display: "Nether Quartz"
+    category: nether
+    buy: 60
+    sell: 15
+  ancient_debris:
+    material: ANCIENT_DEBRIS
+    category: nether
+    buy: 25k
+    sell: 6k
+    stack-sizes: [ 1, 4 ]
+    lore:
+      - "The long way round is cheaper."
+  nether_gold_ore:
+    material: NETHER_GOLD_ORE
+    category: nether
+    buy: 90
+    sell: 22
+  magma_block:
+    material: MAGMA_BLOCK
+    category: nether
+    buy: 40
+    sell: 10
+
+  # ── End ───────────────────────────────────────────────────────────
+  end_stone:
+    material: END_STONE
+    category: end
+    buy: 20
+    sell: 5
+    stack-sizes: [ 16, 64 ]
+  ender_pearl:
+    material: ENDER_PEARL
+    category: end
+    buy: 500
+    sell: 120
+  chorus_fruit:
+    material: CHORUS_FRUIT
+    category: end
+    buy: 120
+    sell: 30
+  shulker_shell:
+    material: SHULKER_SHELL
+    category: end
+    buy: 8k
+    sell: 2k
+    stack-sizes: [ 1, 2 ]
+
+  # ── Farming ───────────────────────────────────────────────────────
+  wheat:
+    material: WHEAT
+    category: farming
+    buy: 12
+    sell: 3
+    stack-sizes: [ 16, 64 ]
+  carrot:
+    material: CARROT
+    category: farming
+    buy: 12
+    sell: 3
+    stack-sizes: [ 16, 64 ]
+  potato:
+    material: POTATO
+    category: farming
+    buy: 12
+    sell: 3
+    stack-sizes: [ 16, 64 ]
+  sugar_cane:
+    material: SUGAR_CANE
+    category: farming
+    buy: 20
+    sell: 5
+    stack-sizes: [ 16, 64 ]
+  bamboo:
+    material: BAMBOO
+    category: farming
+    buy: 8
+    sell: 2
+    stack-sizes: [ 16, 64 ]
+  bone_meal:
+    material: BONE_MEAL
+    category: farming
+    buy: 20
+    sell: 5
+    stack-sizes: [ 16, 64 ]
+  oak_sapling:
+    material: OAK_SAPLING
+    category: farming
+    buy: 40
+    sell: 10
+
+  # ── Gear ──────────────────────────────────────────────────────────
+  diamond:
+    material: DIAMOND
+    category: gear
+    display: "Diamond"
+    buy: 500
+    sell: 125
+    stack-sizes: [ 1, 16, 64 ]
+    lore:
+      - "Still the benchmark."
+  iron_ingot:
+    material: IRON_INGOT
+    category: gear
+    buy: 90
+    sell: 22
+    stack-sizes: [ 1, 16, 64 ]
+  gold_ingot:
+    material: GOLD_INGOT
+    category: gear
+    buy: 140
+    sell: 35
+    stack-sizes: [ 1, 16, 64 ]
+  netherite_ingot:
+    material: NETHERITE_INGOT
+    category: gear
+    buy: 120k
+    sell: 30k
+    stack-sizes: [ 1 ]
+  arrow:
+    material: ARROW
+    category: gear
+    buy: 10
+    sell: 2
+    stack-sizes: [ 16, 64 ]
+  shield:
+    material: SHIELD
+    category: gear
+    buy: 600
+    sell: 150
+    stack-sizes: [ 1 ]
+  totem_of_undying:
+    material: TOTEM_OF_UNDYING
+    category: gear
+    buy: 45k
+    sell: -1
+    stack-sizes: [ 1 ]
+    lore:
+      - "Buy only. The raid is the point."
+  experience_bottle:
+    material: EXPERIENCE_BOTTLE
+    category: gear
+    buy: 250
+    sell: -1
+    stack-sizes: [ 1, 16, 64 ]
+
+  # ── Food ──────────────────────────────────────────────────────────
+  bread:
+    material: BREAD
+    category: food
+    buy: 25
+    sell: 6
+    stack-sizes: [ 16, 64 ]
+  cooked_beef:
+    material: COOKED_BEEF
+    category: food
+    buy: 45
+    sell: 11
+    stack-sizes: [ 16, 64 ]
+  golden_carrot:
+    material: GOLDEN_CARROT
+    category: food
+    buy: 200
+    sell: 50
+    stack-sizes: [ 16, 64 ]
+  cooked_salmon:
+    material: COOKED_SALMON
+    category: food
+    buy: 40
+    sell: 10
+    stack-sizes: [ 16, 64 ]

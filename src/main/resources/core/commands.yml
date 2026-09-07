@@ -1,0 +1,542 @@
+# ═════════════════════════════════════════════════════════════════════
+#   DripleafCore — core/commands.yml
+#
+#   Every core command is individually toggleable, and a disabled command
+#   is NEVER REGISTERED AT ALL. That is the point: it cannot collide with
+#   EssentialsX, or with anything else, because as far as the server is
+#   concerned it does not exist.
+#
+#   Almost everything here therefore ships DISABLED. Turn commands on one
+#   at a time, after disabling the Essentials equivalent, and reload with
+#   /dripleafcore reload core.
+#
+#   Per command:
+#     enabled      register it at all
+#     permission   node required to run it
+#     aliases      alternative names
+#     cooldown     seconds after a SUCCESSFUL run (0 = none)
+#     warmup       seconds before it executes  (0 = none)
+#     description  shown in tab completion and on the admin screen
+#
+#   Bypasses:  dripleaf.bypass.cooldown[.<id>]
+#              dripleaf.bypass.warmup[.<id>]
+# ═════════════════════════════════════════════════════════════════════
+
+commands:
+
+  # ── Menus ─────────────────────────────────────────────────────────
+  # Ships ENABLED. It is how a Bedrock player recovers from a menu that
+  # will not draw for them, and how you compare the two surfaces live.
+  uimode:
+    enabled: true
+    permission: dripleaf.uimode
+    aliases: [ ui, menumode ]
+    cooldown: 0
+    warmup: 0
+    description: "Switch between dialog and chest-GUI menus"
+
+  # ── Teleportation ─────────────────────────────────────────────────
+  spawn:
+    enabled: false
+    permission: dripleaf.spawn
+    aliases: []
+    cooldown: 30
+    warmup: 5
+    description: "Teleport to spawn"
+  setspawn:
+    enabled: false
+    permission: dripleaf.spawn.set
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Set the spawn point"
+  tpa:
+    enabled: false
+    permission: dripleaf.tpa
+    aliases: [ call ]
+    cooldown: 15
+    warmup: 0
+    description: "Request to teleport to a player"
+  tpahere:
+    enabled: false
+    permission: dripleaf.tpahere
+    aliases: []
+    cooldown: 15
+    warmup: 0
+    description: "Request a player teleport to you"
+  tpaccept:
+    enabled: false
+    permission: dripleaf.tpa
+    aliases: [ tpyes ]
+    cooldown: 0
+    warmup: 5
+    description: "Accept a teleport request"
+  tpdeny:
+    enabled: false
+    permission: dripleaf.tpa
+    aliases: [ tpno ]
+    cooldown: 0
+    warmup: 0
+    description: "Deny a teleport request"
+  tpacancel:
+    enabled: false
+    permission: dripleaf.tpa
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Cancel your outgoing teleport request"
+  back:
+    enabled: false
+    permission: dripleaf.back
+    aliases: [ return ]
+    cooldown: 60
+    warmup: 3
+    description: "Return to your previous location"
+  rtp:
+    enabled: false
+    permission: dripleaf.rtp
+    aliases: [ wild ]
+    cooldown: 300
+    warmup: 5
+    description: "Teleport somewhere random"
+  tp:
+    enabled: false
+    permission: dripleaf.tp.other
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Teleport to or between players"
+  tphere:
+    enabled: false
+    permission: dripleaf.tp.here
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Bring a player to you"
+  top:
+    enabled: false
+    permission: dripleaf.top
+    aliases: []
+    cooldown: 10
+    warmup: 0
+    description: "Teleport to the surface"
+
+  # ── Homes ─────────────────────────────────────────────────────────
+  home:
+    enabled: false
+    permission: dripleaf.home
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Teleport to a home"
+  sethome:
+    enabled: false
+    permission: dripleaf.home.set
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Set a home"
+  delhome:
+    enabled: false
+    permission: dripleaf.home.delete
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Delete a home"
+  homes:
+    enabled: false
+    permission: dripleaf.home
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "List your homes"
+
+  # ── Warps ─────────────────────────────────────────────────────────
+  warp:
+    enabled: false
+    permission: dripleaf.warp
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Teleport to a warp"
+  warps:
+    enabled: false
+    permission: dripleaf.warp
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Open the warp menu"
+  setwarp:
+    enabled: false
+    permission: dripleaf.warp.set
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Create a warp here"
+  delwarp:
+    enabled: false
+    permission: dripleaf.warp.delete
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Delete a warp"
+
+  # ── Kits ──────────────────────────────────────────────────────────
+  kit:
+    enabled: false
+    permission: dripleaf.kit
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Claim a kit"
+  kits:
+    enabled: false
+    permission: dripleaf.kit
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Open the kit menu"
+
+  # ── Economy ───────────────────────────────────────────────────────
+  balance:
+    enabled: false
+    permission: dripleaf.balance
+    aliases: [ bal, money ]
+    cooldown: 0
+    warmup: 0
+    description: "Check a balance"
+  baltop:
+    enabled: false
+    permission: dripleaf.baltop
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Richest players"
+  pay:
+    enabled: false
+    permission: dripleaf.pay
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Pay another player"
+  shop:
+    enabled: false
+    permission: dripleaf.shop
+    aliases: [ store ]
+    cooldown: 0
+    warmup: 0
+    description: "Open the server shop"
+  shardshop:
+    enabled: false
+    permission: dripleaf.shop.shard
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Open the shard shop"
+  soulshop:
+    enabled: false
+    permission: dripleaf.shop.soul
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Open the soul shop"
+  sell:
+    enabled: false
+    permission: dripleaf.sell
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Sell items"
+  worth:
+    enabled: false
+    permission: dripleaf.worth
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Check an item's sale value"
+  eco:
+    enabled: false
+    permission: dripleaf.eco.admin
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Manage money balances"
+  shards:
+    enabled: false
+    permission: dripleaf.shards.admin
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Manage shard balances"
+  souls:
+    enabled: false
+    permission: dripleaf.souls.admin
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Manage soul balances"
+
+  # ── Chat and social ───────────────────────────────────────────────
+  msg:
+    enabled: false
+    permission: dripleaf.msg
+    aliases: [ w, tell ]
+    cooldown: 0
+    warmup: 0
+    description: "Private message"
+  reply:
+    enabled: false
+    permission: dripleaf.msg
+    aliases: [ r ]
+    cooldown: 0
+    warmup: 0
+    description: "Reply to the last message"
+  ignore:
+    enabled: false
+    permission: dripleaf.ignore
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Ignore a player"
+  socialspy:
+    enabled: false
+    permission: dripleaf.socialspy
+    aliases: [ ss ]
+    cooldown: 0
+    warmup: 0
+    description: "See private messages"
+  nick:
+    enabled: false
+    permission: dripleaf.nick
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Set a nickname"
+  realname:
+    enabled: false
+    permission: dripleaf.realname
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Find the account behind a nickname"
+
+  # ── Workstations ──────────────────────────────────────────────────
+  enderchest:
+    enabled: false
+    permission: dripleaf.enderchest
+    aliases: [ ec ]
+    cooldown: 0
+    warmup: 0
+    description: "Open your ender chest"
+  workbench:
+    enabled: false
+    permission: dripleaf.workbench
+    aliases: [ wb, craft ]
+    cooldown: 0
+    warmup: 0
+    description: "Open a crafting table"
+  anvil:
+    enabled: false
+    permission: dripleaf.anvil
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Open an anvil"
+  grindstone:
+    enabled: false
+    permission: dripleaf.grindstone
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Open a grindstone"
+  cartography:
+    enabled: false
+    permission: dripleaf.cartography
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Open a cartography table"
+  stonecutter:
+    enabled: false
+    permission: dripleaf.stonecutter
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Open a stonecutter"
+  loom:
+    enabled: false
+    permission: dripleaf.loom
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Open a loom"
+  smithing:
+    enabled: false
+    permission: dripleaf.smithing
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Open a smithing table"
+
+  # ── Utility ───────────────────────────────────────────────────────
+  disposal:
+    enabled: false
+    permission: dripleaf.disposal
+    aliases: [ trash ]
+    cooldown: 0
+    warmup: 0
+    description: "Open a disposal bin"
+  hat:
+    enabled: false
+    permission: dripleaf.hat
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Wear the held item"
+  repair:
+    enabled: false
+    permission: dripleaf.repair
+    aliases: [ fix ]
+    cooldown: 0
+    warmup: 0
+    description: "Repair items"
+  condense:
+    enabled: false
+    permission: dripleaf.condense
+    aliases: [ compact ]
+    cooldown: 0
+    warmup: 0
+    description: "Compact your inventory"
+  recipe:
+    enabled: false
+    permission: dripleaf.recipe
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Look up a recipe"
+  heal:
+    enabled: false
+    permission: dripleaf.heal
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Restore health"
+  feed:
+    enabled: false
+    permission: dripleaf.feed
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Restore hunger"
+  god:
+    enabled: false
+    permission: dripleaf.god
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Toggle invulnerability"
+  fly:
+    enabled: false
+    permission: dripleaf.fly
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Toggle flight"
+  speed:
+    enabled: false
+    permission: dripleaf.speed
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Set movement speed"
+  vanish:
+    enabled: false
+    permission: dripleaf.vanish
+    aliases: [ v ]
+    cooldown: 0
+    warmup: 0
+    description: "Toggle vanish"
+  invsee:
+    enabled: false
+    permission: dripleaf.invsee
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "View a player's inventory"
+  near:
+    enabled: false
+    permission: dripleaf.near
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "List nearby players"
+  seen:
+    enabled: false
+    permission: dripleaf.seen
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "When a player was last online"
+  playtime:
+    enabled: false
+    permission: dripleaf.playtime
+    aliases: [ pt ]
+    cooldown: 0
+    warmup: 0
+    description: "Show playtime"
+  ping:
+    enabled: false
+    permission: dripleaf.ping
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Show latency"
+  afk:
+    enabled: false
+    permission: dripleaf.afk
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Toggle AFK"
+  sudo:
+    enabled: false
+    permission: dripleaf.sudo
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Run a command as a player"
+  broadcast:
+    enabled: false
+    permission: dripleaf.broadcast
+    aliases: [ bc ]
+    cooldown: 0
+    warmup: 0
+    description: "Broadcast a message"
+  gm:
+    enabled: false
+    permission: dripleaf.gamemode
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Change game mode"
+  more:
+    enabled: false
+    permission: dripleaf.more
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Fill the held stack"
+  itemname:
+    enabled: false
+    permission: dripleaf.itemname
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Rename the held item"
+  itemlore:
+    enabled: false
+    permission: dripleaf.itemlore
+    aliases: []
+    cooldown: 0
+    warmup: 0
+    description: "Set the held item's lore"

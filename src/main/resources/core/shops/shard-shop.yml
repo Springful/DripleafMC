@@ -1,0 +1,90 @@
+# ═════════════════════════════════════════════════════════════════════
+#   DripleafCore — SHARD SHOP
+#   Currency: shards
+#
+#   Same schema as the server shop. Shards are an integral currency, so
+#   prices must be whole numbers.
+#
+#   NOTHING HERE MAY GRANT COMBAT POWER OR ECONOMY ADVANTAGE. This
+#   server's position is that convenience and cosmetics are for sale and
+#   power is not — keep it that way when you add entries.
+# ═════════════════════════════════════════════════════════════════════
+
+settings:
+  title: "<gradient:#00CFFF:#7FE9FF>Shard Shop</gradient>"
+  currency: shards
+  show-balance: true
+  search-enabled: true
+  quick-buy-enabled: false
+  global-sell-multiplier: 1.0
+  permission: ""
+
+categories:
+  convenience:
+    display: "Convenience"
+    icon: ENDER_CHEST
+    description: "Quality of life, nothing more."
+    order: 1
+  cosmetic:
+    display: "Cosmetic"
+    icon: FIREWORK_ROCKET
+    description: "Purely for show."
+    order: 2
+
+items:
+
+  extra_home:
+    material: RED_BED
+    display: "<#00CFFF>+1 Home Slot</#00CFFF>"
+    category: convenience
+    buy: 25
+    sell: -1
+    stack-sizes: [ 1 ]
+    lore:
+      - "Permanently raises your home limit by one."
+    commands:
+      - "lp user <player> permission set dripleaf.home.limit.5 true"
+
+  disposal_unlock:
+    material: HOPPER
+    display: "<#00CFFF>/disposal</#00CFFF>"
+    category: convenience
+    buy: 40
+    sell: -1
+    stack-sizes: [ 1 ]
+    lore:
+      - "A bin you can open anywhere."
+    commands:
+      - "lp user <player> permission set dripleaf.disposal true"
+
+  workbench_unlock:
+    material: CRAFTING_TABLE
+    display: "<#00CFFF>/workbench</#00CFFF>"
+    category: convenience
+    buy: 40
+    sell: -1
+    stack-sizes: [ 1 ]
+    commands:
+      - "lp user <player> permission set dripleaf.workbench true"
+
+  particle_trail:
+    material: FIREWORK_ROCKET
+    display: "<#00CFFF>Particle Trail</#00CFFF>"
+    category: cosmetic
+    buy: 60
+    sell: -1
+    stack-sizes: [ 1 ]
+    lore:
+      - "Leaves a trail behind you."
+    commands:
+      - "lp user <player> permission set dripleaf.cosmetic.trail true"
+
+  chat_tag_shard:
+    material: NAME_TAG
+    display: "<#00CFFF>Shard Chat Tag</#00CFFF>"
+    category: cosmetic
+    buy: 80
+    sell: -1
+    stack-sizes: [ 1 ]
+    commands:
+      - "lp user <player> permission set dripleaf.tag.shard true"

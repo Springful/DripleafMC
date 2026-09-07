@@ -1,0 +1,89 @@
+# ══════════════════════════════════════════════════════════════════════
+#   DripleafCore — rebirth/rebirth.yml
+#   Rebirth behaviour. Costs and rewards live in tiers.yml; what each
+#   tier grants lives in unlocks.yml; every string lives in messages.yml.
+# ══════════════════════════════════════════════════════════════════════
+
+
+# ── What is wiped on rebirth. Each is independently toggleable. ───────
+sacrifice:
+  money: true
+  mcmmo: true
+  mcmmo-command: "mmoedit <player> all 0"
+
+
+# ── Where a player's current tier comes from ──────────────────────────
+#   data        read the integer from DripleafCore player data. Free.
+#   permission  walk the LuckPerms groups downwards, matching the old
+#               Skript. Costs up to one permission lookup per tier, per
+#               menu open, per player — which is why it is not the
+#               default.
+#
+#   The LuckPerms group grant stays as a reward command in tiers.yml, so
+#   external plugins keying off group.rebirth-N keep working. It simply
+#   stops being the source of truth.
+tier-source: data
+permission-format: "group.rebirth-<tier>"
+
+# On first join, a player with no stored tier who holds a rebirth-N group
+# has that tier imported into player data. Idempotent, and logged.
+migrate-from-luckperms: true
+
+
+# ── The tier browser ──────────────────────────────────────────────────
+# Tiers are revealed in blocks of this size: a player at tier T can see
+# up to (floor(T / block) + 1) × block. Everything beyond that is shown
+# as a locked silhouette, never hidden.
+info-visibility-block: 5
+
+
+# ── Confirmation ──────────────────────────────────────────────────────
+# Above this tier, confirming requires typing the tier's numeral. At
+# these costs an accidental click is hours of play. Set to 0 to require
+# it always, or above your highest tier to never require it.
+type-to-confirm-above: 15
+
+
+# ── Pacing ────────────────────────────────────────────────────────────
+# Seconds a player must wait between rebirths. 0 disables it.
+# dripleaf.bypass.cooldown skips it.
+cooldown-seconds: 0
+
+# Requirement evaluations are cached this long per player, so drawing one
+# screen that mentions the same requirement several times costs one read.
+# Confirmation always re-evaluates from scratch regardless of this.
+requirement-cache-millis: 2000
+
+
+# ── Broadcasts ────────────────────────────────────────────────────────
+broadcast:
+  enabled: true
+  standard: true
+  soul: true
+
+
+# ── Commands ──────────────────────────────────────────────────────────
+# Same shape as core/commands.yml. These ship ENABLED: they are the
+# module's whole point and nothing else on the server provides them.
+commands:
+  rebirth:
+    enabled: true
+    permission: dripleaf.rebirth
+    aliases: [ prestige, ascend ]
+    cooldown: 0
+    warmup: 0
+    description: "Open the rebirth menu"
+  rebirthinfo:
+    enabled: true
+    permission: dripleaf.rebirth
+    aliases: [ rbinfo ]
+    cooldown: 0
+    warmup: 0
+    description: "Browse the rebirth tiers"
+  rebirthtop:
+    enabled: true
+    permission: dripleaf.rebirth
+    aliases: [ rbtop ]
+    cooldown: 0
+    warmup: 0
+    description: "Rebirth leaderboard"

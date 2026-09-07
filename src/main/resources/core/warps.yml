@@ -1,0 +1,66 @@
+# ═════════════════════════════════════════════════════════════════════
+#   DripleafCore — core/warps.yml
+#
+#   The warp menu is grouped by `category` and paginated. Warps a player
+#   cannot use are shown GREYED WITH THE REASON rather than hidden —
+#   a visible goal drives progression, an empty grid does not.
+#
+#   /setwarp <name> [category] writes an entry here at your position.
+#   Everything else is hand-edited; reload with /dripleafcore reload core.
+#
+#   Per warp:
+#     display      MiniMessage name shown in the menu
+#     icon         any Material
+#     description  lore lines
+#     location     world/x/y/z/yaw/pitch — the world must be loaded
+#     permission   blank = everyone
+#     cost         money; supports k/m/b/t
+#     warmup       seconds before travelling (cancels on movement)
+#     cooldown     seconds before this warp can be used again
+#     category     groups warps in the menu
+#     slot         fixed chest-GUI slot; omit or -1 to auto-arrange
+# ═════════════════════════════════════════════════════════════════════
+
+warps: {}
+
+# ── Worked example. Uncomment, fix the world name, and reload. ───────
+#
+# warps:
+#   mine:
+#     display: "<gradient:#dce35b:#45b649>Mining World</gradient>"
+#     icon: DIAMOND_PICKAXE
+#     description:
+#       - "Fresh ore, resets weekly."
+#       - "Bring a pickaxe."
+#     location:
+#       world: resource
+#       x: 128.5
+#       y: 64.0
+#       z: -256.5
+#       yaw: 90.0
+#       pitch: 0.0
+#     permission: ""
+#     cost: 0
+#     warmup: 5
+#     cooldown: 30
+#     category: worlds
+#     slot: -1
+#
+#   endgame:
+#     display: "<gradient:#AA00FF:#FF55FF>The Proving Grounds</gradient>"
+#     icon: NETHER_STAR
+#     description:
+#       - "For the ascended only."
+#     location:
+#       world: world
+#       x: 0.5
+#       y: 100.0
+#       z: 0.5
+#       yaw: 0.0
+#       pitch: 0.0
+#     # Granted by the Rebirth V unlock command.
+#     permission: "dripleaf.warp.endgame"
+#     cost: 25k
+#     warmup: 5
+#     cooldown: 120
+#     category: worlds

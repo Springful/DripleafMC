@@ -1,0 +1,103 @@
+name: DripleafCore
+version: '${project.version}'
+main: net.dripleaf.core.DripleafCore
+api-version: '26.2'
+description: Core utilities and the Rebirth progression system for DripleafMC, in one jar.
+authors: [ DripleafMC ]
+website: https://dripleafmc.net
+
+# Every integration is optional and reached through a bridge with a no-op
+# fallback. The plugin enables cleanly with all of these absent — it logs a
+# warning, disables the dependent feature, and keeps running.
+dependencies:
+  server:
+    Vault:
+      load: BEFORE
+      required: false
+      join-classpath: true
+    PlaceholderAPI:
+      load: BEFORE
+      required: false
+      join-classpath: true
+    LuckPerms:
+      load: BEFORE
+      required: false
+      join-classpath: true
+    mcMMO:
+      load: BEFORE
+      required: false
+      join-classpath: true
+    GriefPrevention:
+      load: BEFORE
+      required: false
+      join-classpath: true
+    ExcellentCrates:
+      load: BEFORE
+      required: false
+      join-classpath: true
+    floodgate:
+      load: BEFORE
+      required: false
+      join-classpath: true
+    Geyser-Spigot:
+      load: BEFORE
+      required: false
+      join-classpath: true
+
+permissions:
+  dripleaf.*:
+    description: Everything.
+    default: op
+    children:
+      dripleaf.admin: true
+      dripleaf.rebirth: true
+      dripleaf.uimode: true
+
+  dripleaf.admin:
+    description: Admin panel and every admin subcommand.
+    default: op
+    children:
+      dripleaf.admin.reload: true
+  dripleaf.admin.reload:
+    description: Reload configuration.
+    default: op
+
+  dripleaf.uimode:
+    description: Switch your own menus between dialogs and chest GUIs.
+    default: true
+  dripleaf.uimode.other:
+    description: Switch another player's menu mode.
+    default: op
+
+  dripleaf.rebirth:
+    description: Use /rebirth.
+    default: true
+  dripleaf.rebirth.admin:
+    description: Rebirth admin subcommands.
+    default: op
+
+  dripleaf.bypass.cooldown:
+    description: Skip every command cooldown.
+    default: op
+  dripleaf.bypass.warmup:
+    description: Skip every command warmup.
+    default: op
+  dripleaf.bypass.cost:
+    description: Skip every command and warp cost.
+    default: op
+
+  dripleaf.fly.claims:
+    description: Persistent flight inside trusted GriefPrevention claims.
+    default: false
+  dripleaf.nick.colour:
+    description: Coloured nicknames.
+    default: false
+  dripleaf.back.ondeath:
+    description: /back returns to your death location.
+    default: false
+  dripleaf.vanish.see:
+    description: See vanished players.
+    default: op
+  dripleaf.msg.bypassignore:
+    description: Message players who have ignored you.
+    default: op

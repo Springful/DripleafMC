@@ -1,0 +1,73 @@
+# ═════════════════════════════════════════════════════════════════════
+#   DripleafCore — core/kits.yml
+#
+#   Kit cooldowns are stored in PLAYER DATA, not memory: a daily kit that
+#   resets because the server restarted is a daily kit nobody trusts.
+#
+#   Items use Bukkit's own ItemStack serialisation, so enchantments,
+#   custom names, lore and component data all round-trip. The easiest way
+#   to author one is to copy the block below and edit the material and
+#   amount; anything more elaborate is best exported from a live server.
+#
+#   Per kit:
+#     display      MiniMessage name
+#     icon         menu icon Material
+#     description  lore lines
+#     permission   blank = everyone
+#     cooldown     seconds; ignored when one-time is true
+#     one-time     claimable once, ever
+#     items        list of ItemStacks
+#     commands     console commands run on claim; <player> and <kit> work
+# ═════════════════════════════════════════════════════════════════════
+
+kits:
+
+  starter:
+    display: "<gradient:#dce35b:#45b649>Starter Kit</gradient>"
+    icon: OAK_LOG
+    description:
+      - "Everything you need for your first night."
+    permission: ""
+    cooldown: 0
+    one-time: true
+    items:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 4189
+        type: STONE_SWORD
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 4189
+        type: STONE_PICKAXE
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 4189
+        type: STONE_AXE
+        amount: 1
+      - ==: org.bukkit.inventory.ItemStack
+        v: 4189
+        type: BREAD
+        amount: 16
+      - ==: org.bukkit.inventory.ItemStack
+        v: 4189
+        type: TORCH
+        amount: 32
+    commands: []
+
+  daily:
+    display: "<gradient:#dce35b:#45b649>Daily Kit</gradient>"
+    icon: CHEST
+    description:
+      - "A small top-up, once a day."
+    permission: ""
+    cooldown: 86400
+    one-time: false
+    items:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 4189
+        type: COOKED_BEEF
+        amount: 16
+      - ==: org.bukkit.inventory.ItemStack
+        v: 4189
+        type: IRON_INGOT
+        amount: 8
+    commands: []

@@ -1,0 +1,118 @@
+# ═════════════════════════════════════════════════════════════════════
+#   DripleafCore — SOUL SHOP
+#   Currency: souls
+#
+#   Souls are earned only on the Soul Ascension path, so this is the
+#   rarest currency on the server. Everything here should feel like a
+#   trophy — and, exactly like the shard shop, NOTHING HERE MAY GRANT
+#   COMBAT POWER OR ECONOMY ADVANTAGE.
+#
+#   Note: while `currencies.souls.mode` is `command` in config.yml, soul
+#   balances are read through a placeholder and spent by dispatching the
+#   configured take-command. Purchases are re-validated immediately
+#   before spending, but the external plugin remains the authority.
+# ═════════════════════════════════════════════════════════════════════
+
+settings:
+  title: "<gradient:#AA00FF:#FF55FF>✦ Soul Shop ✦</gradient>"
+  currency: souls
+  show-balance: true
+  search-enabled: true
+  quick-buy-enabled: false
+  global-sell-multiplier: 1.0
+  permission: ""
+
+categories:
+  identity:
+    display: "Identity"
+    icon: NAME_TAG
+    description: "Make yourself unmistakable."
+    order: 1
+  space:
+    display: "Space"
+    icon: ENDER_CHEST
+    description: "More room to work with."
+    order: 2
+  spectacle:
+    display: "Spectacle"
+    icon: DRAGON_BREATH
+    description: "Purely for show, and all the better for it."
+    order: 3
+
+items:
+
+  custom_prefix:
+    material: NAME_TAG
+    display: "<gradient:#AA00FF:#FF55FF>Custom Chat Prefix</gradient>"
+    category: identity
+    buy: 12
+    sell: -1
+    stack-sizes: [ 1 ]
+    lore:
+      - "Choose your own tag. Staff approval applies."
+    commands:
+      - "lp user <player> permission set dripleaf.prefix.custom true"
+
+  hat_unlock:
+    material: CARVED_PUMPKIN
+    display: "<gradient:#AA00FF:#FF55FF>/hat</gradient>"
+    category: identity
+    buy: 6
+    sell: -1
+    stack-sizes: [ 1 ]
+    commands:
+      - "lp user <player> permission set dripleaf.hat true"
+
+  nick_colour:
+    material: PINK_DYE
+    display: "<gradient:#AA00FF:#FF55FF>Coloured Nickname</gradient>"
+    category: identity
+    buy: 10
+    sell: -1
+    stack-sizes: [ 1 ]
+    commands:
+      - "lp user <player> permission set dripleaf.nick.colour true"
+
+  extra_home_slot:
+    material: RED_BED
+    display: "<gradient:#AA00FF:#FF55FF>+1 Home Slot</gradient>"
+    category: space
+    buy: 8
+    sell: -1
+    stack-sizes: [ 1 ]
+    commands:
+      - "lp user <player> permission set dripleaf.home.limit.10 true"
+
+  extra_player_warp:
+    material: ENDER_EYE
+    display: "<gradient:#AA00FF:#FF55FF>+1 Player Warp</gradient>"
+    category: space
+    buy: 15
+    sell: -1
+    stack-sizes: [ 1 ]
+    lore:
+      - "Set the real node for your warp plugin in the commands list."
+    commands:
+      - "lp user <player> permission set playerwarps.limit.increase true"
+
+  aura_particles:
+    material: DRAGON_BREATH
+    display: "<gradient:#AA00FF:#FF55FF>Soul Aura</gradient>"
+    category: spectacle
+    buy: 20
+    sell: -1
+    stack-sizes: [ 1 ]
+    lore:
+      - "A purple haze that follows you around."
+    commands:
+      - "lp user <player> permission set dripleaf.cosmetic.aura.soul true"
+
+  ascension_tag:
+    material: NETHER_STAR
+    display: "<gradient:#AA00FF:#FF55FF>✦ Ascended Tag ✦</gradient>"
+    category: spectacle
+    buy: 30
+    sell: -1
+    stack-sizes: [ 1 ]
+    commands:
+      - "lp user <player> permission set dripleaf.tag.ascended true"

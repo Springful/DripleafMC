@@ -1,0 +1,161 @@
+# ═════════════════════════════════════════════════════════════════════
+#   DripleafCore — config.yml
+#   Behaviour only. Nothing here is text, and nothing here is a price.
+#
+#     messages.yml            every player-facing string
+#     core/commands.yml       which commands exist, and their timings
+#     core/warps.yml          server warps
+#     core/kits.yml           kits
+#     core/icons.yml          sprite overrides for the icon system
+#     core/shops/*.yml        the three shops
+#     rebirth/rebirth.yml     rebirth behaviour
+#     rebirth/tiers.yml       tier costs, requirements and reward values
+#     rebirth/unlocks.yml     what each tier unlocks, and how it is granted
+# ═════════════════════════════════════════════════════════════════════
+
+
+# ─────────────────────────────────────────────────────────────────────
+#   MENUS
+#
+#   Every screen in this plugin is written once and can be drawn either
+#   as a native Paper dialog or as a chest GUI. Dialogs are the default:
+#   they scroll, they take typed input, and they do not occupy an
+#   inventory slot.
+#
+#   Bedrock players reaching the server through Geyser cannot render
+#   dialogs reliably, so they get the chest-GUI build of the same screen
+#   automatically. Nothing is missing for them — search boxes become chat
+#   prompts, long lists paginate.
+#
+#   Any player can override this for themselves with /uimode, which is
+#   also how you compare the two surfaces side by side on a live server.
+# ─────────────────────────────────────────────────────────────────────
+ui:
+  # DIALOG | CHEST. What a Java player gets when they have no preference.
+  java-mode: DIALOG
+
+  # DIALOG | CHEST. What a Bedrock player gets when they have no
+  # preference. Leave this on CHEST unless you have tested otherwise.
+  bedrock-mode: CHEST
+
+  # Let players change their own surface with /uimode. Turning this off
+  # pins everyone to the two settings above.
+  allow-player-override: true
+
+  # How a Bedrock player is recognised. The first signal that answers
+  # wins; the result is cached for their session.
+  bedrock-detection:
+    # 1. Floodgate or Geyser, if either is installed. Authoritative.
+    floodgate: true
+
+    # 2. A placeholder the server already publishes. Blank to skip.
+    #    Anything in placeholder-true-values counts as "yes".
+    placeholder: "%bedrock%"
+    placeholder-true-values: [ "true", "yes", "1", "bedrock", "y" ]
+
+    # 3. The username prefix every Bedrock account on this network
+    #    carries. Blank to skip.
+    username-prefix: "."
+
+    # 4. Last resort: Floodgate mints UUIDs whose high bits are zero.
+    floodgate-uuid-shape: true
+
+
+# ─────────────────────────────────────────────────────────────────────
+#   CURRENCIES
+#
+#   Money is always Vault. Shards and souls are either held by this
+#   plugin (`internal`) or by another plugin driven through console
+#   commands (`command`).
+#
+#   Souls ship in `command` mode because they may already be live in
+#   ExcellentEconomy with real player balances, and migrating those
+#   without an explicit decision is not this plugin's call. Soul tokens
+#   are a secondary ExcellentEconomy currency that Vault cannot see, so
+#   in command mode the balance is read through the placeholder below.
+# ─────────────────────────────────────────────────────────────────────
+currencies:
+  shards:
+    mode: internal
+    give-command: ""
+    take-command: ""
+    balance-placeholder: ""
+  souls:
+    mode: command
+    give-command: "souls give <player> <amount>"
+    take-command: "souls take <player> <amount>"
+    balance-placeholder: "%excellenteconomy_balance_soul_token%"
+
+
+# ─────────────────────────────────────────────────────────────────────
+#   STORAGE
+#   Flat files with atomic writes. Every write goes to a temp file, is
+#   fsynced, then renamed over the target — so a crash mid-write leaves
+#   either the old file or the new one, never a torn one.
+# ─────────────────────────────────────────────────────────────────────
+storage:
+  # Minutes between background flushes of online players' data.
+  autosave-minutes: 5
+
+
+# ─────────────────────────────────────────────────────────────────────
+#   ECONOMY DISPLAY
+#   `exact` is used anywhere a player is about to spend money.
+#   `compact` is for scoreboards and lore lines only.
+# ─────────────────────────────────────────────────────────────────────
+economy:
+  exact-format: "#,##0.##"
+  compact-format: "0.##"
+
+
+leaderboards:
+  # /baltop and /rebirthtop are computed on this timer and served from
+  # cache. They are never computed on request.
+  refresh-minutes: 5
+
+
+homes:
+  # Used for players holding no dripleaf.home.limit.<n> node.
+  default-limit: 1
+
+
+teleport:
+  request-timeout-seconds: 60
+  rtp-radius: 5000
+  # How many candidate columns /rtp tries before giving up.
+  rtp-attempts: 24
+
+
+social:
+  afk-after-seconds: 300
+
+
+warmup:
+  # Blocks a player may move before a warmup cancels. 0.5 lets them turn
+  # on the spot without losing the teleport.
+  cancel-on-move-blocks: 0.5
+  cancel-on-damage: true
+  # Width of the action-bar progress bar, in characters.
+  bar-cells: 20
+
+
+performance:
+  # PlaceholderAPI results are cached per player for this long. One tick
+  # is 50ms; 250 covers a menu render without going stale.
+  placeholder-cache-millis: 250
+
+
+# ─────────────────────────────────────────────────────────────────────
+#   SOUNDS
+#   Format: <namespaced key> [volume] [pitch]. Blank silences the event.
+# ─────────────────────────────────────────────────────────────────────
+sounds:
+  menu-open: "minecraft:ui.button.click 1.0 1.2"
+  purchase-success: "minecraft:entity.experience_orb.pickup 1.0 1.0"
+  purchase-failure: "minecraft:block.note_block.bass 1.0 0.5"
+  warmup-tick: "minecraft:block.note_block.hat 0.6 1.0"
+  warmup-cancel: "minecraft:block.note_block.bass 1.0 0.6"
+  teleport-complete: "minecraft:entity.enderman.teleport 1.0 1.0"
+  rebirth-standard: "minecraft:ui.toast.challenge_complete 1.0 1.0"
+  rebirth-soul: "minecraft:ui.toast.challenge_complete 1.0 0.7"
+  admin-applied: "minecraft:block.amethyst_block.chime 1.0 1.0"

@@ -1,0 +1,161 @@
+# ═════════════════════════════════════════════════════════════════════
+#   DripleafCore — core/icons.yml
+#
+#   THE PROBLEM THIS FILE SOLVES
+#   Minecraft draws menu icons from sprite atlases. Item textures live in
+#   minecraft:items; block textures live in minecraft:blocks. Ask the
+#   wrong atlas for a sprite and the client renders the pink-and-black
+#   missing-texture checkerboard — which is exactly what happened when
+#   every item in the Server Shop was resolved against the block atlas
+#   while every block rendered fine.
+#
+#   The plugin now picks the atlas by whether a material is a block, and
+#   this file is the escape hatch for the cases where the sprite name
+#   does not match the material name.
+#
+#   WHEN YOU SEE A CHECKERBOARD, ADD A LINE HERE. No rebuild needed —
+#   /dripleafcore reload picks it up.
+#
+#     MATERIAL_NAME:
+#       atlas:  "minecraft:blocks"   # or minecraft:items
+#       sprite: "minecraft:block/…"  # or minecraft:item/…
+#
+#   Tip: F3+S in game dumps the current atlas contents, which is the only
+#   authoritative list of sprite names for the version you are running.
+#   Trust that over any documentation, including this comment.
+# ═════════════════════════════════════════════════════════════════════
+
+overrides:
+
+  # ── Multi-face blocks ─────────────────────────────────────────────
+  # These have _top / _side / _bottom textures and no plain one.
+  GRASS_BLOCK:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/grass_block_side"
+  PODZOL:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/podzol_side"
+  MYCELIUM:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/mycelium_side"
+  CRAFTING_TABLE:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/crafting_table_front"
+  FURNACE:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/furnace_front"
+  BLAST_FURNACE:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/blast_furnace_front"
+  SMOKER:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/smoker_front"
+  TNT:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/tnt_side"
+  BOOKSHELF:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/bookshelf"
+  PUMPKIN:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/pumpkin_side"
+  CARVED_PUMPKIN:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/carved_pumpkin"
+  JACK_O_LANTERN:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/jack_o_lantern"
+  MELON:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/melon_side"
+  HAY_BLOCK:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/hay_block_side"
+  LOOM:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/loom_front"
+  BARREL:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/barrel_side"
+  CARTOGRAPHY_TABLE:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/cartography_table_side1"
+  SMITHING_TABLE:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/smithing_table_front"
+  OBSERVER:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/observer_front"
+  DISPENSER:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/dispenser_front"
+  DROPPER:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/dropper_front"
+
+  # ── Logs and stems ────────────────────────────────────────────────
+  OAK_LOG:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/oak_log"
+  SPRUCE_LOG:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/spruce_log"
+  BIRCH_LOG:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/birch_log"
+  JUNGLE_LOG:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/jungle_log"
+  ACACIA_LOG:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/acacia_log"
+  DARK_OAK_LOG:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/dark_oak_log"
+  CRIMSON_STEM:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/crimson_stem"
+  WARPED_STEM:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/warped_stem"
+
+  # ── Blocks whose item form has its own sprite ─────────────────────
+  # Doors, beds, signs and banners are drawn from the ITEM atlas: their
+  # block models are multi-part and have no single representative face.
+  OAK_DOOR:
+    atlas: "minecraft:items"
+    sprite: "minecraft:item/oak_door"
+  IRON_DOOR:
+    atlas: "minecraft:items"
+    sprite: "minecraft:item/iron_door"
+  RED_BED:
+    atlas: "minecraft:items"
+    sprite: "minecraft:item/red_bed"
+  OAK_SIGN:
+    atlas: "minecraft:items"
+    sprite: "minecraft:item/oak_sign"
+  CHEST:
+    atlas: "minecraft:items"
+    sprite: "minecraft:item/chest"
+  ENDER_CHEST:
+    atlas: "minecraft:items"
+    sprite: "minecraft:item/ender_chest"
+  TRAPPED_CHEST:
+    atlas: "minecraft:items"
+    sprite: "minecraft:item/trapped_chest"
+  CAKE:
+    atlas: "minecraft:items"
+    sprite: "minecraft:item/cake"
+  SUSPICIOUS_SAND:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/suspicious_sand_0"
+  SUSPICIOUS_GRAVEL:
+    atlas: "minecraft:blocks"
+    sprite: "minecraft:block/suspicious_gravel_0"
+
+
+# Shown when a material cannot be resolved at all. Anything is better
+# than a checkerboard, and a barrier reads unambiguously as "missing".
+fallback:
+  atlas: "minecraft:items"
+  sprite: "minecraft:item/barrier"

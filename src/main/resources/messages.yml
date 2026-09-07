@@ -1,0 +1,516 @@
+# ═════════════════════════════════════════════════════════════════════
+#   DripleafCore — messages.yml
+#
+#   Every player-facing string in the plugin lives here. There are no
+#   string literals in the Java. Retheming the plugin is editing this
+#   file and running /dripleafcore reload messages.
+#
+#   Format is MiniMessage: https://docs.advntr.dev/minimessage/format
+#   Placeholders are written <like_this> and are substituted safely —
+#   a player whose name contains a < cannot inject formatting.
+#
+#   THE HOUSE PALETTE ─────────────────────────────────────────────────
+#     brand gradient   #dce35b → #45b649
+#     soul gradient    #AA00FF → #FF55FF
+#     shard gradient   #00CFFF → #7FE9FF
+#     success          #55FF55        failure     #FF5555
+#     danger           #FF3333        deep danger #800000
+#     body             #DDDDDD        muted       #AAAAAA
+#     structure        #555555        parenthetical #333333
+#     warning          #FFAA00
+#
+#   THE GLYPH SET ─────────────────────────────────────────────────────
+#     ■ section header      ➥ line item        ✓ met        ✗ unmet
+#     ✦ soul/ascension      ↪ call to action   ⚠ warning    ┃ separator
+#     ▰▱ progress bar
+# ═════════════════════════════════════════════════════════════════════
+
+prefix: "<gradient:#dce35b:#45b649><bold>Dripleaf</bold></gradient> <#555555>»</#555555> "
+
+
+# ─────────────────────────────────────────────────────────────────────
+#   SHARED UI CHROME
+#   Used by both the dialog renderer and the chest renderer.
+# ─────────────────────────────────────────────────────────────────────
+ui:
+  close: "<#AAAAAA>Close</#AAAAAA>"
+  back: "<#AAAAAA>← Back</#AAAAAA>"
+  confirm: "<#55FF55>Confirm</#55FF55>"
+  cancel: "<#AAAAAA>Cancel</#AAAAAA>"
+  submit: "<#55FF55>Submit</#55FF55>"
+  next-page: "<#AAAAAA>Next page <#555555>(<page>/<pages>)</#555555></#AAAAAA>"
+  previous-page: "<#AAAAAA>Previous page <#555555>(<page>/<pages>)</#555555></#AAAAAA>"
+
+  # Shown on a chest-GUI button that stands in for a dialog text field.
+  click-to-type: "<#555555>➥ <#AAAAAA>Click, then type your answer in chat.</#AAAAAA>"
+  enter-value: "<#DDDDDD>Type <#dce35b><label></#dce35b> in chat. <#333333><hint></#333333>"
+  prompt-cancel-word: "cancel"
+  prompt-cancel-hint: "<#555555>➥ <#AAAAAA>Type <#FF5555><word></#FF5555> to go back.</#AAAAAA>"
+  prompt-cancelled: "<#AAAAAA>Cancelled.</#AAAAAA>"
+
+  # /uimode
+  picker-title: "Menu Style"
+  picker-intro: "<#DDDDDD>Pick how every menu in this plugin is drawn for you.</#DDDDDD>"
+  picker-current: "<#555555>➥ <#AAAAAA>Your setting: <#DDDDDD><value></#DDDDDD></#AAAAAA>"
+  picker-effective: "<#555555>➥ <#AAAAAA>Currently drawing: <#DDDDDD><value></#DDDDDD></#AAAAAA>"
+  picker-platform: "<#555555>➥ <#AAAAAA>Detected platform: <#DDDDDD><value></#DDDDDD></#AAAAAA>"
+  platform-java: "Java"
+  platform-bedrock: "Bedrock"
+  mode-dialog: "Dialogs"
+  mode-chest: "Chest GUIs"
+  mode-auto: "Automatic"
+  option-dialog: "Native pop-up screens. Best on Java."
+  option-chest: "Classic chest menus. Works everywhere, including Bedrock."
+  option-auto: "Let the server choose: chest GUIs on Bedrock, dialogs on Java."
+  set: "<#55FF55>Menu style set to <#dce35b><mode></#dce35b>.</#55FF55> <#555555>(drawing <effective>)</#555555>"
+  set-other: "<#55FF55>Set <#dce35b><player></#dce35b>'s menu style to <#dce35b><mode></#dce35b>.</#55FF55>"
+  unknown-mode: "<#FF5555><mode> is not a menu style. Try dialog, chest or auto.</#FF5555>"
+  override-disabled: "<#FF5555>Menu styles are fixed by the server on this network.</#FF5555>"
+
+
+# ─────────────────────────────────────────────────────────────────────
+#   ERRORS
+# ─────────────────────────────────────────────────────────────────────
+errors:
+  no-permission: "<#FF5555>You do not have permission to do that. <#555555>(<permission>)</#555555></#FF5555>"
+  players-only: "<#FF5555>That command has to be run by a player.</#FF5555>"
+  player-not-found: "<#FF5555>Could not find a player called <#DDDDDD><player></#DDDDDD>.</#FF5555>"
+  usage: "<#FFAA00>⚠ Usage: <#DDDDDD><usage></#DDDDDD></#FFAA00>"
+  cooldown: "<#FF5555>You can do that again in <#DDDDDD><time></#DDDDDD>.</#FF5555>"
+  already-warming-up: "<#FF5555>You are already waiting on another teleport.</#FF5555>"
+  not-a-number: "<#FF5555><input> is not a number.</#FF5555>"
+  internal: "<#FF5555>Something went wrong. It has been logged — please tell staff.</#FF5555>"
+  amount-empty: "<#FF5555>Enter an amount.</#FF5555>"
+  amount-invalid: "<#FF5555>That is not a valid amount. Try 1000, 2.5k, 1m, all or half.</#FF5555>"
+  amount-negative: "<#FF5555>The amount has to be positive.</#FF5555>"
+  amount-too-large: "<#FF5555>That amount is far too large.</#FF5555>"
+  amount-not-whole: "<#FF5555>That currency only comes in whole numbers.</#FF5555>"
+
+
+# ─────────────────────────────────────────────────────────────────────
+#   WARMUPS
+# ─────────────────────────────────────────────────────────────────────
+warmup:
+  action-bar: "<#AAAAAA><label></#AAAAAA>  <bar>  <#DDDDDD><seconds>s</#DDDDDD>"
+  cancelled-move: "<#FF5555>Teleport cancelled — you moved.</#FF5555>"
+  cancelled-damage: "<#FF5555>Teleport cancelled — you took damage.</#FF5555>"
+
+
+# ─────────────────────────────────────────────────────────────────────
+#   CORE / STATUS
+# ─────────────────────────────────────────────────────────────────────
+core:
+  status-header: "<gradient:#dce35b:#45b649><bold>DripleafCore</bold></gradient> <#AAAAAA>v<version></#AAAAAA>"
+  status-modules: "<#555555>➥ <#AAAAAA>Modules — core: <#DDDDDD><core></#DDDDDD>, rebirth: <#DDDDDD><rebirth></#DDDDDD></#AAAAAA>"
+  status-uptime: "<#555555>➥ <#AAAAAA>Uptime: <#DDDDDD><uptime></#DDDDDD></#AAAAAA>"
+  status-hook: "<#555555>➥ <#AAAAAA><hook>: <#DDDDDD><detail></#DDDDDD></#AAAAAA>"
+  reload-done: "<#55FF55>Reloaded <scope>: <#DDDDDD><summary></#DDDDDD>. <#555555>(<millis>ms)</#555555></#55FF55>"
+  reload-warnings: "<#FFAA00>⚠ <count> configuration problem(s) were found — see the console or the Diagnostics screen.</#FFAA00>"
+  reload-failed: "<#FF5555>Reload failed and the old configuration is still live: <error></#FF5555>"
+  menu-closed-by-reload: "<#FFAA00>⚠ Your menu was closed because the configuration reloaded.</#FFAA00>"
+
+
+# ─────────────────────────────────────────────────────────────────────
+#   TELEPORTATION
+# ─────────────────────────────────────────────────────────────────────
+teleport:
+  spawn: "<#55FF55>Welcome to spawn.</#55FF55>"
+  spawn-set: "<#55FF55>Spawn set to your current position.</#55FF55>"
+  no-spawn: "<#FF5555>No spawn point has been set yet.</#FF5555>"
+  self: "<#FF5555>You cannot teleport to yourself.</#FF5555>"
+  sent: "<#55FF55>Teleport request sent to <#DDDDDD><player></#DDDDDD>.</#55FF55>"
+  sent-here: "<#55FF55>Asked <#DDDDDD><player></#DDDDDD> to teleport to you.</#55FF55>"
+  received: "<#DDDDDD><player> wants to teleport to you. <#555555>/tpaccept or /tpdeny — <time>s</#555555></#DDDDDD>"
+  received-here: "<#DDDDDD><player> wants you to teleport to them. <#555555>/tpaccept or /tpdeny — <time>s</#555555></#DDDDDD>"
+  none-pending: "<#FF5555>You have no pending teleport request.</#FF5555>"
+  none-sent: "<#FF5555>You have not sent a teleport request.</#FF5555>"
+  requester-offline: "<#FF5555>They logged off before you answered.</#FF5555>"
+  accepted: "<#55FF55>Teleporting…</#55FF55>"
+  accepted-by: "<#55FF55><player> accepted your teleport request.</#55FF55>"
+  denied: "<#AAAAAA>Request denied.</#AAAAAA>"
+  denied-by: "<#FF5555><player> denied your teleport request.</#FF5555>"
+  cancelled: "<#AAAAAA>Teleport request cancelled.</#AAAAAA>"
+  back: "<#55FF55>Returned to your previous location.</#55FF55>"
+  no-back: "<#FF5555>There is nowhere to go back to.</#FF5555>"
+  top: "<#55FF55>Up you go.</#55FF55>"
+  no-top: "<#FF5555>There is nothing above you.</#FF5555>"
+  moved: "<#55FF55>Teleported.</#55FF55>"
+  moved-other: "<#55FF55>Moved <#DDDDDD><player></#DDDDDD> to <#DDDDDD><target></#DDDDDD>.</#55FF55>"
+  summoned: "<#55FF55>You have been summoned.</#55FF55>"
+  rtp-searching: "<#AAAAAA>Looking for somewhere to put you…</#AAAAAA>"
+  rtp-success: "<#55FF55>Off you go.</#55FF55>"
+  rtp-failed: "<#FF5555>Could not find a safe spot. Try again in a moment.</#FF5555>"
+
+
+# ─────────────────────────────────────────────────────────────────────
+#   HOMES
+# ─────────────────────────────────────────────────────────────────────
+homes:
+  menu-title: "Your Homes"
+  menu-subtitle: "<#AAAAAA><used> of <max> home slots used.</#AAAAAA>"
+  none: "<#AAAAAA>You have not set any homes yet. Try <#DDDDDD>/sethome</#DDDDDD>.</#AAAAAA>"
+  set: "<#55FF55>Home <#dce35b><name></#dce35b> set. <#555555>(<used>/<max>)</#555555></#55FF55>"
+  replaced: "<#55FF55>Home <#dce35b><name></#dce35b> moved here.</#55FF55>"
+  bad-name: "<#FF5555>Home names can only use letters, numbers, - and _.</#FF5555>"
+  limit-reached: "<#FF5555>You have used all <max> of your home slots.</#FF5555>"
+  unknown: "<#FF5555>You have no home called <#DDDDDD><name></#DDDDDD>.</#FF5555>"
+  teleported: "<#55FF55>Welcome home, <#dce35b><name></#dce35b>.</#55FF55>"
+  deleted: "<#55FF55>Home <#dce35b><name></#dce35b> deleted.</#55FF55>"
+  delete-title: "Delete Home"
+  delete-body: "<#DDDDDD>Delete your home <#FF5555><name></#FF5555>? This cannot be undone.</#DDDDDD>"
+
+
+# ─────────────────────────────────────────────────────────────────────
+#   WARPS
+# ─────────────────────────────────────────────────────────────────────
+warps:
+  menu-title: "Server Warps"
+  menu-subtitle: "<#AAAAAA>Warps you cannot use yet are shown greyed, with the reason.</#AAAAAA>"
+  unknown: "<#FF5555>There is no warp called <#DDDDDD><name></#DDDDDD>.</#FF5555>"
+  no-access: "<#FF5555>You do not have access to that warp yet.</#FF5555>"
+  locked: "<#FF5555>Requires <permission></#FF5555>"
+  cost-line: "<#555555>➥ <#FFAA00>Costs <cost></#FFAA00>"
+  cannot-afford: "<#FF5555>That warp costs <#DDDDDD><cost></#DDDDDD>, which you do not have.</#FF5555>"
+  teleported: "<#55FF55>Warped to <#dce35b><warp></#dce35b>.</#55FF55>"
+  saved: "<#55FF55>Warp <#dce35b><name></#dce35b> saved here.</#55FF55>"
+  deleted: "<#55FF55>Warp <#dce35b><name></#dce35b> deleted.</#55FF55>"
+  delete-title: "Delete Warp"
+  delete-body: "<#DDDDDD>Delete the warp <#FF5555><name></#FF5555>? This cannot be undone.</#DDDDDD>"
+
+
+# ─────────────────────────────────────────────────────────────────────
+#   KITS
+# ─────────────────────────────────────────────────────────────────────
+kits:
+  menu-title: "Kits"
+  menu-subtitle: "<#AAAAAA>Claim a kit. Cooldowns survive a restart.</#AAAAAA>"
+  unknown: "<#FF5555>There is no kit called <#DDDDDD><name></#DDDDDD>.</#FF5555>"
+  locked: "<#FF5555>You have not unlocked this kit.</#FF5555>"
+  no-access: "<#FF5555>You do not have access to the <#DDDDDD><kit></#DDDDDD> kit.</#FF5555>"
+  cooldown: "<#FF5555>The <#DDDDDD><kit></#DDDDDD> kit is ready again in <#DDDDDD><time></#DDDDDD>.</#FF5555>"
+  cooldown-short: "<#FF5555>Ready in <time></#FF5555>"
+  one-time-used: "<#FF5555>You have already claimed the <#DDDDDD><kit></#DDDDDD> kit.</#FF5555>"
+  one-time-used-short: "<#FF5555>Already claimed</#FF5555>"
+  inventory-full: "<#FF5555>You need <#DDDDDD><slots></#DDDDDD> free inventory slots for that kit.</#FF5555>"
+  claimed: "<#55FF55>Claimed the <#dce35b><kit></#dce35b> kit.</#55FF55>"
+
+
+# ─────────────────────────────────────────────────────────────────────
+#   ECONOMY
+# ─────────────────────────────────────────────────────────────────────
+economy:
+  balance: "<#DDDDDD><player>'s balance: <gradient:#dce35b:#45b649><balance></gradient></#DDDDDD>"
+  insufficient-funds: "<#FF5555>You need <#DDDDDD><amount></#DDDDDD> and do not have it.</#FF5555>"
+  transfer-failed: "<#FF5555>The economy plugin refused that transaction.</#FF5555>"
+  pay-self: "<#FF5555>You cannot pay yourself.</#FF5555>"
+  pay-sent: "<#55FF55>Sent <#DDDDDD><amount></#DDDDDD> to <#dce35b><player></#dce35b>.</#55FF55>"
+  pay-received: "<#55FF55>Received <#DDDDDD><amount></#DDDDDD> from <#dce35b><player></#dce35b>.</#55FF55>"
+  baltop-header: "<gradient:#dce35b:#45b649><bold>Richest players</bold></gradient> <#555555>(page <page>/<pages>)</#555555>"
+  baltop-entry: "<#555555><rank>.</#555555> <#DDDDDD><player></#DDDDDD> <#555555>┃</#555555> <#dce35b><balance></#dce35b>"
+  baltop-empty: "<#AAAAAA>Nothing to show yet — the leaderboard refreshes on a timer.</#AAAAAA>"
+  nothing-in-hand: "<#FF5555>You are not holding anything.</#FF5555>"
+  not-sellable: "<#FF5555><item> cannot be sold here.</#FF5555>"
+  nothing-sold: "<#FF5555>Nothing in your inventory can be sold here.</#FF5555>"
+  sold: "<#55FF55>Sold <#DDDDDD><amount></#DDDDDD> item(s) for <#dce35b><total></#dce35b>.</#55FF55>"
+  worth: "<#DDDDDD><item> — <#dce35b><unit></#dce35b> each, <#dce35b><stack></#dce35b> a stack.</#DDDDDD>"
+  admin-balance: "<#DDDDDD><player>'s <currency>: <#dce35b><balance></#dce35b></#DDDDDD>"
+  admin-applied: "<#55FF55><action> applied to <#dce35b><player></#dce35b>'s <currency>: <#AAAAAA><before></#AAAAAA> → <#DDDDDD><after></#DDDDDD></#55FF55>"
+
+
+# ─────────────────────────────────────────────────────────────────────
+#   SHOPS
+# ─────────────────────────────────────────────────────────────────────
+shop:
+  unknown: "<#FF5555>That shop does not exist.</#FF5555>"
+  currency-unavailable: "<#FF5555>The <currency> economy is not available right now.</#FF5555>"
+  balance-line: "<#555555>➥ <#AAAAAA>Balance: <gradient:#dce35b:#45b649><balance></gradient></#AAAAAA>"
+  item-count: "<#555555>➥ <#AAAAAA><count> items in this shop.</#AAAAAA>"
+  category-count: "<#555555>➥ <#333333><count> items</#333333>"
+  item-locked: "<#FF5555>You have not unlocked this item.</#FF5555>"
+  buy-line: "<#555555>➥ <#55FF55>Buy: <price></#55FF55>"
+  sell-line: "<#555555>➥ <#00CFFF>Sell: <price></#00CFFF>"
+  buy-button: "<#55FF55>Buy <amount></#55FF55> <#555555>┃</#555555> <#DDDDDD><price></#DDDDDD>"
+  sell-button: "<#00CFFF>Sell <amount></#00CFFF> <#555555>┃</#555555> <#DDDDDD><price></#DDDDDD>"
+  nothing-to-sell: "<#FF5555>You have none of those to sell.</#FF5555>"
+  quick-buy: "Quick Buy"
+  quick-buy-hint: "<#555555>➥ <#AAAAAA>Search the whole shop by name.</#AAAAAA>"
+  search: "Search"
+  search-hint: "<#AAAAAA>Type part of an item name.</#AAAAAA>"
+  search-label: "Item name"
+  search-placeholder: "diamond"
+  results-title: "Search Results"
+  results-count: "<#AAAAAA><count> match(es) for <#DDDDDD><query></#DDDDDD>.</#AAAAAA>"
+  no-results: "<#FF5555>Nothing matched <#DDDDDD><query></#DDDDDD>.</#FF5555>"
+  confirm-title: "Confirm Purchase"
+  confirm-sell-title: "Confirm Sale"
+  confirm-item: "<#555555>➥ <#DDDDDD><amount>× <item></#DDDDDD>"
+  confirm-unit: "<#555555>➥ <#AAAAAA>Each: <#DDDDDD><price></#DDDDDD></#AAAAAA>"
+  confirm-total: "<#555555>➥ <#AAAAAA>Total: <#dce35b><price></#dce35b></#AAAAAA>"
+  confirm-after: "<#555555>➥ <#AAAAAA>Balance afterwards: <#DDDDDD><balance></#DDDDDD></#AAAAAA>"
+  confirm-buy: "<#55FF55>Buy</#55FF55>"
+  confirm-sell: "<#00CFFF>Sell</#00CFFF>"
+  insufficient-funds: "<#FF5555>That costs <#DDDDDD><price></#DDDDDD> and you have <#DDDDDD><balance></#DDDDDD>.</#FF5555>"
+  inventory-full: "<#FF5555>Your inventory is full — nothing was bought and nothing was dropped.</#FF5555>"
+  transaction-failed: "<#FF5555>The transaction could not be completed.</#FF5555>"
+  bought: "<#55FF55>Bought <#DDDDDD><amount>× <item></#DDDDDD> for <#dce35b><price></#dce35b>. <#555555>Balance: <balance></#555555></#55FF55>"
+  sold: "<#55FF55>Sold <#DDDDDD><amount>× <item></#DDDDDD> for <#dce35b><price></#dce35b>. <#555555>Balance: <balance></#555555></#55FF55>"
+
+
+# ─────────────────────────────────────────────────────────────────────
+#   CHAT AND SOCIAL
+# ─────────────────────────────────────────────────────────────────────
+social:
+  msg-out: "<#555555>you → <#AAAAAA><to></#AAAAAA></#555555> <#DDDDDD><message></#DDDDDD>"
+  msg-in: "<#555555><#AAAAAA><from></#AAAAAA> → you</#555555> <#DDDDDD><message></#DDDDDD>"
+  spy-format: "<#333333>[spy] <from> → <to>: <message></#333333>"
+  spy-on: "<#55FF55>Social spy on.</#55FF55>"
+  spy-off: "<#AAAAAA>Social spy off.</#AAAAAA>"
+  no-reply-target: "<#FF5555>There is nobody to reply to.</#FF5555>"
+  ignored-by: "<#FF5555><player> is not accepting messages from you.</#FF5555>"
+  ignore-added: "<#55FF55>Ignoring <#DDDDDD><player></#DDDDDD>.</#55FF55>"
+  ignore-removed: "<#AAAAAA>No longer ignoring <#DDDDDD><player></#DDDDDD>.</#AAAAAA>"
+  nick-set: "<#55FF55>Nickname for <#DDDDDD><player></#DDDDDD> set to <nick><#55FF55>.</#55FF55>"
+  nick-cleared: "<#AAAAAA>Nickname cleared for <#DDDDDD><player></#DDDDDD>.</#AAAAAA>"
+  no-such-nick: "<#FF5555>Nobody online is using the nickname <#DDDDDD><nick></#DDDDDD>.</#FF5555>"
+  realname: "<#DDDDDD><nick> is <#dce35b><player></#dce35b>.</#DDDDDD>"
+  afk-on: "<#555555>➥ <#AAAAAA><player> is now AFK.</#AAAAAA>"
+  afk-off: "<#555555>➥ <#AAAAAA><player> is no longer AFK.</#AAAAAA>"
+
+
+# ─────────────────────────────────────────────────────────────────────
+#   UTILITY
+# ─────────────────────────────────────────────────────────────────────
+utility:
+  disposal-title: "<#FF3333>Disposal — anything left here is destroyed</#FF3333>"
+  hat: "<#55FF55>Very fetching.</#55FF55>"
+  more: "<#55FF55>Stack filled.</#55FF55>"
+  repaired: "<#55FF55>Repaired <#DDDDDD><count></#DDDDDD> item(s).</#55FF55>"
+  nothing-to-repair: "<#FF5555>Nothing there needs repairing.</#FF5555>"
+  condensed: "<#55FF55>Compacted <#DDDDDD><count></#DDDDDD> stack(s).</#55FF55>"
+  nothing-to-condense: "<#FF5555>Nothing in your inventory can be compacted.</#FF5555>"
+  recipe-header: "<gradient:#dce35b:#45b649><item></gradient> <#AAAAAA>is made from:</#AAAAAA>"
+  recipe-line: "<#555555>➥ <#DDDDDD><ingredients></#DDDDDD>"
+  recipe-none: "<#FF5555><item> has no crafting recipe.</#FF5555>"
+  recipe-unknown: "<#FF5555>Unknown item: <item></#FF5555>"
+  healed: "<#55FF55>Healed <#DDDDDD><player></#DDDDDD>.</#55FF55>"
+  fed: "<#55FF55>Fed <#DDDDDD><player></#DDDDDD>.</#55FF55>"
+  god-on: "<#55FF55>God mode on for <#DDDDDD><player></#DDDDDD>.</#55FF55>"
+  god-off: "<#AAAAAA>God mode off for <#DDDDDD><player></#DDDDDD>.</#AAAAAA>"
+  fly-on: "<#55FF55>Flight enabled for <#DDDDDD><player></#DDDDDD>.</#55FF55>"
+  fly-off: "<#AAAAAA>Flight disabled for <#DDDDDD><player></#DDDDDD>.</#AAAAAA>"
+  fly-denied: "<#FF5555>You can only fly inside claims you are trusted in.</#FF5555>"
+  speed-range: "<#FF5555>Speed has to be between 1 and 10.</#FF5555>"
+  speed-set: "<#55FF55>Speed for <#DDDDDD><player></#DDDDDD> set to <#DDDDDD><level></#DDDDDD>.</#55FF55>"
+  vanish-on: "<#55FF55>You are now invisible to other players.</#55FF55>"
+  vanish-off: "<#AAAAAA>You are visible again.</#AAAAAA>"
+  near: "<#DDDDDD>Within <radius>m: <#AAAAAA><players></#AAAAAA></#DDDDDD>"
+  near-none: "<#AAAAAA>Nobody else within <radius>m.</#AAAAAA>"
+  seen-online: "<#55FF55><player> is online right now.</#55FF55>"
+  seen-offline: "<#DDDDDD><player> was last seen <#AAAAAA><time></#AAAAAA> ago.</#DDDDDD>"
+  playtime: "<#DDDDDD><player> has played for <#dce35b><time></#dce35b>.</#DDDDDD>"
+  ping: "<#DDDDDD><player>'s ping: <#dce35b><ping>ms</#dce35b></#DDDDDD>"
+  sudo: "<#55FF55>Ran <#DDDDDD>/<command></#DDDDDD> as <#DDDDDD><player></#DDDDDD>.</#55FF55>"
+  broadcast-format: "<#555555>▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬</#555555><newline><gradient:#dce35b:#45b649>    <message></gradient><newline><#555555>▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬</#555555>"
+  gamemode-set: "<#55FF55><player> is now in <#DDDDDD><mode></#DDDDDD> mode.</#55FF55>"
+  gamemode-unknown: "<#FF5555><input> is not a game mode.</#FF5555>"
+  name-set: "<#55FF55>Item renamed.</#55FF55>"
+  lore-set: "<#55FF55>Item lore set. <#555555>Separate lines with |</#555555></#55FF55>"
+
+
+# ═════════════════════════════════════════════════════════════════════
+#   REBIRTH
+# ═════════════════════════════════════════════════════════════════════
+rebirth:
+  menu-title: "Rebirth <numeral>"
+  numeral-none: "—"
+  path-name-standard: "Standard"
+  path-name-soul: "Soul Ascension"
+
+  section-progress: "Progress"
+  section-requirements: "Requirements"
+  section-rewards: "Rewards"
+  section-sacrifice: "What you give up"
+  section-lifetime: "Lifetime"
+  section-next: "Next tier"
+
+  current-tier: "<#AAAAAA>Current tier: <#DDDDDD><numeral></#DDDDDD> <#555555>(<tier>)</#555555></#AAAAAA>"
+  next-tier: "<#AAAAAA>Next tier: <gradient:#dce35b:#45b649><numeral></gradient> <#555555>(<tier>)</#555555></#AAAAAA>"
+
+  # Costs are always shown in full. A player about to spend 48,750,000
+  # should see that number, not "$48.75M".
+  cost-met: "<#AAAAAA>Cost: <#DDDDDD><cost></#DDDDDD> <#555555>(you have <balance>)</#555555></#AAAAAA>"
+  cost-unmet: "<#AAAAAA>Cost: <#FF5555><cost></#FF5555> <#555555>(you have <balance>)</#555555></#AAAAAA>"
+  requirement-line: "<#AAAAAA><name>:</#AAAAAA> <bar> <#DDDDDD><progress> / <target></#DDDDDD> <#555555>(<percent>%)</#555555>"
+  requirement-mcmmo: "mcMMO Power"
+  requirement-playtime: "Hours Played"
+
+  reward-cash: "<#AAAAAA>Starting cash: <#dce35b><cash></#dce35b></#AAAAAA>"
+  reward-keys: "<#AAAAAA>Crate keys: <#dce35b><keys></#dce35b></#AAAAAA>"
+  reward-multiplier: "<#AAAAAA>Sell and jobs bonus: <#dce35b>+<multiplier>%</#dce35b></#AAAAAA>"
+  reward-souls: "<#AAAAAA>Soul tokens <#555555>(Soul Ascension only)</#555555>: <souls></#AAAAAA>"
+
+  path-standard: "Standard Rebirth"
+  path-soul: "✦ Soul Ascension"
+  path-cost: "<#AAAAAA>Costs <#DDDDDD><cost></#DDDDDD></#AAAAAA>"
+  click-to: "Click to continue"
+
+  locked-requirement: "Still needed — <name>: <progress> / <target>"
+  locked-funds: "You need <cost> and are <short> short"
+  locked-cooldown: "Available again in <time>"
+  locked-economy: "The economy plugin is not responding"
+  locked-generic: "Not available yet"
+  maxed-short: "You are at the highest tier"
+
+  info-button: "The Ascension Paths"
+  info-button-lore: "<#AAAAAA>Browse every tier, its cost and its rewards.</#AAAAAA>"
+
+  confirm-title: "Rebirth <numeral> — <path>"
+  confirm-body:
+    - "<#DDDDDD>You are about to rebirth into <gradient:#dce35b:#45b649><numeral></gradient> on the <#DDDDDD><path></#DDDDDD> path.</#DDDDDD>"
+    - ""
+    - "<#555555>➥ <#AAAAAA>Cost: <#FF3333><cost></#FF3333></#AAAAAA>"
+    - "<#555555>➥ <#AAAAAA>Balance now: <#DDDDDD><balance></#DDDDDD></#AAAAAA>"
+    - "<#555555>➥ <#AAAAAA>Balance after: <#DDDDDD><after></#DDDDDD></#AAAAAA>"
+  confirm-yes: "<#55FF55>Rebirth into <numeral></#55FF55>"
+  confirm-no: "<#AAAAAA>Not yet</#AAAAAA>"
+  confirm-type-warning: "This tier is expensive. Type <numeral> below to confirm."
+  confirm-type-label: "Type the numeral"
+  confirm-type-mismatch: "<#FF5555>That did not match <#DDDDDD><numeral></#DDDDDD>. Nothing has been charged.</#FF5555>"
+  cancelled: "<#AAAAAA>Rebirth cancelled. Nothing was charged.</#AAAAAA>"
+
+  sacrifice-money: "Your entire money balance is wiped."
+  sacrifice-mcmmo: "Every mcMMO skill is reset to zero."
+  sacrifice-none: "Nothing is taken from you."
+
+  browser-title: "The Ascension Paths"
+  browser-subtitle: "<#AAAAAA>You are tier <#DDDDDD><tier></#DDDDDD>. Tiers up to <#DDDDDD><visible></#DDDDDD> of <#DDDDDD><max></#DDDDDD> are revealed.</#AAAAAA>"
+  browser-entry: "Rebirth <numeral>"
+  browser-cost: "<#AAAAAA>Standard <#DDDDDD><cost></#DDDDDD> <#555555>┃</#555555> <#AA00FF>Soul <#DDDDDD><soul_cost></#DDDDDD></#AA00FF></#AAAAAA>"
+  browser-locked: "Reach Rebirth <numeral> to reveal this tier"
+  browser-achieved: "<#333333>Reached on <date></#333333>"
+
+  maxed-title: "✦ The Overlord"
+  maxed-body:
+    - "<#DDDDDD>There is nothing above you.</#DDDDDD>"
+    - ""
+  stats-title: "<player> — Rebirth"
+  stats-tier: "<#AAAAAA>Tier: <#DDDDDD><numeral></#DDDDDD> <#555555>(<tier>)</#555555></#AAAAAA>"
+  stats-total: "<#AAAAAA>Rebirths completed: <#DDDDDD><total></#DDDDDD></#AAAAAA>"
+  stats-souls: "<#AAAAAA>Soul tokens earned: <#AA00FF><souls></#AA00FF></#AAAAAA>"
+  stats-spent: "<#AAAAAA>Total spent on rebirths: <#DDDDDD><spent></#DDDDDD></#AAAAAA>"
+  stats-multiplier: "<#AAAAAA>Sell bonus: <#dce35b>+<multiplier>%</#dce35b></#AAAAAA>"
+  stats-first: "<#AAAAAA>First rebirth: <#DDDDDD><date></#DDDDDD></#AAAAAA>"
+  stats-last: "<#AAAAAA>Most recent: <#DDDDDD><date></#DDDDDD></#AAAAAA>"
+
+  top-header: "<gradient:#dce35b:#45b649><bold>Highest rebirths</bold></gradient> <#555555>(page <page>/<pages>)</#555555>"
+  top-entry: "<#555555><rank>.</#555555> <#DDDDDD><player></#DDDDDD> <#555555>┃</#555555> <#dce35b>Tier <tier></#dce35b>"
+  top-empty: "<#AAAAAA>Nobody has rebirthed yet.</#AAAAAA>"
+
+  admin-set: "<#55FF55>Set <#DDDDDD><player></#DDDDDD>'s tier: <#AAAAAA><before></#AAAAAA> → <#DDDDDD><after></#DDDDDD></#55FF55>"
+  admin-reset: "<#55FF55>Reset <#DDDDDD><player></#DDDDDD>'s rebirth progress.</#55FF55>"
+  admin-unknown-tier: "<#FF5555>Tier <tier> is not defined in tiers.yml.</#FF5555>"
+
+  # The panel shown to the player who just rebirthed.
+  panel-standard:
+    - "<#555555><strikethrough>                                                  </strikethrough></#555555>"
+    - ""
+    - "    <gradient:#dce35b:#45b649><bold>REBIRTH <numeral></bold></gradient>"
+    - "    <#AAAAAA>You start again with <#DDDDDD><cash></#DDDDDD> and a <#DDDDDD>+<multiplier>%</#DDDDDD> sell bonus.</#AAAAAA>"
+    - ""
+    - "<#555555><strikethrough>                                                  </strikethrough></#555555>"
+  panel-soul:
+    - "<#555555><strikethrough>                                                  </strikethrough></#555555>"
+    - ""
+    - "    <gradient:#AA00FF:#FF55FF><bold>✦ SOUL ASCENSION <numeral> ✦</bold></gradient>"
+    - "    <#AAAAAA>You start again with <#DDDDDD><cash></#DDDDDD>, a <#DDDDDD>+<multiplier>%</#DDDDDD> sell bonus</#AAAAAA>"
+    - "    <#AAAAAA>and <#AA00FF><souls> soul token(s)</#AA00FF>.</#AAAAAA>"
+    - ""
+    - "<#555555><strikethrough>                                                  </strikethrough></#555555>"
+
+  broadcast-standard:
+    - "<#555555><strikethrough>                                                  </strikethrough></#555555>"
+    - "    <gradient:#dce35b:#45b649><bold><player></bold></gradient> <#AAAAAA>has reached</#AAAAAA> <gradient:#dce35b:#45b649><bold>Rebirth <numeral></bold></gradient>"
+    - "<#555555><strikethrough>                                                  </strikethrough></#555555>"
+  broadcast-soul:
+    - "<#555555><strikethrough>                                                  </strikethrough></#555555>"
+    - "    <gradient:#AA00FF:#FF55FF><bold>✦ <player></bold></gradient> <#AAAAAA>has ascended to</#AAAAAA> <gradient:#AA00FF:#FF55FF><bold>Rebirth <numeral> ✦</bold></gradient>"
+    - "<#555555><strikethrough>                                                  </strikethrough></#555555>"
+
+
+# ═════════════════════════════════════════════════════════════════════
+#   ADMIN PANEL
+# ═════════════════════════════════════════════════════════════════════
+admin:
+  root-title: "DripleafCore Admin"
+  confirm-title: "Confirm"
+  reloaded: "<#55FF55>Reloaded <#DDDDDD><what></#DDDDDD>.</#55FF55>"
+
+  section-modules: "Modules"
+  section-players: "Players"
+  section-economy: "Economy"
+  section-rebirth: "Rebirth"
+  section-warps: "Warps"
+  section-commands: "Commands"
+  section-diagnostics: "Diagnostics"
+
+  stat-version: "<#555555>➥ <#AAAAAA>Version: <#DDDDDD><value></#DDDDDD></#AAAAAA>"
+  stat-uptime: "<#555555>➥ <#AAAAAA>Uptime: <#DDDDDD><value></#DDDDDD></#AAAAAA>"
+  stat-online: "<#555555>➥ <#AAAAAA>Online: <#DDDDDD><value></#DDDDDD></#AAAAAA>"
+  stat-tps: "<#555555>➥ <#AAAAAA>TPS: <#DDDDDD><value></#DDDDDD></#AAAAAA>"
+  stat-modules: "<#555555>➥ <#AAAAAA>Modules: <#DDDDDD><value></#DDDDDD></#AAAAAA>"
+  stat-uuid: "<#555555>➥ <#333333><value></#333333>"
+  stat-playtime: "<#555555>➥ <#AAAAAA>Playtime: <#DDDDDD><value></#DDDDDD></#AAAAAA>"
+  stat-tier: "<#555555>➥ <#AAAAAA>Rebirth tier: <#DDDDDD><value></#DDDDDD></#AAAAAA>"
+  stat-homes: "<#555555>➥ <#AAAAAA>Homes: <#DDDDDD><value></#DDDDDD></#AAAAAA>"
+  stat-ui: "<#555555>➥ <#AAAAAA>Menu surface: <#DDDDDD><value></#DDDDDD></#AAAAAA>"
+  stat-balance: "<#555555>➥ <#AAAAAA><value></#AAAAAA>"
+  stat-player: "<#555555>➥ <#AAAAAA>Player: <#DDDDDD><value></#DDDDDD></#AAAAAA>"
+  stat-current: "<#555555>➥ <#AAAAAA>Current: <#DDDDDD><value></#DDDDDD></#AAAAAA>"
+  stat-shop: "<#555555>➥ <#AAAAAA><value></#AAAAAA>"
+  stat-currency-mode: "<#555555>➥ <#AAAAAA><value></#AAAAAA>"
+  stat-warps: "<#555555>➥ <#AAAAAA>Warps defined: <#DDDDDD><value></#DDDDDD></#AAAAAA>"
+  stat-commands: "<#555555>➥ <#AAAAAA>Registered: <#DDDDDD><value></#DDDDDD></#AAAAAA>"
+  stat-max-tier: "<#555555>➥ <#AAAAAA>Highest tier defined: <#DDDDDD><value></#DDDDDD></#AAAAAA>"
+
+  modules-intro: "<#AAAAAA>Reload a module's data without touching its registrations.</#AAAAAA>"
+  reload-core: "Reload core data"
+  reload-all: "Reload everything"
+
+  players-intro: "<#AAAAAA>Search for an online player to inspect and edit.</#AAAAAA>"
+  player-name-label: "Player name"
+  player-name-hint: "Steve"
+  player-search: "Search"
+  set-balance: "Set <currency>"
+  set-balance-title: "Set Balance"
+  amount-label: "New amount"
+  set-tier: "Set rebirth tier"
+  set-tier-title: "Set Rebirth Tier"
+  tier-label: "New tier"
+  confirm-balance: "<#DDDDDD>Set <#dce35b><player></#dce35b>'s <currency> from <#AAAAAA><before></#AAAAAA> to <#FF3333><after></#FF3333>?</#DDDDDD>"
+  confirm-tier: "<#DDDDDD>Set <#dce35b><player></#dce35b>'s rebirth tier from <#AAAAAA><before></#AAAAAA> to <#FF3333><after></#FF3333>?</#DDDDDD>"
+  confirm-warp-delete: "<#DDDDDD>Delete the warp <#FF3333><name></#FF3333>? This cannot be undone.</#DDDDDD>"
+
+  economy-intro: "<#AAAAAA>Shop and currency status.</#AAAAAA>"
+  refresh-baltop: "Refresh leaderboards"
+  baltop-refreshing: "<#55FF55>Leaderboard refresh queued.</#55FF55>"
+  transaction-tail: "Recent transactions"
+  log-empty: "<#AAAAAA>That log is empty.</#AAAAAA>"
+
+  rebirth-browse: "Browse tiers"
+  rebirth-reload: "Reload tier data"
+  rebirth-disabled: "<#FF5555>The rebirth module is not enabled.</#FF5555>"
+
+  warp-create: "Create a warp here"
+  warp-create-hint: "<#555555>➥ <#AAAAAA>Uses your current position.</#AAAAAA>"
+  warp-create-body: "<#DDDDDD>The warp will be created where you are standing.</#DDDDDD>"
+  warp-name-label: "Warp name"
+  warp-delete: "Click to delete"
+
+  commands-intro: "<#AAAAAA>Enable and disable these in core/commands.yml, then reload.</#AAAAAA>"
+  commands-edit-hint: "<#333333>Edit in core/commands.yml</#333333>"
+
+  diag-threads: "Threads"
+  diag-icons: "Icons"
+  diag-hooks: "Integrations"
+  diag-config: "Configuration"
+  diag-config-clean: "No problems found."

@@ -1,0 +1,683 @@
+# ══════════════════════════════════════════════════════════════════════
+#   DripleafCore — rebirth/tiers.yml
+#
+#   TO ADD A NEW TIER: copy the last block, increment the number, and
+#   edit it. Nothing else needs changing anywhere — no code, no other
+#   file. Then run /dripleafcore reload rebirth.
+#
+#   Tiers must be consecutive starting at 1. A gap is reported at load
+#   because a gap means a player can reach a tier they can never leave.
+#
+#   Per tier:
+#     numeral                shown in menus; any text
+#     cost                   money cost of the Standard path (k/m/b/t ok)
+#     soul-cost-multiplier   Soul Ascension costs cost × this
+#     icon                   optional; defaults to the requirement material
+#     requirements           everything that must be true first
+#     rewards.cash           starting money injected after the wipe
+#     rewards.keys           crate keys
+#     rewards.multiplier     +% sell and jobs money
+#     rewards.souls          soul tokens — SOUL PATH ONLY
+#     unlocks                display-only; the grants live in unlocks.yml
+#     commands               console commands run at completion
+#     soul-commands          extra console commands, soul path only
+#
+#   Substitutions available in commands:
+#     <player> <tier> <numeral> <keys> <cash> <souls> <multiplier> <cost>
+#
+#   Requirement types:
+#     mcmmo-power: <n>
+#     playtime: <hours>
+#     permission: "<node>"
+#     stat:
+#       type: <Bukkit Statistic>     e.g. MINE_BLOCK, KILL_ENTITY, FISH_CAUGHT
+#       material: <Material>         for BLOCK/ITEM statistics
+#       entity: <EntityType>         for ENTITY statistics
+#       amount: <n>
+#       display: "<what players see>"
+# ══════════════════════════════════════════════════════════════════════
+
+tiers:
+
+  # ── Tier 1 — I ─────────────────────────────────────────────────
+  1:
+    numeral: "I"
+    cost: 90k
+    soul-cost-multiplier: 2.0
+    requirements:
+      mcmmo-power: 150
+      stat:
+        type: MINE_BLOCK
+        material: STONE
+        amount: 2500
+        display: "Stone Mined"
+    rewards:
+      cash: 10k
+      keys: 1
+      multiplier: 4
+      souls: 1
+    unlocks:
+      - "Unlock: /recipe command"
+      - "Unlock: +5 chest shops (15 total)"
+      - "Unlock: +1 player warp (1 total)"
+    commands:
+      - "lp user <player> parent add rebirth-1"
+      - "excellentcrates key give <player> rebirth <keys>"
+    soul-commands: []
+
+  # ── Tier 2 — II ────────────────────────────────────────────────
+  2:
+    numeral: "II"
+    cost: 225k
+    soul-cost-multiplier: 2.0
+    requirements:
+      mcmmo-power: 300
+      stat:
+        type: KILL_ENTITY
+        entity: ZOMBIE
+        amount: 625
+        display: "Zombies Killed"
+    rewards:
+      cash: 15k
+      keys: 1
+      multiplier: 8
+      souls: 1
+    unlocks:
+      - "Unlock: Server shop access"
+      - "Unlock: +3 auction slots (8 total)"
+      - "Unlock: +5 chest shops (20 total)"
+      - "Unlock: +1 player warp (2 total)"
+    commands:
+      - "lp user <player> parent add rebirth-2"
+      - "excellentcrates key give <player> rebirth <keys>"
+    soul-commands: []
+
+  # ── Tier 3 — III ───────────────────────────────────────────────
+  3:
+    numeral: "III"
+    cost: 450k
+    soul-cost-multiplier: 2.0
+    requirements:
+      mcmmo-power: 450
+      stat:
+        type: MINE_BLOCK
+        material: OAK_LOG
+        amount: 1250
+        display: "Oak Logs Mined"
+    rewards:
+      cash: 20k
+      keys: 1
+      multiplier: 12
+      souls: 1
+    unlocks:
+      - "Unlock: /craft command"
+      - "Unlock: +10 chest shops (30 total)"
+      - "Unlock: +1 player warp (3 total)"
+    commands:
+      - "lp user <player> parent add rebirth-3"
+      - "excellentcrates key give <player> rebirth <keys>"
+    soul-commands: []
+
+  # ── Tier 4 — IV ────────────────────────────────────────────────
+  4:
+    numeral: "IV"
+    cost: 675k
+    soul-cost-multiplier: 2.0
+    requirements:
+      mcmmo-power: 600
+      stat:
+        type: FISH_CAUGHT
+        amount: 125
+        display: "Fish Caught"
+    rewards:
+      cash: 25k
+      keys: 1
+      multiplier: 16
+      souls: 1
+    unlocks:
+      - "Unlock: +10 chest shops (40 total)"
+      - "Unlock: +1 player warp (4 total)"
+    commands:
+      - "lp user <player> parent add rebirth-4"
+      - "excellentcrates key give <player> rebirth <keys>"
+    soul-commands: []
+
+  # ── Tier 5 — V ─────────────────────────────────────────────────
+  5:
+    numeral: "V"
+    cost: 1.125m
+    soul-cost-multiplier: 2.0
+    requirements:
+      mcmmo-power: 750
+      stat:
+        type: MINE_BLOCK
+        material: DEEPSLATE
+        amount: 2500
+        display: "Deepslate Mined"
+    rewards:
+      cash: 50k
+      keys: 2
+      multiplier: 20
+      souls: 1
+    unlocks:
+      - "Unlock: Silver chat tag"
+      - "Unlock: Aura particles"
+      - "Unlock: +10 chest shops (50 total)"
+      - "Unlock: +1 player warp (5 total)"
+    commands:
+      - "lp user <player> parent add rebirth-5"
+      - "excellentcrates key give <player> rebirth <keys>"
+    soul-commands: []
+
+  # ── Tier 6 — VI ────────────────────────────────────────────────
+  6:
+    numeral: "VI"
+    cost: 1.4875m
+    soul-cost-multiplier: 2.0
+    requirements:
+      mcmmo-power: 900
+      stat:
+        type: KILL_ENTITY
+        entity: SKELETON
+        amount: 625
+        display: "Skeletons Killed"
+    rewards:
+      cash: 60k
+      keys: 1
+      multiplier: 26
+      souls: 2
+    unlocks:
+      - "Unlock: +4 auction slots (12 total)"
+      - "Unlock: +10 chest shops (60 total)"
+      - "Unlock: +1 player warp (6 total)"
+    commands:
+      - "lp user <player> parent add rebirth-6"
+      - "excellentcrates key give <player> rebirth <keys>"
+    soul-commands: []
+
+  # ── Tier 7 — VII ───────────────────────────────────────────────
+  7:
+    numeral: "VII"
+    cost: 2.125m
+    soul-cost-multiplier: 2.0
+    requirements:
+      mcmmo-power: 1050
+      stat:
+        type: MINE_BLOCK
+        material: NETHERRACK
+        amount: 6250
+        display: "Netherrack Mined"
+    rewards:
+      cash: 70k
+      keys: 1
+      multiplier: 32
+      souls: 2
+    unlocks:
+      - "Unlock: /condense command"
+      - "Unlock: +10 chest shops (70 total)"
+      - "Unlock: +1 player warp (7 total)"
+    commands:
+      - "lp user <player> parent add rebirth-7"
+      - "excellentcrates key give <player> rebirth <keys>"
+    soul-commands: []
+
+  # ── Tier 8 — VIII ──────────────────────────────────────────────
+  8:
+    numeral: "VIII"
+    cost: 2.7625m
+    soul-cost-multiplier: 2.0
+    requirements:
+      mcmmo-power: 1200
+      stat:
+        type: KILL_ENTITY
+        entity: CREEPER
+        amount: 375
+        display: "Creepers Killed"
+    rewards:
+      cash: 80k
+      keys: 1
+      multiplier: 38
+      souls: 2
+    unlocks:
+      - "Unlock: +10 chest shops (80 total)"
+      - "Unlock: +1 player warp (8 total)"
+    commands:
+      - "lp user <player> parent add rebirth-8"
+      - "excellentcrates key give <player> rebirth <keys>"
+    soul-commands: []
+
+  # ── Tier 9 — IX ────────────────────────────────────────────────
+  9:
+    numeral: "IX"
+    cost: 3.4m
+    soul-cost-multiplier: 2.0
+    requirements:
+      mcmmo-power: 1350
+      stat:
+        type: MINE_BLOCK
+        material: OBSIDIAN
+        amount: 250
+        display: "Obsidian Mined"
+    rewards:
+      cash: 90k
+      keys: 1
+      multiplier: 44
+      souls: 2
+    unlocks:
+      - "Unlock: +10 chest shops (90 total)"
+      - "Unlock: +1 player warp (9 total)"
+    commands:
+      - "lp user <player> parent add rebirth-9"
+      - "excellentcrates key give <player> rebirth <keys>"
+    soul-commands: []
+
+  # ── Tier 10 — X ─────────────────────────────────────────────────
+  10:
+    numeral: "X"
+    cost: 4.25m
+    soul-cost-multiplier: 2.0
+    requirements:
+      mcmmo-power: 1500
+      stat:
+        type: MINE_BLOCK
+        material: NETHER_QUARTZ_ORE
+        amount: 6250
+        display: "Quartz Ore Mined"
+    rewards:
+      cash: 150k
+      keys: 3
+      multiplier: 50
+      souls: 2
+    unlocks:
+      - "Unlock: /disposal command"
+      - "Unlock: Global login broadcast"
+      - "Unlock: +10 chest shops (100 total)"
+      - "Unlock: +1 player warp (10 total)"
+    commands:
+      - "lp user <player> parent add rebirth-10"
+      - "excellentcrates key give <player> rebirth <keys>"
+    soul-commands: []
+
+  # ── Tier 11 — XI ────────────────────────────────────────────────
+  11:
+    numeral: "XI"
+    cost: 6.375m
+    soul-cost-multiplier: 2.0
+    requirements:
+      mcmmo-power: 1650
+      stat:
+        type: KILL_ENTITY
+        entity: BLAZE
+        amount: 625
+        display: "Blazes Killed"
+    rewards:
+      cash: 160k
+      keys: 2
+      multiplier: 58
+      souls: 3
+    unlocks:
+      - "Unlock: /enderchest command"
+      - "Unlock: +20 chest shops (120 total)"
+      - "Unlock: +1 player warp (11 total)"
+    commands:
+      - "lp user <player> parent add rebirth-11"
+      - "excellentcrates key give <player> rebirth <keys>"
+    soul-commands: []
+
+  # ── Tier 12 — XII ───────────────────────────────────────────────
+  12:
+    numeral: "XII"
+    cost: 8.5m
+    soul-cost-multiplier: 2.0
+    requirements:
+      mcmmo-power: 1800
+      stat:
+        type: MINE_BLOCK
+        material: END_STONE
+        amount: 6250
+        display: "End Stone Mined"
+    rewards:
+      cash: 170k
+      keys: 2
+      multiplier: 66
+      souls: 3
+    unlocks:
+      - "Unlock: +20 chest shops (140 total)"
+      - "Unlock: +1 player warp (12 total)"
+    commands:
+      - "lp user <player> parent add rebirth-12"
+      - "excellentcrates key give <player> rebirth <keys>"
+    soul-commands: []
+
+  # ── Tier 13 — XIII ──────────────────────────────────────────────
+  13:
+    numeral: "XIII"
+    cost: 10.625m
+    soul-cost-multiplier: 2.0
+    requirements:
+      mcmmo-power: 1950
+      stat:
+        type: MINE_BLOCK
+        material: NETHER_GOLD_ORE
+        amount: 3750
+        display: "Nether Gold Mined"
+    rewards:
+      cash: 180k
+      keys: 2
+      multiplier: 74
+      souls: 3
+    unlocks:
+      - "Unlock: +6 auction slots (18 total)"
+      - "Unlock: +20 chest shops (160 total)"
+      - "Unlock: +1 player warp (13 total)"
+    commands:
+      - "lp user <player> parent add rebirth-13"
+      - "excellentcrates key give <player> rebirth <keys>"
+    soul-commands: []
+
+  # ── Tier 14 — XIV ───────────────────────────────────────────────
+  14:
+    numeral: "XIV"
+    cost: 12.75m
+    soul-cost-multiplier: 2.0
+    requirements:
+      mcmmo-power: 2100
+      stat:
+        type: KILL_ENTITY
+        entity: ENDERMAN
+        amount: 1250
+        display: "Endermen Killed"
+    rewards:
+      cash: 190k
+      keys: 2
+      multiplier: 82
+      souls: 3
+    unlocks:
+      - "Unlock: +20 chest shops (180 total)"
+      - "Unlock: +1 player warp (14 total)"
+    commands:
+      - "lp user <player> parent add rebirth-14"
+      - "excellentcrates key give <player> rebirth <keys>"
+    soul-commands: []
+
+  # ── Tier 15 — XV ────────────────────────────────────────────────
+  15:
+    numeral: "XV"
+    cost: 16m
+    soul-cost-multiplier: 2.0
+    requirements:
+      mcmmo-power: 2250
+      stat:
+        type: MINE_BLOCK
+        material: ANCIENT_DEBRIS
+        amount: 125
+        display: "Ancient Debris Mined"
+    rewards:
+      cash: 300k
+      keys: 3
+      multiplier: 90
+      souls: 3
+    unlocks:
+      - "Unlock: /hat command"
+      - "Unlock: 1x iron golem spawner"
+      - "Unlock: +20 chest shops (200 total)"
+      - "Unlock: +1 player warp (15 total)"
+    commands:
+      - "lp user <player> parent add rebirth-15"
+      - "excellentcrates key give <player> rebirth <keys>"
+    soul-commands: []
+
+  # ── Tier 16 — XVI ───────────────────────────────────────────────
+  16:
+    numeral: "XVI"
+    cost: 20m
+    soul-cost-multiplier: 2.0
+    requirements:
+      mcmmo-power: 2400
+      stat:
+        type: KILL_ENTITY
+        entity: WITHER_SKELETON
+        amount: 375
+        display: "Wither Skeletons Killed"
+    rewards:
+      cash: 320k
+      keys: 2
+      multiplier: 100
+      souls: 4
+    unlocks:
+      - "Unlock: +20 chest shops (220 total)"
+      - "Unlock: +1 player warp (16 total)"
+    commands:
+      - "lp user <player> parent add rebirth-16"
+      - "excellentcrates key give <player> rebirth <keys>"
+    soul-commands: []
+
+  # ── Tier 17 — XVII ──────────────────────────────────────────────
+  17:
+    numeral: "XVII"
+    cost: 26m
+    soul-cost-multiplier: 2.0
+    requirements:
+      mcmmo-power: 2550
+      stat:
+        type: FISH_CAUGHT
+        amount: 625
+        display: "Fish Caught"
+    rewards:
+      cash: 340k
+      keys: 2
+      multiplier: 110
+      souls: 4
+    unlocks:
+      - "Unlock: +20 chest shops (240 total)"
+      - "Unlock: +1 player warp (17 total)"
+    commands:
+      - "lp user <player> parent add rebirth-17"
+      - "excellentcrates key give <player> rebirth <keys>"
+    soul-commands: []
+
+  # ── Tier 18 — XVIII ─────────────────────────────────────────────
+  18:
+    numeral: "XVIII"
+    cost: 32m
+    soul-cost-multiplier: 2.0
+    requirements:
+      mcmmo-power: 2700
+      stat:
+        type: MINE_BLOCK
+        material: OBSIDIAN
+        amount: 1250
+        display: "Obsidian Mined"
+    rewards:
+      cash: 360k
+      keys: 2
+      multiplier: 120
+      souls: 4
+    unlocks:
+      - "Unlock: +4 auction slots (22 total)"
+      - "Unlock: +20 chest shops (260 total)"
+      - "Unlock: +1 player warp (18 total)"
+    commands:
+      - "lp user <player> parent add rebirth-18"
+      - "excellentcrates key give <player> rebirth <keys>"
+    soul-commands: []
+
+  # ── Tier 19 — XIX ───────────────────────────────────────────────
+  19:
+    numeral: "XIX"
+    cost: 40m
+    soul-cost-multiplier: 2.0
+    requirements:
+      mcmmo-power: 2850
+      stat:
+        type: MINE_BLOCK
+        material: ANCIENT_DEBRIS
+        amount: 375
+        display: "Ancient Debris Mined"
+    rewards:
+      cash: 380k
+      keys: 2
+      multiplier: 130
+      souls: 4
+    unlocks:
+      - "Unlock: +20 chest shops (280 total)"
+      - "Unlock: +1 player warp (19 total)"
+    commands:
+      - "lp user <player> parent add rebirth-19"
+      - "excellentcrates key give <player> rebirth <keys>"
+    soul-commands: []
+
+  # ── Tier 20 — XX ────────────────────────────────────────────────
+  20:
+    numeral: "XX"
+    cost: 48.75m
+    soul-cost-multiplier: 2.0
+    requirements:
+      mcmmo-power: 3000
+      stat:
+        type: MINE_BLOCK
+        material: DEEPSLATE
+        amount: 25000
+        display: "Deepslate Mined"
+    rewards:
+      cash: 500k
+      keys: 4
+      multiplier: 140
+      souls: 4
+    unlocks:
+      - "Unlock: Custom prefix"
+      - "Unlock: Custom name colours"
+      - "Unlock: Infinite fly in claims"
+      - "Unlock: +3 auction slots (25 max)"
+      - "Unlock: +20 chest shops (300 total)"
+      - "Unlock: +1 player warp (20 total)"
+    commands:
+      - "lp user <player> parent add rebirth-20"
+      - "excellentcrates key give <player> rebirth <keys>"
+    soul-commands: []
+
+  # ── Tier 21 — XXI ───────────────────────────────────────────────
+  21:
+    numeral: "XXI"
+    cost: 60m
+    soul-cost-multiplier: 2.0
+    requirements:
+      mcmmo-power: 3150
+      stat:
+        type: MINE_BLOCK
+        material: STONE
+        amount: 62500
+        display: "Stone Mined"
+    rewards:
+      cash: 550k
+      keys: 3
+      multiplier: 152
+      souls: 5
+    unlocks:
+      - "Unlock: +25 chest shops (325 total)"
+      - "Unlock: +1 player warp (21 total)"
+    commands:
+      - "lp user <player> parent add rebirth-21"
+      - "excellentcrates key give <player> rebirth <keys>"
+    soul-commands: []
+
+  # ── Tier 22 — XXII ──────────────────────────────────────────────
+  22:
+    numeral: "XXII"
+    cost: 75m
+    soul-cost-multiplier: 2.0
+    requirements:
+      mcmmo-power: 3300
+      stat:
+        type: KILL_ENTITY
+        entity: ZOMBIE
+        amount: 6250
+        display: "Zombies Killed"
+    rewards:
+      cash: 600k
+      keys: 3
+      multiplier: 164
+      souls: 5
+    unlocks:
+      - "Unlock: +25 chest shops (350 total)"
+      - "Unlock: +1 player warp (22 total)"
+    commands:
+      - "lp user <player> parent add rebirth-22"
+      - "excellentcrates key give <player> rebirth <keys>"
+    soul-commands: []
+
+  # ── Tier 23 — XXIII ─────────────────────────────────────────────
+  23:
+    numeral: "XXIII"
+    cost: 93.75m
+    soul-cost-multiplier: 2.0
+    requirements:
+      mcmmo-power: 3450
+      stat:
+        type: MINE_BLOCK
+        material: OAK_LOG
+        amount: 12500
+        display: "Oak Logs Mined"
+    rewards:
+      cash: 650k
+      keys: 3
+      multiplier: 176
+      souls: 5
+    unlocks:
+      - "Unlock: +25 chest shops (375 total)"
+      - "Unlock: +1 player warp (23 total)"
+    commands:
+      - "lp user <player> parent add rebirth-23"
+      - "excellentcrates key give <player> rebirth <keys>"
+    soul-commands: []
+
+  # ── Tier 24 — XXIV ──────────────────────────────────────────────
+  24:
+    numeral: "XXIV"
+    cost: 112.5m
+    soul-cost-multiplier: 2.0
+    requirements:
+      mcmmo-power: 3600
+      stat:
+        type: KILL_ENTITY
+        entity: CREEPER
+        amount: 2500
+        display: "Creepers Killed"
+    rewards:
+      cash: 700k
+      keys: 3
+      multiplier: 188
+      souls: 5
+    unlocks:
+      - "Unlock: +25 chest shops (400 total)"
+      - "Unlock: +1 player warp (24 total)"
+    commands:
+      - "lp user <player> parent add rebirth-24"
+      - "excellentcrates key give <player> rebirth <keys>"
+    soul-commands: []
+
+  # ── Tier 25 — XXV ───────────────────────────────────────────────
+  25:
+    numeral: "XXV"
+    cost: 150m
+    soul-cost-multiplier: 2.0
+    requirements:
+      mcmmo-power: 3750
+      stat:
+        type: KILL_ENTITY
+        entity: WITHER_SKELETON
+        amount: 1250
+        display: "Wither Skeletons Killed"
+    rewards:
+      cash: 1m
+      keys: 5
+      multiplier: 200
+      souls: 5
+    unlocks:
+      - "Unlock: The Overlord title"
+      - "Unlock: +100 chest shops (500 max)"
+      - "Unlock: +1 player warp (25 max)"
+    commands:
+      - "lp user <player> parent add rebirth-25"
+      - "excellentcrates key give <player> rebirth <keys>"
+    soul-commands: []

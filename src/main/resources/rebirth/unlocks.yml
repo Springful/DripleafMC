@@ -1,0 +1,284 @@
+# ══════════════════════════════════════════════════════════════════════
+#   DripleafCore — rebirth/unlocks.yml
+#
+#   Each unlock carries BOTH the string players are shown AND the command
+#   that actually grants it. That pairing is the point of this file: in
+#   the Skript version the executing script and the info menu were two
+#   separate lists, and they drifted — the script granted bonus keys at
+#   tiers 5, 10, 15 and 20 that the info menu never mentioned. Here they
+#   cannot drift, because they are the same entry.
+#
+#   These commands run on the console when the tier is reached, after the
+#   tier's own `commands:` block in tiers.yml. <player> is substituted.
+#
+#   ⚠ THE CHEST SHOP, AUCTION AND PLAYER WARP NODES BELOW ARE PLACEHOLDERS.
+#   The plugins that own those limits have not been confirmed, so the
+#   nodes are named plausibly rather than correctly. Replace them with the
+#   real ones before going live — see docs/REBIRTH.md.
+#
+#   ⚠ /disposal is listed at tier 10, which is what the executing Skript
+#   did. The old info menu said tier 17. Tier 10 is the working default;
+#   it is a real design decision and needs confirming.
+# ══════════════════════════════════════════════════════════════════════
+
+unlocks:
+
+  1:
+    - display: "Unlock: /recipe command"
+      commands:
+        - "lp user <player> permission set dripleaf.recipe true"
+    - display: "Unlock: +5 chest shops (15 total)"
+      commands:
+        - "lp user <player> permission set shop.limit.15 true"
+    - display: "Unlock: +1 player warp (1 total)"
+      commands:
+        - "lp user <player> permission set playerwarps.limit.1 true"
+
+  2:
+    - display: "Unlock: Server shop access"
+      commands:
+        - "lp user <player> permission set dripleaf.shop true"
+    - display: "Unlock: +3 auction slots (8 total)"
+      commands:
+        - "lp user <player> permission set auction.limit.8 true"
+    - display: "Unlock: +5 chest shops (20 total)"
+      commands:
+        - "lp user <player> permission set shop.limit.20 true"
+    - display: "Unlock: +1 player warp (2 total)"
+      commands:
+        - "lp user <player> permission set playerwarps.limit.2 true"
+
+  3:
+    - display: "Unlock: /craft command"
+      commands:
+        - "lp user <player> permission set dripleaf.workbench true"
+    - display: "Unlock: +10 chest shops (30 total)"
+      commands:
+        - "lp user <player> permission set shop.limit.30 true"
+    - display: "Unlock: +1 player warp (3 total)"
+      commands:
+        - "lp user <player> permission set playerwarps.limit.3 true"
+
+  4:
+    - display: "Unlock: +10 chest shops (40 total)"
+      commands:
+        - "lp user <player> permission set shop.limit.40 true"
+    - display: "Unlock: +1 player warp (4 total)"
+      commands:
+        - "lp user <player> permission set playerwarps.limit.4 true"
+
+  5:
+    - display: "Unlock: Silver chat tag"
+      commands:
+        - "lp user <player> permission set dripleaf.tag.silver true"
+    - display: "Unlock: Aura particles"
+      commands:
+        - "lp user <player> permission set dripleaf.cosmetic.aura true"
+    - display: "Unlock: +10 chest shops (50 total)"
+      commands:
+        - "lp user <player> permission set shop.limit.50 true"
+    - display: "Unlock: +1 player warp (5 total)"
+      commands:
+        - "lp user <player> permission set playerwarps.limit.5 true"
+
+  6:
+    - display: "Unlock: +4 auction slots (12 total)"
+      commands:
+        - "lp user <player> permission set auction.limit.12 true"
+    - display: "Unlock: +10 chest shops (60 total)"
+      commands:
+        - "lp user <player> permission set shop.limit.60 true"
+    - display: "Unlock: +1 player warp (6 total)"
+      commands:
+        - "lp user <player> permission set playerwarps.limit.6 true"
+
+  7:
+    - display: "Unlock: /condense command"
+      commands:
+        - "lp user <player> permission set dripleaf.condense true"
+    - display: "Unlock: +10 chest shops (70 total)"
+      commands:
+        - "lp user <player> permission set shop.limit.70 true"
+    - display: "Unlock: +1 player warp (7 total)"
+      commands:
+        - "lp user <player> permission set playerwarps.limit.7 true"
+
+  8:
+    - display: "Unlock: +10 chest shops (80 total)"
+      commands:
+        - "lp user <player> permission set shop.limit.80 true"
+    - display: "Unlock: +1 player warp (8 total)"
+      commands:
+        - "lp user <player> permission set playerwarps.limit.8 true"
+
+  9:
+    - display: "Unlock: +10 chest shops (90 total)"
+      commands:
+        - "lp user <player> permission set shop.limit.90 true"
+    - display: "Unlock: +1 player warp (9 total)"
+      commands:
+        - "lp user <player> permission set playerwarps.limit.9 true"
+
+  10:
+    - display: "Unlock: /disposal command"
+      commands:
+        - "lp user <player> permission set dripleaf.disposal true"
+    - display: "Unlock: Global login broadcast"
+      commands:
+        - "lp user <player> permission set dripleaf.loginbroadcast true"
+    - display: "Unlock: +10 chest shops (100 total)"
+      commands:
+        - "lp user <player> permission set shop.limit.100 true"
+    - display: "Unlock: +1 player warp (10 total)"
+      commands:
+        - "lp user <player> permission set playerwarps.limit.10 true"
+
+  11:
+    - display: "Unlock: /enderchest command"
+      commands:
+        - "lp user <player> permission set dripleaf.enderchest true"
+    - display: "Unlock: +20 chest shops (120 total)"
+      commands:
+        - "lp user <player> permission set shop.limit.120 true"
+    - display: "Unlock: +1 player warp (11 total)"
+      commands:
+        - "lp user <player> permission set playerwarps.limit.11 true"
+
+  12:
+    - display: "Unlock: +20 chest shops (140 total)"
+      commands:
+        - "lp user <player> permission set shop.limit.140 true"
+    - display: "Unlock: +1 player warp (12 total)"
+      commands:
+        - "lp user <player> permission set playerwarps.limit.12 true"
+
+  13:
+    - display: "Unlock: +6 auction slots (18 total)"
+      commands:
+        - "lp user <player> permission set auction.limit.18 true"
+    - display: "Unlock: +20 chest shops (160 total)"
+      commands:
+        - "lp user <player> permission set shop.limit.160 true"
+    - display: "Unlock: +1 player warp (13 total)"
+      commands:
+        - "lp user <player> permission set playerwarps.limit.13 true"
+
+  14:
+    - display: "Unlock: +20 chest shops (180 total)"
+      commands:
+        - "lp user <player> permission set shop.limit.180 true"
+    - display: "Unlock: +1 player warp (14 total)"
+      commands:
+        - "lp user <player> permission set playerwarps.limit.14 true"
+
+  15:
+    - display: "Unlock: /hat command"
+      commands:
+        - "lp user <player> permission set dripleaf.hat true"
+    - display: "Unlock: 1x iron golem spawner"
+      commands:
+        - "give <player> spawner 1"
+    - display: "Unlock: +20 chest shops (200 total)"
+      commands:
+        - "lp user <player> permission set shop.limit.200 true"
+    - display: "Unlock: +1 player warp (15 total)"
+      commands:
+        - "lp user <player> permission set playerwarps.limit.15 true"
+
+  16:
+    - display: "Unlock: +20 chest shops (220 total)"
+      commands:
+        - "lp user <player> permission set shop.limit.220 true"
+    - display: "Unlock: +1 player warp (16 total)"
+      commands:
+        - "lp user <player> permission set playerwarps.limit.16 true"
+
+  17:
+    - display: "Unlock: +20 chest shops (240 total)"
+      commands:
+        - "lp user <player> permission set shop.limit.240 true"
+    - display: "Unlock: +1 player warp (17 total)"
+      commands:
+        - "lp user <player> permission set playerwarps.limit.17 true"
+
+  18:
+    - display: "Unlock: +4 auction slots (22 total)"
+      commands:
+        - "lp user <player> permission set auction.limit.22 true"
+    - display: "Unlock: +20 chest shops (260 total)"
+      commands:
+        - "lp user <player> permission set shop.limit.260 true"
+    - display: "Unlock: +1 player warp (18 total)"
+      commands:
+        - "lp user <player> permission set playerwarps.limit.18 true"
+
+  19:
+    - display: "Unlock: +20 chest shops (280 total)"
+      commands:
+        - "lp user <player> permission set shop.limit.280 true"
+    - display: "Unlock: +1 player warp (19 total)"
+      commands:
+        - "lp user <player> permission set playerwarps.limit.19 true"
+
+  20:
+    - display: "Unlock: Custom prefix"
+      commands:
+        - "lp user <player> permission set dripleaf.prefix.custom true"
+    - display: "Unlock: Custom name colours"
+      commands:
+        - "lp user <player> permission set dripleaf.nick.colour true"
+    - display: "Unlock: Infinite fly in claims"
+      commands:
+        - "lp user <player> permission set dripleaf.fly.claims true"
+    - display: "Unlock: +3 auction slots (25 max)"
+      commands:
+        - "lp user <player> permission set auction.limit.25 true"
+    - display: "Unlock: +20 chest shops (300 total)"
+      commands:
+        - "lp user <player> permission set shop.limit.300 true"
+    - display: "Unlock: +1 player warp (20 total)"
+      commands:
+        - "lp user <player> permission set playerwarps.limit.20 true"
+
+  21:
+    - display: "Unlock: +25 chest shops (325 total)"
+      commands:
+        - "lp user <player> permission set shop.limit.325 true"
+    - display: "Unlock: +1 player warp (21 total)"
+      commands:
+        - "lp user <player> permission set playerwarps.limit.21 true"
+
+  22:
+    - display: "Unlock: +25 chest shops (350 total)"
+      commands:
+        - "lp user <player> permission set shop.limit.350 true"
+    - display: "Unlock: +1 player warp (22 total)"
+      commands:
+        - "lp user <player> permission set playerwarps.limit.22 true"
+
+  23:
+    - display: "Unlock: +25 chest shops (375 total)"
+      commands:
+        - "lp user <player> permission set shop.limit.375 true"
+    - display: "Unlock: +1 player warp (23 total)"
+      commands:
+        - "lp user <player> permission set playerwarps.limit.23 true"
+
+  24:
+    - display: "Unlock: +25 chest shops (400 total)"
+      commands:
+        - "lp user <player> permission set shop.limit.400 true"
+    - display: "Unlock: +1 player warp (24 total)"
+      commands:
+        - "lp user <player> permission set playerwarps.limit.24 true"
+
+  25:
+    - display: "Unlock: The Overlord title"
+      commands:
+        - "lp user <player> permission set dripleaf.title.overlord true"
+    - display: "Unlock: +100 chest shops (500 max)"
+      commands:
+        - "lp user <player> permission set shop.limit.500 true"
+    - display: "Unlock: +1 player warp (25 max)"
+      commands:
+        - "lp user <player> permission set playerwarps.limit.25 true"
